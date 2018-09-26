@@ -1,0 +1,9 @@
+# AWS client.
+boto3==1.9.2
+
+# Fastly client.
+# We're using the forked version because latest version (0.2.3) had a bug (missing this import:
+# https://github.com/ruxandraburtica/fastly-py/blob/master/fastly/fastly.py#L8). However,
+# we can't use the master direclty because changes might be made.
+# fastly==0.2.3
+git+https://github.com/ruxandraburtica/fastly-py.git@master

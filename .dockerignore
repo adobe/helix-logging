@@ -1,0 +1,12 @@
+# git
+.git
+.gitignore
+
+# ide files
+.idea/
+
+# mac files
+.DS_Store
+
+# Python virtualenv
+venv/
