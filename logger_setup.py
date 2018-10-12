@@ -1,16 +1,11 @@
 #!/usr/bin/env python
 
 import json
-import os
+import urllib
 import sys
 
 import fastly
-import urllib
 import boto3
-
-FASTLY_API_KEY = os.environ.get('FASTLY_API_KEY', None)
-AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY', None)
-AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY', None)
 
 
 class LoggerSetup(object):
@@ -18,7 +13,7 @@ class LoggerSetup(object):
     Usage example:
     >>> namespace = 'XYZ'
     >>> version = 34
-    >>> fastly_connector = LoggerSetup(FASTLY_API_KEY)
+    >>> fastly_connector = LoggerSetup('XXXX')
     >>> fastly_connector.set_up_logging(namespace, version)
     """
 
@@ -33,19 +28,16 @@ class LoggerSetup(object):
     AWS_LAMBDA_NAME = 'helix-logs-to-cosmos'
     AWS_BUCKET_PREFIX = 'helix-'
     AWS_DEFAULT_REGION = 'us-east-1'
-    AWS_CREDENTIALS = {
-        'aws_access_key_id': AWS_ACCESS_KEY,
-        'aws_secret_access_key': AWS_SECRET_KEY,
-        'region_name': AWS_DEFAULT_REGION
-    }
+    AWS_POLICY_NAME = '{}-policy-for-credentials'
+    AWS_POLICY_ARN = 'arn:aws:iam::%s:policy/' % AWS_ACCOUNT_ID + AWS_POLICY_NAME
 
-    # Platforms - logging purposes
+    # Platforms involved - logging purposes
     LOG_FASTLY = 'Fastly'
     LOG_AWS = 'AWS'
     LOG_WHISK = 'WHISK'
 
 
-    def __init__(self, fastly_auth, aws_region=AWS_DEFAULT_REGION):
+    def __init__(self, fastly_auth, aws_access_key, aws_secret_key, aws_region=AWS_DEFAULT_REGION):
         """
         Create a connection to Fastly and make sure the auth key is valid.
         """
@@ -61,6 +53,15 @@ class LoggerSetup(object):
         self.fastly_client = fastly.API()
         self.fastly_client.authenticate_by_key(self.fastly_auth)
 
+        self.AWS_ACCESS_KEY = aws_access_key
+        self.AWS_SECRET_KEY = aws_secret_key
+        self.AWS_DEFAULT_REGION = aws_region
+        self.AWS_CREDENTIALS = {
+            'aws_access_key_id': self.AWS_ACCESS_KEY,
+            'aws_secret_access_key': self.AWS_SECRET_KEY,
+            'region_name': self.AWS_DEFAULT_REGION
+        }
+
         # Set up S3 client.
         self.s3_client = boto3.client('s3', **self.AWS_CREDENTIALS)
         self.s3_resource = boto3.resource('s3', **self.AWS_CREDENTIALS)
@@ -70,11 +71,6 @@ class LoggerSetup(object):
 
         # Set up IAM client.
         self.iam_client = boto3.client('iam', **self.AWS_CREDENTIALS)
-
-    def _log(self, platform, message):
-        kwargs = {'platform': platform, 'message': message}
-        sys.stdout.write('[{platform}] {message}\n'.format(**kwargs))
-        sys.stdout.flush()
 
     def set_up_logging(self, namespace, version):
         """
@@ -91,10 +87,10 @@ class LoggerSetup(object):
         aws_namespace = 'helix-{}'.format(namespace_lower)
 
         # 1. Create AWS S3 bucket.
-        self.create_bucket(aws_namespace)
+        self._create_bucket(aws_namespace)
 
         # 2. Create AWS user and generate (key, secret) keys that can only access that bucket.
-        key, secret = self.create_credentials_for_bucket(aws_namespace)
+        key, secret = self._create_credentials_for_bucket(aws_namespace)
 
         # 3. Make an API call to Fastly in order to enable logging to the created S3 bucket.
         self._log(self.LOG_FASTLY,
@@ -117,7 +113,32 @@ class LoggerSetup(object):
             body=encoded_body
         )
 
-    def create_bucket(self, namespace):
+    def tear_down_logging(self, namespace, version):
+        """
+        Tears down logging for the customer with the provided namespace and version,
+        following the steps below:
+            1. Remove the AWS S3 bucket and user
+            2. Make an API call to Fastly in order to disable logging
+        """
+        service = self.fastly_client.service(namespace)
+
+        # AWS bucket names need to be lower case.
+        namespace_lower = namespace.lower()
+        aws_namespace = 'helix-{}'.format(namespace_lower)
+
+        # 1. Remove the AWS S3 bucket.
+        self._remove_bucket(aws_namespace)
+
+        # 2. Make an API call to Fastly in order to disable logging.
+        self._log(self.LOG_FASTLY,
+                  'Removed logging configuration for Fastly namespace {}'.format(aws_namespace))
+
+    def _log(self, platform, message):
+        kwargs = {'platform': platform, 'message': message}
+        sys.stdout.write('[{platform}] {message}\n'.format(**kwargs))
+        sys.stdout.flush()
+
+    def _create_bucket(self, namespace):
         """
         Create customer's AWS S3 bucket and other objects associated with it.
         """
@@ -133,7 +154,7 @@ class LoggerSetup(object):
         # 3. Create function configuration.
         self._create_trigger_to_lambda_from_bucket(namespace)
 
-    def remove_bucket(self, namespace):
+    def _remove_bucket(self, namespace):
         """
         Remove customer's AWS S3 bucket and any objects associated with it.
         Note that we don't need to remove the trigger to lambda, because we're deleting the bucket.
@@ -145,9 +166,9 @@ class LoggerSetup(object):
         self._remove_s3_bucket(namespace)
 
         # 2. Remove access policy from the lambda function.
-        self._add_access_policy(namespace)
+        self._remove_access_policy(namespace)
 
-    def create_credentials_for_bucket(self, namespace):
+    def _create_credentials_for_bucket(self, namespace):
         # 1. Create a policy that only allows request to the provided bucket.
         policy_arn = self._create_iam_policy_for_accessing_bucket(namespace)
 
@@ -242,8 +263,8 @@ class LoggerSetup(object):
             'Added event trigger to the S3 bucket {}, triggering the lambda function {} to execute'.format(
                 namespace, self.AWS_LAMBDA_NAME))
 
-        lambda_function_arn = 'arn:aws:lambda:us-east-1:495798321641:function:{}'.format(
-            self.AWS_LAMBDA_NAME)
+        lambda_function_arn = 'arn:aws:lambda:us-east-1:{}:function:{}'.format(
+            self.AWS_ACCOUNT_ID, self.AWS_LAMBDA_NAME)
         notification_configuration = {
             'LambdaFunctionConfigurations': [
                 {
@@ -279,7 +300,7 @@ class LoggerSetup(object):
             ]
         }
         policy_json = json.dumps(policy, indent=2)
-        policy_name = '{}-policy-for-credentials'.format(namespace)
+        policy_name = self.AWS_POLICY_NAME.format(namespace)
         policy_details = self.iam_client.create_policy(PolicyName=policy_name, PolicyDocument=policy_json)
         policy_arn = policy_details['Policy']['Arn']
         return policy_arn
@@ -295,6 +316,44 @@ class LoggerSetup(object):
             UserName=namespace,
             PolicyArn=policy_arn
         )
+
+    def _remove_iam_user(self, namespace):
+        """
+        Steps for deleting the user:
+            1. Detach previously attached policy
+            2. remove user's access keys
+            3. Remove the IAM user
+        """
+        # 1. Detach previously attached policy
+        policy_name = self.AWS_POLICY_ARN.format(namespace)
+        self._log(self.LOG_AWS, 'Detaching policy {} from user {}'.format(policy_name, namespace))
+        try:
+            self.iam_client.detach_user_policy(
+                UserName=namespace,
+                PolicyArn=policy_name
+            )
+        except self.iam_client.exceptions.NoSuchEntityException as exception:
+            self._log(self.LOG_AWS, 'Policy {} was not found'.format(policy_name))
+
+        # 2. Remove user's access keys.
+        self._log(self.LOG_AWS, 'Removing all access keys from user {}...'.format(namespace))
+        access_keys_paginator = self.iam_client.get_paginator('list_access_keys')
+        for response in access_keys_paginator.paginate(UserName=namespace):
+            for access_key in response['AccessKeyMetadata']:
+                access_key_id = access_key['AccessKeyId']
+                self._log(
+                    self.LOG_AWS,
+                    'Removing user\'s {} access key {}'.format(namespace, access_key_id)
+                )
+                self.iam_client.delete_access_key(
+                    AccessKeyId=access_key_id,
+                    UserName=namespace
+                )
+
+        # Remove the IAM user.
+        self._log(self.LOG_AWS, 'Removing user {}'.format(namespace))
+        self.iam_client.delete_user(UserName=namespace)
+        self._log(self.LOG_AWS, 'User {} successfully removed'.format(namespace))
 
     def _create_key_secret_for_user(self, namespace):
         # Create a pair of (key, secret) access keys.
