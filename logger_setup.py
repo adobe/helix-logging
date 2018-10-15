@@ -22,7 +22,7 @@ class LoggerSetup(object):
     FASTLY_LOG_FORMAT = ('%l -- %t -- %R -- %a -- %D -- %>s -- %P -- %U -- %q -- %m -- %{Referer}i '
                          '-- %{User-agent}i -- %b -- %l -- %{Host}i')
     FASTLY_LOG_PERIOD = '60'
-    FASTLY_LOG_NAME = 'S3 logging'
+    FASTLY_LOG_NAME = 's3_logging'
 
     # AWS constants.
     AWS_ACCOUNT_ID = '495798321641'
@@ -80,8 +80,6 @@ class LoggerSetup(object):
             2. Create AWS user and generate (key, secret) keys that can only access that bucket
             3. Make an API call to Fastly in order to enable logging to the created S3 bucket
         """
-        service = self.fastly_client.service(namespace)
-
         # AWS bucket names need to be lower case.
         namespace_lower = namespace.lower()
         aws_namespace = 'helix-{}'.format(namespace_lower)
@@ -107,6 +105,8 @@ class LoggerSetup(object):
             'version': version
         }
         encoded_body = urllib.parse.urlencode(body)
+
+        service = self.fastly_client.service(namespace)
         service.query(
             self.fastly_client.conn,
             '/service/{}/version/{}/logging/s3'.format(namespace, version),
@@ -118,8 +118,9 @@ class LoggerSetup(object):
         """
         Tears down logging for the customer with the provided namespace and version,
         following the steps below:
-            1. Remove the AWS S3 bucket and user
-            2. Make an API call to Fastly in order to disable logging
+            1. Remove the AWS S3 bucket
+            2. Remove the AWS user
+            3. Make an API call to Fastly in order to disable logging
         """
         # AWS bucket names need to be lower case.
         namespace_lower = namespace.lower()
@@ -131,10 +132,16 @@ class LoggerSetup(object):
         # 2. Remove IAM user.
         self._remove_iam_user(aws_namespace)
 
-        # 2. Make an API call to Fastly in order to disable logging.
-        service = self.fastly_client.service(namespace)
+        # 3. Make an API call to Fastly in order to disable logging.
         self._log_fastly(
             'Removed logging configuration for Fastly namespace {}'.format(aws_namespace)
+        )
+
+        service = self.fastly_client.service(namespace)
+        service.query(
+            self.fastly_client.conn,
+            '/service/{}/version/{}/logging/s3/{}'.format(namespace, version, self.FASTLY_LOG_NAME),
+            'DELETE',
         )
 
     def _log_aws(self, message):
