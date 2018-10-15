@@ -369,6 +369,20 @@ class LoggerSetup(object):
         except self.iam_client.exceptions.NoSuchEntityException as exception:
             self._log_aws('Policy "{}" not found'.format(policy_name))
 
+        # 1.2. Delete user permission boundary.
+        try:
+            self.iam_client.delete_user_permissions_boundary(UserName=namespace)
+        except self.iam_client.exceptions.NoSuchEntityException as exception:
+            self._log_aws('Permission boundary for user "{}" not found'.format(namespace))
+
+        # 1.3. Delete policy.
+        try:
+            self.iam_client.delete_policy(
+                PolicyArn=policy_name
+            )
+        except self.iam_client.exceptions.NoSuchEntityException as exception:
+            self._log_aws('Policy "{}" was not found'.format(policy_name))
+
         # 2. Remove user's access keys.
         self._log_aws('Removing all access keys from user "{}"...'.format(namespace))
         access_keys_paginator = self.iam_client.get_paginator('list_access_keys')
