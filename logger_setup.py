@@ -6,6 +6,7 @@ import sys
 
 import fastly
 import boto3
+from botocore.client import ClientError
 
 
 class LoggerSetup(object):
@@ -40,7 +41,7 @@ class LoggerSetup(object):
         """
         Create a connection to Fastly and make sure the auth key is valid.
         """
-        self._log(self.LOG_WHISK, 'Setting up LoggerSetup')
+        self._log_openwhisk('Setting up LoggerSetup')
         self.fastly_auth = fastly_auth
         self.aws_region = aws_region
 
@@ -92,8 +93,9 @@ class LoggerSetup(object):
         key, secret = self._create_credentials_for_bucket(aws_namespace)
 
         # 3. Make an API call to Fastly in order to enable logging to the created S3 bucket.
-        self._log(self.LOG_FASTLY,
-                  'Setting up logging configuration for Fastly namespace {}'.format(aws_namespace))
+        self._log_fastly(
+            'Setting up logging configuration for Fastly namespace {}'.format(aws_namespace)
+        )
         body = {
             'bucket_name': aws_namespace,
             'access_key': key,
@@ -131,8 +133,18 @@ class LoggerSetup(object):
 
         # 2. Make an API call to Fastly in order to disable logging.
         service = self.fastly_client.service(namespace)
-        self._log(self.LOG_FASTLY,
-                  'Removed logging configuration for Fastly namespace {}'.format(aws_namespace))
+        self._log_fastly(
+            'Removed logging configuration for Fastly namespace {}'.format(aws_namespace)
+        )
+
+    def _log_aws(self, message):
+        self._log(self.LOG_AWS, message)
+
+    def _log_openwhisk(self, message):
+        self._log(self.LOG_WHISK, message)
+
+    def _log_fastly(self, message):
+        self._log(self.LOG_FASTLY, message)
 
     def _log(self, platform, message):
         kwargs = {'platform': platform, 'message': message}
@@ -186,7 +198,7 @@ class LoggerSetup(object):
         # ...:     CreateBucketConfiguration={
         # ...:         'LocationConstraint': 'us-east-1'
         # ...:     }
-        self._log(self.LOG_AWS, 'Creating bucket {}'.format(bucket))
+        self._log_aws('Creating bucket {}'.format(bucket))
         response = self.s3_client.create_bucket(
             ACL='private',
             Bucket=bucket,
@@ -194,19 +206,28 @@ class LoggerSetup(object):
         return response
 
     def _remove_s3_bucket(self, bucket):
-        self._log(self.LOG_AWS, 'Fetching bucket {}'.format(bucket))
+        self._log_aws('Fetching bucket {}'.format(bucket))
         bucket_obj = self.s3_resource.Bucket(bucket)
+
+        try:
+            self.s3_resource.meta.client.head_bucket(Bucket=bucket)
+        except ClientError as exception:
+            if exception.response.get('Error').get('Code') == '404':
+                self._log_aws('No such bucket {}'.format(bucket))
+                return
+            # Raise any other exception.
+            raise exception
 
         # Check if there are any objects in the bucket, and remove them.
         s3_objects_in_bucket = []
         for item in self._get_s3_keys_as_generator(bucket):
             s3_objects_in_bucket.append({'Key': item})
         if s3_objects_in_bucket:
-            self._log(self.LOG_AWS, 'Removing contents in bucket {}'.format(bucket))
+            self._log_aws('Removing contents in bucket {}'.format(bucket))
             bucket_obj.delete_objects(Delete={'Objects': s3_objects_in_bucket})
 
         # Remove bucket.
-        self._log(self.LOG_AWS, 'Removing bucket {}'.format(bucket))
+        self._log_aws('Removing bucket {}'.format(bucket))
         bucket_obj.delete()
 
     def _get_s3_keys_as_generator(self, bucket):
@@ -229,8 +250,7 @@ class LoggerSetup(object):
     def _add_access_policy(self, namespace):
         # An access policy associated with the lambda function will add a permission granting this
         # S3 bucket to access the lambda function.
-        self._log(
-            self.LOG_AWS,
+        self._log_aws(
             'Added access policy to grant S3 bucket {} access to '
             'the lambda function {}'.format(namespace, self.AWS_LAMBDA_NAME))
         source_arn = 'arn:aws:s3:::{}'.format(namespace)
@@ -248,8 +268,7 @@ class LoggerSetup(object):
         Remove access policy associated with the lambda function which granted the S3 bucket to
         access the lambda function.
         """
-        self._log(
-            self.LOG_AWS,
+        self._log_aws(
             'Removing access policy granting S3 bucket {} access to the lambda function {}'.format(
                 namespace, self.AWS_LAMBDA_NAME))
 
@@ -258,17 +277,16 @@ class LoggerSetup(object):
                 FunctionName=self.AWS_LAMBDA_NAME,
                 StatementId=namespace)
         except self.lambda_client.exceptions.ResourceNotFoundException:
-            self._log(self.LOG_AWS, 'No access policy found, nothing to remove')
+            self._log_aws('No access policy found, nothing to remove')
             return
 
         if response['ResponseMetadata']['HTTPStatusCode'] != 204:
             raise ValueError('Could not remove access policy {} for '
                              'function {}'.format(namespace, self.AWS_LAMBDA_NAME))
-        self._log(self.LOG_AWS, 'Removed access policy')
+        self._log_aws('Removed access policy')
 
     def _create_trigger_to_lambda_from_bucket(self, namespace):
-        self._log(
-            self.LOG_AWS,
+        self._log_aws(
             'Added event trigger to the S3 bucket {}, triggering the lambda function '
             '{} to execute'.format(namespace, self.AWS_LAMBDA_NAME)
         )
@@ -293,8 +311,7 @@ class LoggerSetup(object):
 
     def _create_iam_policy_for_accessing_bucket(self, namespace):
         # Create a policy that only allows request to the provided bucket.
-        self._log(
-            self.LOG_AWS,
+        self._log_aws(
             'Creating a policy for user "{}", allowing user aceess only to her '
             'S3 bucket'.format(namespace)
         )
@@ -320,7 +337,7 @@ class LoggerSetup(object):
 
     def _create_iam_user(self, namespace, policy_arn):
         # Create user and attach the previously-created policys.
-        self._log(self.LOG_AWS, 'Creating user for Fastly namespace "{}"'.format(namespace))
+        self._log_aws('Creating user for Fastly namespace "{}"'.format(namespace))
         self.iam_client.create_user(
             UserName=namespace,
             PermissionsBoundary=policy_arn
@@ -333,31 +350,32 @@ class LoggerSetup(object):
     def _remove_iam_user(self, namespace):
         """
         Steps for deleting the user:
-            1. Detach previously attached policy
+            1. Remove policy
             2. Remove user's access keys
             3. Remove the IAM user
         """
-        # 1. Detach previously attached policy
+        # 1. Detach and delete previously attached policy.
         policy_name = self.AWS_POLICY_ARN.format(namespace)
-        self._log(self.LOG_AWS,
-                  'Detaching policy "{}" from user "{}"'.format(policy_name, namespace)
+        self._log_aws(
+            'Detaching policy "{}" from user "{}"'.format(policy_name, namespace)
         )
+
+        # 1.1. Detach policy.
         try:
             self.iam_client.detach_user_policy(
                 UserName=namespace,
                 PolicyArn=policy_name
             )
         except self.iam_client.exceptions.NoSuchEntityException as exception:
-            self._log(self.LOG_AWS, 'Policy "{}" was not found'.format(policy_name))
+            self._log_aws('Policy "{}" not found'.format(policy_name))
 
         # 2. Remove user's access keys.
-        self._log(self.LOG_AWS, 'Removing all access keys from user "{}"...'.format(namespace))
+        self._log_aws('Removing all access keys from user "{}"...'.format(namespace))
         access_keys_paginator = self.iam_client.get_paginator('list_access_keys')
         for response in access_keys_paginator.paginate(UserName=namespace):
             for access_key in response['AccessKeyMetadata']:
                 access_key_id = access_key['AccessKeyId']
-                self._log(
-                    self.LOG_AWS,
+                self._log_aws(
                     'Removing user\'s "{}" access key "{}"'.format(namespace, access_key_id)
                 )
                 self.iam_client.delete_access_key(
@@ -366,18 +384,17 @@ class LoggerSetup(object):
                 )
 
         # Remove the IAM user.
-        self._log(self.LOG_AWS, 'Removing user "{}"'.format(namespace))
+        self._log_aws('Removing user "{}"'.format(namespace))
         self.iam_client.delete_user(UserName=namespace)
-        self._log(self.LOG_AWS, 'User "{}" successfully removed'.format(namespace))
+        self._log_aws('User "{}" successfully removed'.format(namespace))
 
     def _create_key_secret_for_user(self, namespace):
         # Create a pair of (key, secret) access keys.
-        self._log(self.LOG_AWS, 'Creating a pair of credentials for user "{}"'.format(namespace))
+        self._log_aws('Creating a pair of credentials for user "{}"'.format(namespace))
         access_key = self.iam_client.create_access_key(UserName=namespace)
         key = access_key['AccessKey']['AccessKeyId']
         secret = access_key['AccessKey']['SecretAccessKey']
-        self._log(
-            self.LOG_AWS,
+        self._log_aws(
             'Successfully created S3 bucket and (key, secret) credentials that can be added '
             'to the customer\'s Fastly configuration'
         )
