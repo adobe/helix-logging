@@ -9,6 +9,15 @@ import boto3
 from botocore.client import ClientError
 
 
+class SetupError(Exception):
+
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return self.message
+
+
 class LoggerSetup(object):
     """
     Usage example:
@@ -31,11 +40,10 @@ class LoggerSetup(object):
     AWS_DEFAULT_REGION = 'us-east-1'
     AWS_POLICY_ARN = 'arn:aws:iam::%s:policy/{}' % AWS_ACCOUNT_ID
 
-    # Platforms involved - logging purposes
+    # Platforms involved - logging purposes.
     LOG_FASTLY = 'Fastly'
     LOG_AWS = 'AWS'
     LOG_WHISK = 'WHISK'
-
 
     def __init__(self, fastly_auth, aws_access_key, aws_secret_key, aws_region=AWS_DEFAULT_REGION):
         """
@@ -47,7 +55,7 @@ class LoggerSetup(object):
 
         # Checks that make sure we're able to perform the API requests needed.
         if self.aws_region != self.AWS_DEFAULT_REGION:
-            raise ValueError('We only have implementation for the default AWS region!')
+            raise SetupError('Only default AWS region ("us-east-1") supported!')
 
         # Set up Fastly client.
         self.fastly_client = fastly.API()
@@ -136,7 +144,6 @@ class LoggerSetup(object):
         self._log_fastly(
             'Removed logging configuration for Fastly namespace {}'.format(aws_namespace)
         )
-
         service = self.fastly_client.service(namespace)
         service.query(
             self.fastly_client.conn,
@@ -144,26 +151,12 @@ class LoggerSetup(object):
             'DELETE',
         )
 
-    def _log_aws(self, message):
-        self._log(self.LOG_AWS, message)
-
-    def _log_openwhisk(self, message):
-        self._log(self.LOG_WHISK, message)
-
-    def _log_fastly(self, message):
-        self._log(self.LOG_FASTLY, message)
-
-    def _log(self, platform, message):
-        kwargs = {'platform': platform, 'message': message}
-        sys.stdout.write('[{platform}] {message}\n'.format(**kwargs))
-        sys.stdout.flush()
-
     def _create_bucket(self, namespace):
         """
         Create customer's AWS S3 bucket and other objects associated with it.
         """
         if not namespace.startswith(self.AWS_BUCKET_PREFIX):
-            raise ValueError('[AWS]    Bucket name should start with {}'.format(self.AWS_BUCKET_PREFIX))
+            raise SetupError('Bucket name should start with {}'.format(self.AWS_BUCKET_PREFIX))
 
         # 1. Create bucket.
         self._create_s3_bucket(namespace)
@@ -180,7 +173,7 @@ class LoggerSetup(object):
         Note that we don't need to remove the trigger to lambda, because we're deleting the bucket.
         """
         if not namespace.startswith(self.AWS_BUCKET_PREFIX):
-            raise ValueError('[AWS]    Bucket name should start with {}'.format(self.AWS_BUCKET_PREFIX))
+            raise SetupError('Bucket name should start with {}'.format(self.AWS_BUCKET_PREFIX))
 
         # 1. Remove bucket.
         self._remove_s3_bucket(namespace)
@@ -288,7 +281,7 @@ class LoggerSetup(object):
             return
 
         if response['ResponseMetadata']['HTTPStatusCode'] != 204:
-            raise ValueError('Could not remove access policy {} for '
+            raise SetupError('Could not remove access policy {} for '
                              'function {}'.format(namespace, self.AWS_LAMBDA_NAME))
         self._log_aws('Removed access policy')
 
@@ -420,3 +413,17 @@ class LoggerSetup(object):
             'to the customer\'s Fastly configuration'
         )
         return key, secret
+
+    def _log_aws(self, message):
+        self._log(self.LOG_AWS, message)
+
+    def _log_openwhisk(self, message):
+        self._log(self.LOG_WHISK, message)
+
+    def _log_fastly(self, message):
+        self._log(self.LOG_FASTLY, message)
+
+    def _log(self, platform, message):
+        kwargs = {'platform': platform, 'message': message}
+        sys.stdout.write('[{platform}] {message}\n'.format(**kwargs))
+        sys.stdout.flush()
