@@ -49,7 +49,7 @@ class LoggerSetup(object):
         """
         Create a connection to Fastly and make sure the auth key is valid.
         """
-        self._log_openwhisk('Setting up LoggerSetup')
+        self._log_openwhisk('Initializing LoggerSetup')
         self.fastly_auth = fastly_auth
         self.aws_region = aws_region
 
