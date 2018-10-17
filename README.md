@@ -62,7 +62,24 @@ The `buildAndPush.sh` script does the following:
 * Creates OpenWhisk action `hlx-log` 
 
 
-## Running the tests
+# Setting up the development environment
+
+For development, you can set up the development environment on your laptop.
+We're using `python3`.
+
+The first step is creating a virtual environment:
+```
+# Set up virtualenv.
+virtualenv -p /usr/local/bin/python venv
+source venv/bin/activate
+
+# Install requirements.
+pip install -r requirements.txt 
+pip install -r requirements_tests.txt
+```
+
+
+### Running the tests
 
 Tests mock API calls to both AWS and Faslty.
 Run the following command in the root directory, for running the tests:  
