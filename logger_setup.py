@@ -203,6 +203,7 @@ class LoggerSetup(object):
             ACL='private',
             Bucket=bucket,
         )
+
         return response
 
     def _remove_s3_bucket(self, bucket):
