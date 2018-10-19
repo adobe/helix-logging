@@ -80,7 +80,7 @@ class LoggerSetup(object):
         # Set up IAM client.
         self.iam_client = boto3.client('iam', **self.AWS_CREDENTIALS)
 
-    def set_up_logging(self, namespace, version):
+    def set_up_logging(self, namespace, fastly_version):
         """
         Sets up logging for the customer with the provided namespace and version,
         following the steps below:
@@ -95,32 +95,17 @@ class LoggerSetup(object):
         # 1. Create AWS S3 bucket.
         self._create_bucket(aws_namespace)
 
-        # 2. Create AWS user and generate (key, secret) keys that can only access that bucket.
-        key, secret = self._create_credentials_for_bucket(aws_namespace)
+        # 2. Create a policy that only allows access to the provided bucket.
+        policy_arn = self._create_iam_policy_for_accessing_bucket(aws_namespace)
 
-        # 3. Make an API call to Fastly in order to enable logging to the created S3 bucket.
-        self._log_fastly(
-            'Setting up logging configuration for Fastly namespace {}'.format(aws_namespace)
-        )
-        body = {
-            'bucket_name': aws_namespace,
-            'access_key': key,
-            'secret_key': secret,
-            'domain': 's3.amazonaws.com',
-            'format': self.FASTLY_LOG_FORMAT,
-            'name': self.FASTLY_LOG_NAME,
-            'period': self.FASTLY_LOG_PERIOD,
-            'version': version
-        }
-        encoded_body = urllib.parse.urlencode(body)
+        # 3. Create IAM user, attach policy as "Permission boundary" & "Permission policy"
+        self._create_iam_user_with_policies(aws_namespace, policy_arn)
 
-        service = self.fastly_client.service(namespace)
-        service.query(
-            self.fastly_client.conn,
-            '/service/{}/version/{}/logging/s3'.format(namespace, version),
-            'POST',
-            body=encoded_body
-        )
+        # 4. Generate (key, secret) for the newly created user.
+        aws_key, aws_secret = self._create_key_secret_for_user(aws_namespace)
+
+        # 5. Make an API call to Fastly in order to enable logging to the created S3 bucket.
+        self._fastly_add_logging(namespace, aws_namespace, aws_key, aws_secret, fastly_version)
 
     def tear_down_logging(self, namespace, version):
         """
@@ -141,8 +126,35 @@ class LoggerSetup(object):
         self._remove_iam_user(aws_namespace)
 
         # 3. Make an API call to Fastly in order to disable logging.
+        self._fastly_remove_logging(namespace, version)
+
+    def _fastly_add_logging(self, namespace, aws_namespace, aws_key, aws_secret, fastly_version):
         self._log_fastly(
-            'Removed logging configuration for Fastly namespace {}'.format(aws_namespace)
+            'Setting up logging configuration for Fastly namespace {}'.format(namespace)
+        )
+        body = {
+            'bucket_name': aws_namespace,
+            'access_key': aws_key,
+            'secret_key': aws_secret,
+            'domain': 's3.amazonaws.com',
+            'format': self.FASTLY_LOG_FORMAT,
+            'name': self.FASTLY_LOG_NAME,
+            'period': self.FASTLY_LOG_PERIOD,
+            'version': fastly_version
+        }
+        encoded_body = urllib.parse.urlencode(body)
+
+        service = self.fastly_client.service(namespace)
+        service.query(
+            self.fastly_client.conn,
+            '/service/{}/version/{}/logging/s3'.format(namespace, fastly_version),
+            'POST',
+            body=encoded_body
+        )
+
+    def _fastly_remove_logging(self, namespace, version):
+        self._log_fastly(
+            'Removed logging configuration for Fastly namespace {}'.format(namespace)
         )
         service = self.fastly_client.service(namespace)
         service.query(
@@ -181,20 +193,12 @@ class LoggerSetup(object):
         # 2. Remove access policy from the lambda function.
         self._remove_access_policy(namespace)
 
-    def _create_credentials_for_bucket(self, namespace):
-        # 1. Create a policy that only allows request to the provided bucket.
-        policy_arn = self._create_iam_policy_for_accessing_bucket(namespace)
-
-        # 2. Create IAM user.
+    def _create_iam_user_with_policies(self, namespace, policy_arn):
+        # 1. Create IAM user, attach policy as "Permission boundary"
         self._create_iam_user(namespace, policy_arn)
 
-        # 3. Attach the previously-created policy to the IAM user.
+        # 2. Attach policy to user, as "Permission policy".
         self._attach_iam_policy_to_user(namespace, policy_arn)
-
-        # 4. Generate (key, secret) for the newly created user.
-        key, secret = self._create_key_secret_for_user(namespace)
-
-        return key, secret
 
     def _create_s3_bucket(self, bucket):
         # Note: because we're using the default region, AWS does not accept LOCATION
@@ -455,5 +459,5 @@ class LoggerSetup(object):
 
     def _log(self, platform, message):
         kwargs = {'platform': platform, 'message': message}
-        sys.stdout.write('[{platform}] {message}\n'.format(**kwargs))
+        sys.stdout.write('{platform:<10} -- {message}\n'.format(**kwargs))
         sys.stdout.flush()
