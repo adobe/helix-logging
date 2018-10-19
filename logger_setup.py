@@ -41,7 +41,7 @@ class LoggerSetup(object):
     AWS_POLICY_ARN = 'arn:aws:iam::%s:policy/{}' % AWS_ACCOUNT_ID
 
     # Platforms involved - logging purposes.
-    LOG_FASTLY = 'Fastly'
+    LOG_FASTLY = 'FASTLY'
     LOG_AWS = 'AWS'
     LOG_WHISK = 'WHISK'
 
@@ -105,6 +105,7 @@ class LoggerSetup(object):
         aws_key, aws_secret = self._create_key_secret_for_user(aws_namespace)
 
         # 5. Make an API call to Fastly in order to enable logging to the created S3 bucket.
+        from ipdb import set_trace; set_trace()
         self._fastly_add_logging(namespace, aws_namespace, aws_key, aws_secret, fastly_version)
 
     def tear_down_logging(self, namespace, version):
@@ -356,7 +357,7 @@ class LoggerSetup(object):
 
         Returns True if the user was created or exists already
         """
-        self._log_aws('Creating IAM user for Helix "{}"'.format(namespace))
+        self._log_aws('Creating IAM user "{}"'.format(namespace))
 
         try:
             self.iam_client.create_user(
@@ -383,42 +384,43 @@ class LoggerSetup(object):
 
     def _remove_iam_user(self, namespace):
         """
-        Steps for deleting the user:
-            1. Remove policy
-            2. Remove user's access keys
-            3. Remove the IAM user
+        Steps for wiping out the user:
+            1. Delete PermissionBoundary
+            2. Detach policy
+            3. Delete policy
+            4. Remove user's access keys
+            5. Remove IAM user
         """
-        # 1. Detach and delete previously attached policy.
         policy_name = self.AWS_POLICY_ARN.format(namespace)
-        self._log_aws(
-            'Detaching policy "{}" from user "{}"'.format(policy_name, namespace)
-        )
 
-        # 1.1. Detach policy.
+        # 1. Delete PermissionBoundary attached to user.
+        self._log_aws('Deleting PermissionBoundary "{}" '.format(namespace))
+        try:
+            self.iam_client.delete_user_permissions_boundary(UserName=namespace)
+        except self.iam_client.exceptions.NoSuchEntityException:
+            self._log_aws('Permission boundary for user "{}" not found'.format(namespace))
+
+        # 2. Detach Policy.
+        self._log_aws('Detaching policy "{}" from user "{}"'.format(policy_name, namespace))
         try:
             self.iam_client.detach_user_policy(
                 UserName=namespace,
                 PolicyArn=policy_name
             )
-        except self.iam_client.exceptions.NoSuchEntityException as exception:
+        except self.iam_client.exceptions.NoSuchEntityException:
             self._log_aws('Policy "{}" not found'.format(policy_name))
 
-        # 1.2. Delete user permission boundary.
-        try:
-            self.iam_client.delete_user_permissions_boundary(UserName=namespace)
-        except self.iam_client.exceptions.NoSuchEntityException as exception:
-            self._log_aws('Permission boundary for user "{}" not found'.format(namespace))
-
-        # 1.3. Delete policy.
+        # 3. Delete policy.
+        self._log_aws('Deleting policy "{}" '.format(policy_name))
         try:
             self.iam_client.delete_policy(
                 PolicyArn=policy_name
             )
-        except self.iam_client.exceptions.NoSuchEntityException as exception:
+        except self.iam_client.exceptions.NoSuchEntityException:
             self._log_aws('Policy "{}" was not found'.format(policy_name))
 
-        # 2. Remove user's access keys.
-        self._log_aws('Removing all access keys from user "{}"...'.format(namespace))
+        # 4. Remove user's access keys.
+        self._log_aws('Removing all access keys from user "{}"'.format(namespace))
         access_keys_paginator = self.iam_client.get_paginator('list_access_keys')
         for response in access_keys_paginator.paginate(UserName=namespace):
             for access_key in response['AccessKeyMetadata']:
@@ -431,7 +433,7 @@ class LoggerSetup(object):
                     UserName=namespace
                 )
 
-        # Remove the IAM user.
+        # 5. Remove the IAM user.
         self._log_aws('Removing user "{}"'.format(namespace))
         self.iam_client.delete_user(UserName=namespace)
         self._log_aws('User "{}" successfully removed'.format(namespace))
