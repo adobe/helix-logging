@@ -185,10 +185,13 @@ class LoggerSetup(object):
         # 1. Create a policy that only allows request to the provided bucket.
         policy_arn = self._create_iam_policy_for_accessing_bucket(namespace)
 
-        # 2. Create user and attach the previously-created policy ARN.
+        # 2. Create IAM user.
         self._create_iam_user(namespace, policy_arn)
 
-        # 3. Generate (key, secret) for the newly created user.
+        # 3. Attach the previously-created policy to the IAM user.
+        self._attach_iam_policy_to_user(namespace, policy_arn)
+
+        # 4. Generate (key, secret) for the newly created user.
         key, secret = self._create_key_secret_for_user(namespace)
 
         return key, secret
@@ -311,9 +314,12 @@ class LoggerSetup(object):
         )
 
     def _create_iam_policy_for_accessing_bucket(self, namespace):
-        # Create a policy that only allows request to the provided bucket.
+        """
+        Create a policy that only allows requests to the provided bucket.
+        Returns the policy ARN.
+        """
         self._log_aws(
-            'Creating a policy for user "{}", allowing user aceess only to her '
+            'Creating a policy for user "{}", allowing user access only to her '
             'S3 bucket'.format(namespace)
         )
         resource_arn = 'arn:aws:s3:::{}/*'.format(namespace)
@@ -337,16 +343,39 @@ class LoggerSetup(object):
         return policy_arn
 
     def _create_iam_user(self, namespace, policy_arn):
-        # Create user and attach the previously-created policys.
-        self._log_aws('Creating user for Fastly namespace "{}"'.format(namespace))
-        self.iam_client.create_user(
-            UserName=namespace,
-            PermissionsBoundary=policy_arn
-        )
-        self.iam_client.attach_user_policy(
+        """
+        Create IAM user.
+
+        Args:
+            * namespace: user name
+            * policy_arn: boundary policy attached to the user
+
+        Returns True if the user was created or exists already
+        """
+        self._log_aws('Creating IAM user for Helix "{}"'.format(namespace))
+
+        try:
+            self.iam_client.create_user(
+                UserName=namespace,
+                PermissionsBoundary=policy_arn
+            )
+            return True
+        except self.iam_client.exceptions.EntityAlreadyExistsException:
+            self._log_aws('IAM user "{}" already exists'.format(namespace))
+            return True
+        except Exception:
+            return False
+
+    def _attach_iam_policy_to_user(self, namespace, policy_arn):
+        """
+        Attach the previously-created policy to the IAM user.
+        """
+        self._log_aws('Attaching IAM policy to the user "{}"'.format(namespace))
+        response = self.iam_client.attach_user_policy(
             UserName=namespace,
             PolicyArn=policy_arn
         )
+        return response
 
     def _remove_iam_user(self, namespace):
         """
