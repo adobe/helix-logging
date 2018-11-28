@@ -246,7 +246,7 @@ class LoggerSetup(object):
             resp = self.s3_client.list_objects_v2(**kwargs)
             contents = resp.get('Contents')
             if not contents:
-                raise StopIteration('No files in bucket {}'.format(bucket))
+                return
 
             for obj in contents:
                 yield obj['Key']
