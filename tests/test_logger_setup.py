@@ -39,16 +39,16 @@ class TestLoggerSetup(unittest.TestCase):
             msg='Expected status code 200 for creating bucket'
         )
 
-    @mock_s3
-    @mock_lambda
-    def test_create_bucket(self):
-        response = self.logger_setup._create_bucket(self.AWS_NAMESPACE)
-        from ipdb import set_trace; set_trace()
-        self.assertEqual(
-            response,
-            200,
-            msg='Expected status code 200 for creating bucket'
-        )
+    # @mock_s3
+    # @mock_lambda
+    # def test_create_bucket(self):
+    #     response = self.logger_setup._create_bucket(self.AWS_NAMESPACE)
+    #     from ipdb import set_trace; set_trace()
+    #     self.assertEqual(
+    #         response,
+    #         200,
+    #         msg='Expected status code 200 for creating bucket'
+    #     )
 
     @mock_s3
     def test_remove_s3_bucket_when_does_not_exist(self):
