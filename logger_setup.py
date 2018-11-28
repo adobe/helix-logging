@@ -105,7 +105,6 @@ class LoggerSetup(object):
         aws_key, aws_secret = self._create_key_secret_for_user(aws_namespace)
 
         # 5. Make an API call to Fastly in order to enable logging to the created S3 bucket.
-        from ipdb import set_trace; set_trace()
         self._fastly_add_logging(namespace, aws_namespace, aws_key, aws_secret, fastly_version)
 
     def tear_down_logging(self, namespace, version):
