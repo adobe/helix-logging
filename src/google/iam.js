@@ -12,7 +12,11 @@
 
 const googleapis = require('googleapis');
 const request = require('request-promise-native');
-
+/**
+ * Gets a service account for a given project
+ * @param {String} project project ID
+ * @param {String} name name of the new service account
+ */
 async function getServiceAccount(project, name) {
   try {
     const options = await googleapis.google.auth.authorizeRequest({
@@ -28,6 +32,12 @@ async function getServiceAccount(project, name) {
   }
 }
 
+/**
+ * Creates a service account for a given project. If the account already exists,
+ * retrieves the account instead.
+ * @param {String} project project ID
+ * @param {String} name name of the new service account
+ */
 async function createServiceAccount(project, name) {
   try {
     const options = await googleapis.google.auth.authorizeRequest({
@@ -37,7 +47,7 @@ async function createServiceAccount(project, name) {
       body: {
         accountId: name,
         serviceAccount: {
-          displayName: 'foo-bar Account created by Helix-Logger',
+          displayName: `${name} Account created by Helix-Logger`,
         },
       },
     });
@@ -49,7 +59,35 @@ async function createServiceAccount(project, name) {
   }
 }
 
+/**
+ * Creates a service account key for a given service accoun.
+ * If the account does not already exist,
+ * creates both account and key.
+ * @param {String} project project ID
+ * @param {String} name name of the new service account
+ */
+async function createServiceAccountKey(project, name) {
+  try {
+    const account = await createServiceAccount(project, name);
+    const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
+
+    const options = await googleapis.google.auth.authorizeRequest({
+      uri,
+      json: true,
+      timeout: 10000, // note the raised timeout
+    });
+
+    const key = await request.post(options);
+    const data = JSON.parse(Buffer.from(key.privateKeyData, 'base64').toString('ascii'));
+
+    return data;
+  } catch (e) {
+    throw new Error(`Unable to create key for service account ${name} in project ${project}: ${e}`);
+  }
+}
+
 module.exports = {
   createServiceAccount,
   getServiceAccount,
+  createServiceAccountKey,
 };

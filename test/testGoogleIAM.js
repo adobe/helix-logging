@@ -12,7 +12,7 @@
 /* eslint-env mocha */
 const assert = require('assert');
 const { auth } = require('../src/google/auth');
-const { createServiceAccount, getServiceAccount } = require('../src/google/iam');
+const { createServiceAccount, getServiceAccount, createServiceAccountKey } = require('../src/google/iam');
 
 describe('Test google.iam', () => {
   if (process.env.CLIENT_EMAIL && process.env.PRIVATE_KEY && process.env.PROJECT_ID) {
@@ -39,7 +39,28 @@ describe('Test google.iam', () => {
       assert.ok(account);
       assert.equal(account.name, `projects/${process.env.PROJECT_ID}/serviceAccounts/new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
     }).timeout(5000);
+
+    it('Test successful service account key creation', async () => {
+      await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+      const key = await createServiceAccountKey(process.env.PROJECT_ID, 'new-bar');
+      assert.ok(key);
+      assert.equal(key.client_email, `new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
+      assert.equal(key.private_key.split('\n')[0], '-----BEGIN PRIVATE KEY-----');
+    }).timeout(10000);
+
+    it('Test unsuccessful service account key creation', async () => {
+      try {
+        await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+        await createServiceAccountKey('non-existant', 'new-bar');
+        assert.fail('This should never happen, because the project does not exist');
+      } catch (e) {
+        assert.ok(e);
+      }
+    }).timeout(10000);
   } else {
-    it.skip('Test service account retrieval (needs working credentials)');
+    it.skip('Test successful service account retrieval (needs working credentials)');
+    it.skip('Test unsuccessful service account retrieval (needs working credentials)');
+    it.skip('Test successful service account creation (needs working credentials)');
+    it.skip('Test successful service account key creation (needs working credentials)');
   }
 });
