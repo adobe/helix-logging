@@ -11,16 +11,13 @@
  */
 /* eslint-env mocha */
 const { auth } = require('../src/google/auth');
-const key = require('../service-account-key.json');
 
 describe('Test google.auth', () => {
-
-
-  if (process.env['CLIENT_EMAIL']&&process.env['PRIVATE_KEY']) {
+  if (process.env.CLIENT_EMAIL && process.env.PRIVATE_KEY) {
     it('Test successful authentication', (done) => {
-      auth(key.client_email, key.private_key)
+      auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY)
         .then(() => done())
-        .catch(done)
+        .catch(done);
     });
   } else {
     it.skip('Test successful authentication (needs working credentials)');
