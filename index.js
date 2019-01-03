@@ -1,35 +1,45 @@
-const googleapis = require("googleapis");
-const path = require("path");
-const request = require("request-promise-native");
-const key = require("./service-account-key.json");
+/*
+ * Copyright 2018 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+const googleapis = require('googleapis');
+const request = require('request-promise-native');
+const key = require('./service-account-key.json');
 
 async function main() {
-  const auth = await googleapis.google.auth.getClient({
+  await googleapis.google.auth.getClient({
     // Scopes can be specified either as an array or as a single, space-delimited string.
-    scopes: ["https://www.googleapis.com/auth/cloud-platform"],
+    scopes: ['https://www.googleapis.com/auth/cloud-platform'],
     credentials: {
       client_email: key.client_email,
-      private_key: key.private_key
-    }
+      private_key: key.private_key,
+    },
   });
 
   const headers = await googleapis.google.auth.getRequestHeaders(
-    "https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts"
+    'https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts',
   );
 
   try {
     const response = await request.post(
-      "https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts",
+      'https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts',
       {
         headers,
         json: true,
         body: {
-          accountId: "foo-bar",
+          accountId: 'foo-bar',
           serviceAccount: {
-            displayName: "foo-bar Logging Account"
-          }
-        }
-      }
+            displayName: 'foo-bar Logging Account',
+          },
+        },
+      },
     );
 
     console.log(response);
@@ -39,17 +49,17 @@ async function main() {
     const account = await request.get(
       await googleapis.google.auth.authorizeRequest({
         uri:
-          "https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts/foo-bar@helix-225321.iam.gserviceaccount.com",
+          'https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts/foo-bar@helix-225321.iam.gserviceaccount.com',
         json: true,
-      })
+      }),
     );
 
     console.log(account);
   }
 
   const { accounts } = await request.get(
-    "https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts",
-    { headers, json: true }
+    'https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts',
+    { headers, json: true },
   );
   console.log(accounts.map(account => account.name));
 }
