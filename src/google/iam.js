@@ -59,6 +59,24 @@ async function createServiceAccount(project, name) {
   }
 }
 
+async function listServiceAccountKeys(project, name) {
+  try {
+    const account = await createServiceAccount(project, name);
+    const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
+
+    const options = await googleapis.google.auth.authorizeRequest({
+      uri,
+      json: true,
+      timeout: 1000,
+    });
+
+    const { keys } = await request.get(options);
+    return keys;
+  } catch (e) {
+    throw new Error(`Unable to list keys for service account ${name} in project ${project}: ${e}`);
+  }
+}
+
 /**
  * Creates a service account key for a given service accoun.
  * If the account does not already exist,
@@ -90,4 +108,5 @@ module.exports = {
   createServiceAccount,
   getServiceAccount,
   createServiceAccountKey,
+  listServiceAccountKeys,
 };
