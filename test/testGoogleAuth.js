@@ -10,16 +10,21 @@
  * governing permissions and limitations under the License.
  */
 /* eslint-env mocha */
-const assert = require('assert');
 const { auth } = require('../src/google/auth');
 const key = require('../service-account-key.json');
 
-
 describe('Test google.auth', () => {
-  it('Test successful authentication', async () => {
-    
-    assert.ok(await auth(key.client_email, key.private_key));
-  });
+
+
+  if (process.env['CLIENT_EMAIL']&&process.env['PRIVATE_KEY']) {
+    it('Test successful authentication', (done) => {
+      auth(key.client_email, key.private_key)
+        .then(() => done())
+        .catch(done)
+    });
+  } else {
+    it.skip('Test successful authentication (needs working credentials)');
+  }
 
   it('Test unsuccessful authentication', (done) => {
     auth('foo', 'bar')
