@@ -13,6 +13,21 @@
 const googleapis = require('googleapis');
 const request = require('request-promise-native');
 
+async function getServiceAccount(project, name) {
+  try {
+    const options = await googleapis.google.auth.authorizeRequest({
+      uri:
+        `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts/${name}@${project}.iam.gserviceaccount.com`,
+      json: true,
+      timeout: 1000,
+    });
+
+    return await request.get(options);
+  } catch (e) {
+    throw new Error(`Service account ${name} does not exist in project ${project}`);
+  }
+}
+
 async function createServiceAccount(project, name) {
   try {
     const options = await googleapis.google.auth.authorizeRequest({
@@ -24,28 +39,13 @@ async function createServiceAccount(project, name) {
         serviceAccount: {
           displayName: 'foo-bar Account created by Helix-Logger',
         },
-      }
+      },
     });
 
     return await request.post(options);
   } catch (e) {
     // account ID already exists
     return getServiceAccount(project, name);
-  }
-}
-
-async function getServiceAccount(project, name) {
-  try {
-    const options = await googleapis.google.auth.authorizeRequest({
-      uri:
-        `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts/${name}@${project}.iam.gserviceaccount.com`,
-      json: true,
-      timeout: 1000
-    });
-
-    return await request.get(options);
-  } catch (e) {
-    throw new Error(`Service account ${name} does not exist in project ${project}`);
   }
 }
 
