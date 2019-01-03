@@ -9,11 +9,11 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const googleapis = require('googleapis');
-const request = require('request-promise-native');
-const key = require('./service-account-key.json');
+// const googleapis = require('googleapis');
+// const request = require('request-promise-native');
 
 async function main() {
+  /*
   await googleapis.google.auth.getClient({
     // Scopes can be specified either as an array or as a single, space-delimited string.
     scopes: ['https://www.googleapis.com/auth/cloud-platform'],
@@ -62,6 +62,7 @@ async function main() {
     { headers, json: true },
   );
   console.log(accounts.map(account => account.name));
+  */
 }
-
+/* eslint-disable-next-line no-console */
 main().catch(console.error);
