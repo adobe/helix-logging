@@ -4,7 +4,7 @@
   "description": "An OpenWhisk Action that sets up logging to Google BigQuery for a Fastly Service Config",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha",
+    "test": "nyc --check-coverage --branches 100 --statements 100 --lines 100 mocha",
     "lint": "./node_modules/.bin/eslint .",
     "junit": "mocha --exit -R mocha-junit-reporter",
     "preversion": "npm run junit",
