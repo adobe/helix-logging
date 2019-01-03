@@ -15,7 +15,7 @@ const { auth } = require('../src/google/auth');
 describe('Test google.auth', () => {
   if (process.env.CLIENT_EMAIL && process.env.PRIVATE_KEY) {
     it('Test successful authentication', (done) => {
-      auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY)
+      auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'))
         .then(() => done())
         .catch(done);
     });
