@@ -54,6 +54,19 @@ describe('Test google.iam', () => {
       assert.equal(key.private_key.split('\n')[0], '-----BEGIN PRIVATE KEY-----');
     }).timeout(10000);
 
+    it('Test successful service account key creation with resource exhaustion', async () => {
+      await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+
+      // there is a limit of ten keys per account. Creating 12 will exceed the limit.
+      for (let i = 0; i < 12; i += 1) {
+        /* eslint-disable-next-line no-await-in-loop */
+        const key = await createServiceAccountKey(process.env.PROJECT_ID, 'new-bar');
+        assert.ok(key);
+        assert.equal(key.client_email, `new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
+        assert.equal(key.private_key.split('\n')[0], '-----BEGIN PRIVATE KEY-----');
+      }
+    }).timeout(100000);
+
     it('Test unsuccessful service account key creation', async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));

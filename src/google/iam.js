@@ -95,7 +95,6 @@ async function deleteServiceAccountKey(name) {
       timeout: 2000,
     });
     const result = await request.delete(options);
-
     return !!(result);
   } catch (e) {
     if (e.statusCode && e.statusCode !== 400) {
@@ -113,6 +112,10 @@ async function deleteServiceAccountKey(name) {
  * @param {String} name name of the new service account
  */
 async function createServiceAccountKey(project, name, retry = true) {
+  function again() {
+    return createServiceAccountKey(project, name, false);
+  }
+
   try {
     const account = await createServiceAccount(project, name);
     const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
@@ -132,11 +135,10 @@ async function createServiceAccountKey(project, name, retry = true) {
       const keys = await listServiceAccountKeys(project, name);
 
       // only delete the two oldest keys
-      const deletekeys = keys.slice(0, 2).map(key => key.name).map(deleteServiceAccountKey);
+      const deletekeys = keys.slice(0, 4).map(key => key.name).map(deleteServiceAccountKey);
+
       // wait for deletion to complete
-      return Promise.all(deletekeys)
-        .then(() => createServiceAccountKey(project, name, false))
-        .catch(() => createServiceAccountKey(project, name, false));
+      return Promise.all(deletekeys).then(again).catch(again);
     }
     throw new Error(`Unable to create key for service account ${name} in project ${project}: ${e}`);
   }
