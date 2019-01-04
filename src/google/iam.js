@@ -23,12 +23,12 @@ async function getServiceAccount(project, name) {
       uri:
         `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts/${name}@${project}.iam.gserviceaccount.com`,
       json: true,
-      timeout: 1000,
+      timeout: 2000,
     });
 
     return await request.get(options);
   } catch (e) {
-    throw new Error(`Service account ${name} does not exist in project ${project}`);
+    throw new Error(`Service account ${name} does not exist in project ${project}: ${e}`);
   }
 }
 
@@ -43,7 +43,7 @@ async function createServiceAccount(project, name) {
     const options = await googleapis.google.auth.authorizeRequest({
       uri: `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts`,
       json: true,
-      timeout: 1000,
+      timeout: 2000,
       body: {
         accountId: name,
         serviceAccount: {
@@ -54,8 +54,11 @@ async function createServiceAccount(project, name) {
 
     return await request.post(options);
   } catch (e) {
-    // account ID already exists
-    return getServiceAccount(project, name);
+    if (e.statusCode && e.statusCode === 409) {
+      // account ID already exists
+      return getServiceAccount(project, name);
+    }
+    throw new Error(`Service account ${name} cannot be created: ${e}`);
   }
 }
 
@@ -67,7 +70,7 @@ async function listServiceAccountKeys(project, name) {
     const options = await googleapis.google.auth.authorizeRequest({
       uri,
       json: true,
-      timeout: 1000,
+      timeout: 2000,
     });
 
     const { keys } = await request.get(options);
@@ -79,13 +82,12 @@ async function listServiceAccountKeys(project, name) {
 
 async function deleteServiceAccountKey(project, name, id) {
   try {
-    const account = await createServiceAccount(project, name);
-    const uri = `https://iam.googleapis.com/v1/${account.name}/keys/${id}`;
+    const uri = `https://iam.googleapis.com/v1/${name}/keys/${id}`;
 
     const options = await googleapis.google.auth.authorizeRequest({
       uri,
       json: true,
-      timeout: 1000,
+      timeout: 2000,
     });
 
     return !!(await request.get(options));
