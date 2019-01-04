@@ -20,13 +20,14 @@ async function auth(email, key) {
   try {
     google.auth.cachedCredential = null;
 
-    const client = await google.auth.getClient({
+    const credentials = {
+      client_email: email,
+      private_key: key,
+    };
+    await google.auth.getClient({
       // Scopes can be specified either as an array or as a single, space-delimited string.
-      scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-      credentials: {
-        client_email: email,
-        private_key: key,
-      },
+      scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/bigquery'],
+      credentials,
     });
 
     // verifying that the credentials are valid
@@ -34,7 +35,7 @@ async function auth(email, key) {
       'https://iam.googleapis.com/v1/',
     );
 
-    return client;
+    return credentials;
   } catch (e) {
     throw new Error(`Invalid credentials. Make sure email is the Google Service 
 Account email in the format <name>@<project>.iam.gserviceaccount.com and key is
