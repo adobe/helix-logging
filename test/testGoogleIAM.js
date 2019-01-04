@@ -81,6 +81,26 @@ describe('Test google.iam', () => {
       }
     }).timeout(10000);
 
+    it('Test successful service account key deletion', async () => {
+      await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+
+      await createServiceAccount(process.env.PROJECT_ID, 'test-account');
+      await createServiceAccountKey(process.env.PROJECT_ID, 'test-account');
+      const keys = await listServiceAccountKeys(process.env.PROJECT_ID, 'test-account');
+      keys.forEach(async ({ name }) => {
+        try {
+          const result = await deleteServiceAccountKey(name);
+          assert.ok(result === true || result === false);
+        } catch (e) {
+          assert.fail(e);
+        }
+      });
+      const newkeys = await listServiceAccountKeys(process.env.PROJECT_ID, 'test-account');
+      assert.ok(newkeys);
+      assert.ok(Array.isArray(newkeys));
+      assert.notEqual(newkeys.length, keys.length);
+    }).timeout(20000);
+
     it('Test unsuccessful service account key deletion', async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));

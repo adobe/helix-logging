@@ -80,19 +80,28 @@ async function listServiceAccountKeys(project, name) {
   }
 }
 
-async function deleteServiceAccountKey(project, name, id) {
+/**
+ * Delete the service account with the given name.
+ * @param {String} name in the format
+ * projects/<project>/serviceAccounts/<account>@<project>.iam.gserviceaccount.com/keys/<id>
+ */
+async function deleteServiceAccountKey(name) {
   try {
-    const uri = `https://iam.googleapis.com/v1/${name}/keys/${id}`;
+    const uri = `https://iam.googleapis.com/v1/${name}`;
 
     const options = await googleapis.google.auth.authorizeRequest({
       uri,
       json: true,
       timeout: 2000,
     });
+    const result = await request.delete(options);
 
-    return !!(await request.get(options));
+    return !!(result);
   } catch (e) {
-    throw new Error(`Unable to delete key ${id} for service account ${name} in project ${project}: ${e}`);
+    if (e.statusCode && e.statusCode !== 400) {
+      throw new Error(`Unable to delete key ${name}: ${e}`);
+    }
+    return true;
   }
 }
 
@@ -103,7 +112,7 @@ async function deleteServiceAccountKey(project, name, id) {
  * @param {String} project project ID
  * @param {String} name name of the new service account
  */
-async function createServiceAccountKey(project, name) {
+async function createServiceAccountKey(project, name, retry = true) {
   try {
     const account = await createServiceAccount(project, name);
     const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
@@ -119,6 +128,16 @@ async function createServiceAccountKey(project, name) {
 
     return data;
   } catch (e) {
+    if (e.statusCode && e.statusCode === 429 && e.error && e.error.error && e.error.error.status && e.error.error.status === 'RESOURCE_EXHAUSTED' && retry) {
+      const keys = await listServiceAccountKeys(project, name);
+
+      // only delete the two oldest keys
+      const deletekeys = keys.slice(0, 2).map(key => key.name).map(deleteServiceAccountKey);
+      // wait for deletion to complete
+      return Promise.all(deletekeys)
+        .then(() => createServiceAccountKey(project, name, false))
+        .catch(() => createServiceAccountKey(project, name, false));
+    }
     throw new Error(`Unable to create key for service account ${name} in project ${project}: ${e}`);
   }
 }
