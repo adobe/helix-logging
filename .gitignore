@@ -1,4 +1,7 @@
 service-account-key.json
+node_modules
+.nyc_output
+coverage
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
