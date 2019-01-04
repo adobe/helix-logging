@@ -13,7 +13,11 @@
 const assert = require('assert');
 const { auth } = require('../src/google/auth');
 const {
-  createServiceAccount, getServiceAccount, createServiceAccountKey, listServiceAccountKeys,
+  createServiceAccount,
+  getServiceAccount,
+  createServiceAccountKey,
+  listServiceAccountKeys,
+  deleteServiceAccountKey,
 } = require('../src/google/iam');
 
 describe('Test google.iam', () => {
@@ -71,6 +75,16 @@ describe('Test google.iam', () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
         await listServiceAccountKeys('non-existant', 'new-bar');
+        assert.fail('This should never happen, because the project does not exist');
+      } catch (e) {
+        assert.ok(e);
+      }
+    }).timeout(10000);
+
+    it('Test unsuccessful service account key deletion', async () => {
+      try {
+        await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+        await deleteServiceAccountKey('non-existant', 'new-bar', 'totally-made-up');
         assert.fail('This should never happen, because the project does not exist');
       } catch (e) {
         assert.ok(e);

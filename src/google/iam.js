@@ -77,6 +77,23 @@ async function listServiceAccountKeys(project, name) {
   }
 }
 
+async function deleteServiceAccountKey(project, name, id) {
+  try {
+    const account = await createServiceAccount(project, name);
+    const uri = `https://iam.googleapis.com/v1/${account.name}/keys/${id}`;
+
+    const options = await googleapis.google.auth.authorizeRequest({
+      uri,
+      json: true,
+      timeout: 1000,
+    });
+
+    return !!(await request.get(options));
+  } catch (e) {
+    throw new Error(`Unable to delete key ${id} for service account ${name} in project ${project}: ${e}`);
+  }
+}
+
 /**
  * Creates a service account key for a given service accoun.
  * If the account does not already exist,
@@ -109,4 +126,5 @@ module.exports = {
   getServiceAccount,
   createServiceAccountKey,
   listServiceAccountKeys,
+  deleteServiceAccountKey,
 };
