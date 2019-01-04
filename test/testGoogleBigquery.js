@@ -13,7 +13,7 @@
 const assert = require('assert');
 const { BigQuery } = require('@google-cloud/bigquery');
 const { auth } = require('../src/google/auth');
-const { createDataset } = require('../src/google/bigquery');
+const { createDataset, createTable } = require('../src/google/bigquery');
 
 describe('Test google.bigquery', () => {
   if (process.env.CLIENT_EMAIL && process.env.PRIVATE_KEY && process.env.PROJECT_ID) {
@@ -38,6 +38,20 @@ describe('Test google.bigquery', () => {
     it('Testing successful data set creation', async () => {
       const dataset = await createDataset(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.PROJECT_ID, 'test_dataset');
       assert.ok(dataset);
+    });
+
+    it('Testing successful table creation', async () => {
+      const dataset = await createTable(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.PROJECT_ID, 'test_dataset', 'test_logs');
+      assert.ok(dataset);
+    });
+
+    it('Testing unsuccessful table creation', async () => {
+      try {
+        const table = await createTable(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.PROJECT_ID, 'test_dataset', 'illegal-table');
+        assert.fail(table);
+      } catch (e) {
+        assert.ok(e);
+      }
     });
   } else {
     it.skip('Testing google bigquery (needs authentication)');

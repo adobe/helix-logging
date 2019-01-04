@@ -29,6 +29,27 @@ async function createDataset(email, key, project, name) {
   }
 }
 
+async function createTable(email, key, project, dataset, name, fields) {
+  const ds = await createDataset(email, key, project, dataset);
+  try {
+    return await ds.createTable(name, {
+      description: 'Table created by Helix Logging',
+      schema: {
+        fields,
+      },
+      timePartitioning: {
+        type: 'DAY',
+      },
+    });
+  } catch (e) {
+    if (e.code && e.code === 409 && e.errors && e.errors[0] && e.errors[0].reason && e.errors[0].reason === 'duplicate') {
+      return ds.table(name);
+    }
+    throw new Error(`Unable to create table ${name} in dataset ${dataset}: ${e}`);
+  }
+}
+
 module.exports = {
   createDataset,
+  createTable,
 };
