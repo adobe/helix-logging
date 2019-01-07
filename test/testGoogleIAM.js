@@ -150,20 +150,19 @@ describe('Test google.iam', () => {
       assert.ok(policy);
       assert.equal(policy.kind, 'bigquery#dataset');
       assert.ok(Array.isArray(policy.access));
-      const added = policy.access.filter(({role, userByEmail}) => role === 'WRITER' && userByEmail === `new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
+      const added = policy.access.filter(({ role, userByEmail }) => role === 'WRITER' && userByEmail === `new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
       assert.equal(added.length, 1);
     });
 
-    it('Test unsuccessful IAM Policy Retrieval', async () => {
+    it('Test unsuccessful IAM Policy Update', async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
-        await getIamPolicy(process.env.PROJECT_ID, 'missing_dataset');
+        await addIamPolicy(process.env.PROJECT_ID, 'missing_dataset', 'INVALIDROLE', 'not@a.valid.email');
         assert.fail('This should never happen, because the dataset does not exist');
       } catch (e) {
         assert.ok(e);
       }
     });
-
   } else {
     it.skip('Test successful service account retrieval (needs working credentials)');
     it.skip('Test unsuccessful service account retrieval (needs working credentials)');
