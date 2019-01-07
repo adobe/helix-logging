@@ -19,6 +19,7 @@ const {
   listServiceAccountKeys,
   deleteServiceAccountKey,
   getIamPolicy,
+  addIamPolicy,
 } = require('../src/google/iam');
 
 describe('Test google.iam', () => {
@@ -127,7 +128,7 @@ describe('Test google.iam', () => {
 
     it('Test successful IAM Policy Retrieval', async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
-      const policy = await getIamPolicy('helix-225321', 'test_dataset');
+      const policy = await getIamPolicy(process.env.PROJECT_ID, 'test_dataset');
       assert.ok(policy);
       assert.equal(policy.kind, 'bigquery#dataset');
       assert.ok(Array.isArray(policy.access));
@@ -136,12 +137,33 @@ describe('Test google.iam', () => {
     it('Test unsuccessful IAM Policy Retrieval', async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
-        await getIamPolicy('helix-225321', 'missing_dataset');
+        await getIamPolicy(process.env.PROJECT_ID, 'missing_dataset');
         assert.fail('This should never happen, because the dataset does not exist');
       } catch (e) {
         assert.ok(e);
       }
-    }).timeout(10000);
+    });
+
+    it('Test successful IAM Policy Update', async () => {
+      await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+      const policy = await addIamPolicy(process.env.PROJECT_ID, 'test_dataset', 'WRITER', `new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
+      assert.ok(policy);
+      assert.equal(policy.kind, 'bigquery#dataset');
+      assert.ok(Array.isArray(policy.access));
+      const added = policy.access.filter(({role, userByEmail}) => role === 'WRITER' && userByEmail === `new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
+      assert.equal(added.length, 1);
+    });
+
+    it('Test unsuccessful IAM Policy Retrieval', async () => {
+      try {
+        await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+        await getIamPolicy(process.env.PROJECT_ID, 'missing_dataset');
+        assert.fail('This should never happen, because the dataset does not exist');
+      } catch (e) {
+        assert.ok(e);
+      }
+    });
+
   } else {
     it.skip('Test successful service account retrieval (needs working credentials)');
     it.skip('Test unsuccessful service account retrieval (needs working credentials)');

@@ -165,6 +165,41 @@ async function getIamPolicy(project, dataset) {
   }
 }
 
+/**
+ * Grants a role to the user specified by provided email address on the
+ * dataset in the project.
+ * @param {String} project project id
+ * @param {String} dataset dataset id
+ * @param {String} role can be READER, WRITER, OWNER
+ * @param {String} email email address of the user or service account
+ */
+async function addIamPolicy(project, dataset, role, email) {
+  try {
+    const uri = `https://www.googleapis.com/bigquery/v2/projects/${project}/datasets/${dataset}`;
+
+    const oldaccess = (await getIamPolicy(project, dataset)).access;
+
+    const options = await googleapis.google.auth.authorizeRequest({
+      uri,
+      json: true,
+      timeout: 2000,
+      body: {
+        access: [
+          ...oldaccess,
+          {
+            role,
+            userByEmail: email,
+          },
+        ],
+      },
+    });
+
+    return await request.patch(options);
+  } catch (e) {
+    throw new Error(`Cannot update IAM policy for dataset ${dataset} in project ${project}: ${e}`);
+  }
+}
+
 module.exports = {
   createServiceAccount,
   getServiceAccount,
@@ -172,4 +207,5 @@ module.exports = {
   listServiceAccountKeys,
   deleteServiceAccountKey,
   getIamPolicy,
+  addIamPolicy,
 };
