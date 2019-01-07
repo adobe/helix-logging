@@ -18,6 +18,7 @@ const {
   createServiceAccountKey,
   listServiceAccountKeys,
   deleteServiceAccountKey,
+  getIamPolicy,
 } = require('../src/google/iam');
 
 describe('Test google.iam', () => {
@@ -119,6 +120,24 @@ describe('Test google.iam', () => {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
         await deleteServiceAccountKey('non-existant', 'new-bar', 'totally-made-up');
         assert.fail('This should never happen, because the project does not exist');
+      } catch (e) {
+        assert.ok(e);
+      }
+    }).timeout(10000);
+
+    it('Test successful IAM Policy Retrieval', async () => {
+      await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+      const policy = await getIamPolicy('helix-225321', 'test_dataset');
+      assert.ok(policy);
+      assert.equal(policy.kind, 'bigquery#dataset');
+      assert.ok(Array.isArray(policy.access));
+    });
+
+    it('Test unsuccessful IAM Policy Retrieval', async () => {
+      try {
+        await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+        await getIamPolicy('helix-225321', 'missing_dataset');
+        assert.fail('This should never happen, because the dataset does not exist');
       } catch (e) {
         assert.ok(e);
       }

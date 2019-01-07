@@ -144,10 +144,32 @@ async function createServiceAccountKey(project, name, retry = true) {
   }
 }
 
+/**
+ * Gets the IAM Policy for a dataset in a project.
+ * @param {String} project project id
+ * @param {String} dataset dataset id
+ */
+async function getIamPolicy(project, dataset) {
+  try {
+    const uri = `https://www.googleapis.com/bigquery/v2/projects/${project}/datasets/${dataset}`;
+
+    const options = await googleapis.google.auth.authorizeRequest({
+      uri,
+      json: true,
+      timeout: 10000, // note the raised timeout
+    });
+
+    return await request.get(options);
+  } catch (e) {
+    throw new Error(`Cannot get IAM policy for dataset ${dataset} in project ${project}: ${e}`);
+  }
+}
+
 module.exports = {
   createServiceAccount,
   getServiceAccount,
   createServiceAccountKey,
   listServiceAccountKeys,
   deleteServiceAccountKey,
+  getIamPolicy,
 };
