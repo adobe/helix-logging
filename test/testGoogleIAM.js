@@ -54,7 +54,7 @@ describe('Test google.iam', () => {
       assert.ok(key);
       assert.equal(key.client_email, `new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
       assert.equal(key.private_key.split('\n')[0], '-----BEGIN PRIVATE KEY-----');
-    }).timeout(10000);
+    }).timeout(100000);
 
     it('Test successful service account key creation with resource exhaustion', async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
