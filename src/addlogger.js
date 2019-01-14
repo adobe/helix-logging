@@ -78,12 +78,12 @@ async function addlogger(email, key, service, token, project, version) {
       // verify Fastly credentials
       const Fastly = await f(token, service);
       const versions = await Fastly.getVersions();
-      logger.debug(`Successfully authenticated with Fastly. Current version is ${versions.current}`);
+      logger.info(`Successfully authenticated with Fastly. Current version is ${versions.current}`);
       return Fastly;
     })(), (async () => {
       // create Google Service Account, and Key
       await auth.auth(email, key);
-      const accountname = `helix-logger-${service}`;
+      const accountname = `hlx-${service}`.toLocaleLowerCase();
       logger.debug(`Creating service account ${accountname} in Google Cloud Platform`);
       const account = await iam.createServiceAccount(project, accountname);
       logger.debug(`Creating new service account key for ${account.name}`);
@@ -93,7 +93,7 @@ async function addlogger(email, key, service, token, project, version) {
         client_email,
         private_key,
       } = await iam.createServiceAccountKey(project, accountname);
-      logger.debug(`Successfully created service account key ${private_key_id} for ${client_email}`);
+      logger.info(`Successfully created service account key ${private_key_id} for ${client_email}`);
 
       return {
         key: private_key,
@@ -104,18 +104,19 @@ async function addlogger(email, key, service, token, project, version) {
       // create Google BigQuery Dataset, and Table
       await auth.auth(email, key);
       const datasetname = `helix_logging_${service}`;
+
       const dataset = await bigquery.createDataset(email, key, project, datasetname);
-      logger.debug(`Successfully created Google Bigquery dataset ${dataset.id}`);
+      logger.debug(`Successfully created Google Bigquery dataset ${dataset.id || datasetname}`);
 
       const table = await bigquery.createTable(
         email,
         key,
         project,
-        dataset,
+        datasetname,
         tablename,
         bigquery.makeFields(Object.keys(schema)),
       );
-      logger.debug(`Successfully created Google Bigquery table ${table.id} in ${table.dataset.id}`);
+      logger.info(`Successfully created Google Bigquery table ${table.id} in ${datasetname}`);
 
       return dataset;
     })()]);
@@ -124,7 +125,7 @@ async function addlogger(email, key, service, token, project, version) {
     await iam.addIamPolicy(project, dataSet.id, 'WRITER', googleKeys.email);
 
     logger.debug(`Updating Fastly service config ${service} to send logs to ${dataSet.id} with user ${googleKeys.email}`);
-    await logs.updateFastlyVersion(
+    const logconfig = await logs.updateFastlyVersion(
       fastlyClient,
       version,
       logconfigname,
@@ -137,8 +138,17 @@ async function addlogger(email, key, service, token, project, version) {
       googleKeys.key,
     );
     logger.info(`Successfully updated Fastly service config ${service} to send logs to ${dataSet.id} with user ${googleKeys.email}`);
+    return {
+      name: logconfig.data.name,
+      service: logconfig.data.service_id,
+      project: logconfig.data.project_id,
+      version: logconfig.data.version,
+      dataset: logconfig.data.dataset,
+      format: JSON.parse(logconfig.data.format)
+    };
   } catch (e) {
-    logger.error(`Unable to add logger to service config ${service}: ${e}`, e);
+    logger.error(`Unable to add logger to service config ${service}: ${e} (in ${e.stack})`, e);
+    throw e;
   }
 }
 
