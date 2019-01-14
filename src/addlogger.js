@@ -144,7 +144,7 @@ async function addlogger(email, key, service, token, project, version) {
       project: logconfig.data.project_id,
       version: logconfig.data.version,
       dataset: logconfig.data.dataset,
-      format: JSON.parse(logconfig.data.format)
+      format: JSON.parse(logconfig.data.format),
     };
   } catch (e) {
     logger.error(`Unable to add logger to service config ${service}: ${e} (in ${e.stack})`, e);

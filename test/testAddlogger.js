@@ -15,16 +15,32 @@ const addlogger = require('../src/addlogger');
 const condit = require('./condit');
 
 describe('Test addlogger', () => {
-  condit('Test successful logger setup', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'HLX_FASTLY_NAMESPACE', 'HLX_FASTLY_AUTH', 'PROJECT_ID', 'VERSION_NUM']), async() => {
+  condit('Test successful logger setup', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'HLX_FASTLY_NAMESPACE', 'HLX_FASTLY_AUTH', 'PROJECT_ID', 'VERSION_NUM']), async () => {
     const res = await addlogger(
       process.env.CLIENT_EMAIL,
       process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
       process.env.HLX_FASTLY_NAMESPACE,
       process.env.HLX_FASTLY_AUTH,
       process.env.PROJECT_ID,
-      Number.parseInt(process.env.VERSION_NUM, 10)
+      Number.parseInt(process.env.VERSION_NUM, 10),
     );
     assert.ok(res);
     assert.equal();
+  }).timeout(60000);
+
+  condit('Test unsuccessful logger setup', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'HLX_FASTLY_NAMESPACE', 'HLX_FASTLY_AUTH', 'PROJECT_ID', 'VERSION_NUM']), async () => {
+    try {
+      const logger = await addlogger(
+        'invalid@foo',
+        process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        process.env.HLX_FASTLY_NAMESPACE,
+        process.env.HLX_FASTLY_AUTH,
+        process.env.PROJECT_ID,
+        Number.parseInt(process.env.VERSION_NUM, 10),
+      );
+      assert.fail(`${logger} should be undefined`);
+    } catch (e) {
+      assert.ok(e);
+    }
   }).timeout(60000);
 });

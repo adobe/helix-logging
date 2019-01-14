@@ -58,7 +58,7 @@ function makeFields(names) {
   return names.reduce((p, c) => {
     const col = {
       name: c,
-      type: 'string'
+      type: 'string',
     };
     return [...p, col];
   }, []);
