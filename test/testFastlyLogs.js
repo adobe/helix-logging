@@ -11,7 +11,7 @@
  */
 /* eslint-env mocha */
 const assert = require('assert');
-const { makeFormat, makeConfig } = require('../src/fastly/logs');
+const { makeFormat, makeConfig, updateFastlyConfig } = require('../src/fastly/logs');
 const condit = require('./condit');
 
 
@@ -50,11 +50,24 @@ describe('Test fastly.logs', () => {
     });
   });
 
-  condit('A fake test', condit.hasenv('FOO_BAR'), () => {
-    assert.ok(process.env.FOO_BAR);
-  });
-
-  condit('A fake test', condit.hasenvs(['FOO_BAR', 'FOO_BAZ']), () => {
-    assert.ok(process.env.FOO_BAR);
-  });
+  condit('Test updateFastlyConfig', condit.hasenvs([
+    'HLX_FASTLY_AUTH',
+    'CLIENT_EMAIL',
+    'HLX_FASTLY_NAMESPACE']), async () => {
+    try {
+      const result = await updateFastlyConfig(
+        process.env.HLX_FASTLY_AUTH,
+        process.env.HLX_FASTLY_NAMESPACE,
+        'helix-logging-test',
+        {
+          year: '%Y',
+          month: '%M'
+        },
+        process.env.CLIENT_EMAIL
+      );
+      assert.ok(result);
+    } catch (e) {
+      assert.fail(e);
+    }
+  }).timeout(5000);
 });

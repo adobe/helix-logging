@@ -13,10 +13,9 @@
 
 function condit(name, condition, mochafn) {
   if (condition()) {
-    it(name, mochafn);
-  } else {
-    it.skip(`${name} (${condition.description || 'condition not met'})`, mochafn);
+    return it(name, mochafn);
   }
+  return it.skip(`${name} (${condition.description || 'condition not met'})`, mochafn);
 }
 
 condit.hasenv = (name) => {

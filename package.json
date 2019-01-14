@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
+    "@adobe/fastly-native-promises": "^1.1.0",
     "@google-cloud/bigquery": "^2.0.5",
     "googleapis": "^36.0.0",
     "request": "^2.88.0",

@@ -9,6 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const f = require('@adobe/fastly-native-promises');
 
 
 function makeFormat(patterns) {
@@ -29,4 +30,37 @@ function makeConfig(name, patterns, user, project, dataset, table, suffix, key) 
   };
 }
 
-module.exports = { makeConfig, makeFormat };
+/**
+ * Updates the Fastly Service Config with a BigQuery logging configuration
+ * @param {string} token the Fastly service token
+ * @param {string} service the Fastly service config ID
+ * @param {string} name the name of the logging config (must be unique per service)
+ * @param {Object} patterns keys are the column names in Google Bigquery, values are the
+ * VCL log expressions
+ * @param {string} user email address of the Google Cloud service account
+ * @param {string} project project ID of the Google Cloud Platform project
+ * @param {string} dataset name of the dataset in Google BigQuery
+ * @param {string} table of the table to create in the dataset
+ * @param {string} suffix suffix pattern for time-based table partitions, e.g. %Y%M
+ * @param {string} key private key of the Google Cloud Platform service account
+ */
+async function updateFastlyConfig(
+  token, 
+  service, 
+  name, 
+  patterns, 
+  user, 
+  project, 
+  dataset, 
+  table, 
+  suffix, 
+  key) {
+  const fastly = await f(token, service);
+  await fastly.transact(async (version) =>{
+    return fastly.writeBigquery(version, 'helix-logging-test', 
+      makeConfig(name, patterns, user, project, dataset, table, suffix, key));
+  });
+  return fastly;
+}
+
+module.exports = { makeConfig, makeFormat, updateFastlyConfig };
