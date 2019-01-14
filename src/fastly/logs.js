@@ -28,6 +28,36 @@ function makeConfig(name, patterns, user, project, dataset, table, suffix, key) 
     secret_key: key,
   };
 }
+/**
+ *
+ * @param {Fastly} fastly  fastly client
+ * @param {number} version version to update
+ * @param {string} name the name of the logging config (must be unique per service)
+ * @param {Object} patterns keys are the column names in Google Bigquery, values are the
+ * VCL log expressions
+ * @param {string} user email address of the Google Cloud service account
+ * @param {string} project project ID of the Google Cloud Platform project
+ * @param {string} dataset name of the dataset in Google BigQuery
+ * @param {string} table of the table to create in the dataset
+ * @param {string} suffix suffix pattern for time-based table partitions, e.g. %Y%M
+ * @param {string} key private key of the Google Cloud Platform service account
+ */
+async function updateFastlyVersion(
+  fastly,
+  version,
+  name,
+  patterns,
+  user,
+  project,
+  dataset,
+  table,
+  suffix,
+  key,
+) {
+  const data = makeConfig(name, patterns, user, project, dataset, table, suffix, key);
+  return fastly.writeBigquery(version, name, data);
+}
+
 
 /**
  * Updates the Fastly Service Config with a BigQuery logging configuration
@@ -44,22 +74,33 @@ function makeConfig(name, patterns, user, project, dataset, table, suffix, key) 
  * @param {string} key private key of the Google Cloud Platform service account
  */
 async function updateFastlyConfig(
-  token, 
-  service, 
-  name, 
-  patterns, 
-  user, 
-  project, 
-  dataset, 
-  table, 
-  suffix, 
-  key) {
+  token,
+  service,
+  name,
+  patterns,
+  user,
+  project,
+  dataset,
+  table,
+  suffix,
+  key,
+) {
   const fastly = await f(token, service);
-  await fastly.transact(async (version) => {
-    const data = makeConfig(name, patterns, user, project, dataset, table, suffix, key);
-    return fastly.writeBigquery(version, name, data);
-  });
+  await fastly.transact(async version => updateFastlyVersion(
+    fastly,
+    version,
+    name,
+    patterns,
+    user,
+    project,
+    dataset,
+    table,
+    suffix,
+    key,
+  ));
   return fastly;
 }
 
-module.exports = { makeConfig, makeFormat, updateFastlyConfig };
+module.exports = {
+  makeConfig, makeFormat, updateFastlyConfig, updateFastlyVersion,
+};

@@ -62,14 +62,14 @@ describe('Test fastly.logs', () => {
         'helix-logging-test',
         {
           year: 'static',
-          month: 'static'
+          month: 'static',
         },
         process.env.CLIENT_EMAIL,
         process.env.PROJECT_ID,
         'test_dataset',
         'test_logs',
         '',
-        process.env.PRIVATE_KEY
+        process.env.PRIVATE_KEY,
       );
       assert.ok(result);
     } catch (e) {
