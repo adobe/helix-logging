@@ -12,6 +12,7 @@
 /* eslint-env mocha */
 const assert = require('assert');
 const { makeFormat, makeConfig } = require('../src/fastly/logs');
+const condit = require('./condit');
 
 
 describe('Test fastly.logs', () => {
@@ -47,5 +48,13 @@ describe('Test fastly.logs', () => {
       secret_key: 'BEGIN_KEY\nfakekey\nEND_KEY',
       user: 'new-bar@fakeproject.iam.gserviceaccount.com',
     });
+  });
+
+  condit('A fake test', condit.hasenv('FOO_BAR'), () => {
+    assert.ok(process.env.FOO_BAR);
+  });
+
+  condit('A fake test', condit.hasenvs(['FOO_BAR', 'FOO_BAZ']), () => {
+    assert.ok(process.env.FOO_BAR);
   });
 });
