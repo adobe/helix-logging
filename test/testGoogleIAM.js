@@ -21,17 +21,18 @@ const {
   getIamPolicy,
   addIamPolicy,
 } = require('../src/google/iam');
+const condit = require('./condit');
 
 describe('Test google.iam', () => {
   if (process.env.CLIENT_EMAIL && process.env.PRIVATE_KEY && process.env.PROJECT_ID) {
-    it('Test successful service account retrieval', async () => {
+    condit('Test successful service account retrieval', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
       const account = await getServiceAccount(process.env.PROJECT_ID, 'foo-bar');
       assert.ok(account);
       assert.equal(account.name, `projects/${process.env.PROJECT_ID}/serviceAccounts/foo-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
     }).timeout(5000);
 
-    it('Test unsuccessful service account retrieval', async () => {
+    condit('Test unsuccessful service account retrieval', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
         const account = await getServiceAccount(process.env.PROJECT_ID, 'foo-baz');
@@ -41,14 +42,14 @@ describe('Test google.iam', () => {
       }
     }).timeout(5000);
 
-    it('Test successful service account creation', async () => {
+    condit('Test successful service account creation', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
       const account = await createServiceAccount(process.env.PROJECT_ID, 'new-bar');
       assert.ok(account);
       assert.equal(account.name, `projects/${process.env.PROJECT_ID}/serviceAccounts/new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
     }).timeout(5000);
 
-    it('Test successful service account key creation', async () => {
+    condit('Test successful service account key creation', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
       const key = await createServiceAccountKey(process.env.PROJECT_ID, 'new-bar');
       assert.ok(key);
@@ -56,7 +57,7 @@ describe('Test google.iam', () => {
       assert.equal(key.private_key.split('\n')[0], '-----BEGIN PRIVATE KEY-----');
     }).timeout(100000);
 
-    it('Test successful service account key creation with resource exhaustion', async () => {
+    condit('Test successful service account key creation with resource exhaustion', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
 
       // there is a limit of ten keys per account. Creating 12 will exceed the limit.
@@ -69,7 +70,7 @@ describe('Test google.iam', () => {
       }
     }).timeout(100000);
 
-    it('Test unsuccessful service account key creation', async () => {
+    condit('Test unsuccessful service account key creation', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
         await createServiceAccountKey('non-existant', 'new-bar');
@@ -79,14 +80,14 @@ describe('Test google.iam', () => {
       }
     }).timeout(10000);
 
-    it('Test successful service account key listing', async () => {
+    condit('Test successful service account key listing', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
       const keys = await listServiceAccountKeys(process.env.PROJECT_ID, 'new-bar');
       assert.ok(keys);
       assert.ok(Array.isArray(keys));
     }).timeout(10000);
 
-    it('Test unsuccessful service account key listing', async () => {
+    condit('Test unsuccessful service account key listing', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
         await listServiceAccountKeys('non-existant', 'new-bar');
@@ -96,7 +97,7 @@ describe('Test google.iam', () => {
       }
     }).timeout(10000);
 
-    it('Test successful service account key deletion', async () => {
+    condit('Test successful service account key deletion', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
 
       await createServiceAccount(process.env.PROJECT_ID, 'test-account');
@@ -116,7 +117,7 @@ describe('Test google.iam', () => {
       assert.notEqual(newkeys.length, keys.length);
     }).timeout(20000);
 
-    it('Test unsuccessful service account key deletion', async () => {
+    condit('Test unsuccessful service account key deletion', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
         await deleteServiceAccountKey('non-existant', 'new-bar', 'totally-made-up');
@@ -126,7 +127,7 @@ describe('Test google.iam', () => {
       }
     }).timeout(10000);
 
-    it('Test successful IAM Policy Retrieval', async () => {
+    condit('Test successful IAM Policy Retrieval', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
       const policy = await getIamPolicy(process.env.PROJECT_ID, 'test_dataset');
       assert.ok(policy);
@@ -134,7 +135,7 @@ describe('Test google.iam', () => {
       assert.ok(Array.isArray(policy.access));
     });
 
-    it('Test unsuccessful IAM Policy Retrieval', async () => {
+    condit('Test unsuccessful IAM Policy Retrieval', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
         await getIamPolicy(process.env.PROJECT_ID, 'missing_dataset');
@@ -144,7 +145,7 @@ describe('Test google.iam', () => {
       }
     });
 
-    it('Test successful IAM Policy Update', async () => {
+    condit('Test successful IAM Policy Update', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
       const policy = await addIamPolicy(process.env.PROJECT_ID, 'test_dataset', 'WRITER', `new-bar@${process.env.PROJECT_ID}.iam.gserviceaccount.com`);
       assert.ok(policy);
@@ -154,7 +155,7 @@ describe('Test google.iam', () => {
       assert.equal(added.length, 1);
     });
 
-    it('Test unsuccessful IAM Policy Update', async () => {
+    condit('Test unsuccessful IAM Policy Update', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
       try {
         await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
         await addIamPolicy(process.env.PROJECT_ID, 'missing_dataset', 'INVALIDROLE', 'not@a.valid.email');
