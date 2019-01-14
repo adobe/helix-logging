@@ -92,6 +92,9 @@ describe('Test google.bigquery', () => {
   });
 
   it('Testing makeFields', () => {
-    assert.deepEqual(makeFields(['foo', 'bar', 'baz']), [{ foo: 'string'}, { bar: 'string'}, { baz: 'string' }]);
+    assert.deepEqual(makeFields(['foo', 'bar', 'baz']), [
+      { name: 'foo', type: 'string'}, 
+      { name: 'bar', type: 'string'}, 
+      { name: 'baz', type: 'string'}, ]);
   });
 });

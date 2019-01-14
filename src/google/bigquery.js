@@ -56,8 +56,10 @@ async function createTable(email, key, project, dataset, name, fields) {
  */
 function makeFields(names) {
   return names.reduce((p, c) => {
-    const col = {};
-    col[c] = 'string';
+    const col = {
+      name: c,
+      type: 'string'
+    };
     return [...p, col];
   }, []);
 }
