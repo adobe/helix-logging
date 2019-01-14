@@ -42,7 +42,6 @@ describe('Test fastly.logs', () => {
 }`,
       name: 'helix-logs',
       project_id: 'fakeproject',
-      response_condition: '',
       table: 'requests',
       template_suffix: '%Y%M',
       secret_key: 'BEGIN_KEY\nfakekey\nEND_KEY',
@@ -53,6 +52,8 @@ describe('Test fastly.logs', () => {
   condit('Test updateFastlyConfig', condit.hasenvs([
     'HLX_FASTLY_AUTH',
     'CLIENT_EMAIL',
+    'PROJECT_ID',
+    'PRIVATE_KEY',
     'HLX_FASTLY_NAMESPACE']), async () => {
     try {
       const result = await updateFastlyConfig(
@@ -60,14 +61,19 @@ describe('Test fastly.logs', () => {
         process.env.HLX_FASTLY_NAMESPACE,
         'helix-logging-test',
         {
-          year: '%Y',
-          month: '%M'
+          year: 'static',
+          month: 'static'
         },
-        process.env.CLIENT_EMAIL
+        process.env.CLIENT_EMAIL,
+        process.env.PROJECT_ID,
+        'test_dataset',
+        'test_logs',
+        '',
+        process.env.PRIVATE_KEY
       );
       assert.ok(result);
     } catch (e) {
       assert.fail(e);
     }
-  }).timeout(5000);
+  }).timeout(10000);
 });

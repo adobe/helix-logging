@@ -26,7 +26,6 @@ function makeConfig(name, patterns, user, project, dataset, table, suffix, key) 
     table,
     template_suffix: suffix,
     secret_key: key,
-    response_condition: '',
   };
 }
 
@@ -56,9 +55,9 @@ async function updateFastlyConfig(
   suffix, 
   key) {
   const fastly = await f(token, service);
-  await fastly.transact(async (version) =>{
-    return fastly.writeBigquery(version, 'helix-logging-test', 
-      makeConfig(name, patterns, user, project, dataset, table, suffix, key));
+  await fastly.transact(async (version) => {
+    const data = makeConfig(name, patterns, user, project, dataset, table, suffix, key);
+    return fastly.writeBigquery(version, name, data);
   });
   return fastly;
 }
