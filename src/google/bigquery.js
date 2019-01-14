@@ -49,7 +49,21 @@ async function createTable(email, key, project, dataset, name, fields) {
   }
 }
 
+/**
+ * Creates a field specification from a list of column names
+ * @param {Array[string]} names
+ * @returns {Object} a field specification for Google Bigquery
+ */
+function makeFields(names) {
+  return names.reduce((p, c) => {
+    const col = {};
+    col[c] = 'string';
+    return Object.assign(p, col);
+  }, {});
+}
+
 module.exports = {
   createDataset,
   createTable,
+  makeFields,
 };

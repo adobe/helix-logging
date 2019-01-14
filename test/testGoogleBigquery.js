@@ -13,7 +13,7 @@
 const assert = require('assert');
 const { BigQuery } = require('@google-cloud/bigquery');
 const { auth } = require('../src/google/auth');
-const { createDataset, createTable } = require('../src/google/bigquery');
+const { createDataset, createTable, makeFields } = require('../src/google/bigquery');
 
 describe('Test google.bigquery', () => {
   if (process.env.CLIENT_EMAIL && process.env.PRIVATE_KEY && process.env.PROJECT_ID) {
@@ -93,4 +93,8 @@ describe('Test google.bigquery', () => {
   } else {
     it.skip('Testing google bigquery (needs authentication)');
   }
+
+  it('Testing makeFields', () => {
+    assert.deepEqual(makeFields(['foo', 'bar', 'baz']), { foo: 'string', bar: 'string', baz: 'string' });
+  });
 });
