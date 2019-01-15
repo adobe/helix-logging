@@ -1,94 +1,112 @@
-# Logger set-up in Fastly
- 
+# Helix Logging Setup Microservice
 
-**Note:** This documentation is still work in progress.
----
+> This is a simple microservice (to be used in conjunction with [Project Helix](https://www.project-helix.io/)) that sets up correct logging for a Project Helix-managed Fastly service config. It makes sure logs will be sent to Google Bigquery.
 
-### The action
+## Usage
 
-The file that is executed is `logger.py`, hence check the following are met:   
-*  Make sure it's executable (`chmod a+x logger.py`).
-*  Make sure it's got the  shebang on line one.
-*  Make sure it runs locally.   
-   *  e.g. `./logger.py '{"tart":"tarty"}'`    
-      produces the JSON dictionary:    
-      `{"allparams": {"tart": "tarty", "myparam": "myparam default"}}`
+Send a POST request with following parameters to `$ curl https://adobeioruntime.net/api/v1/web/helix/default/addlogger`:
 
+* `service`: the Fastly service config ID of the service that should get updated
+* `token`: a Fastly API token that has write permissions on the service above
+* `version`: the version number of a checked out (draft) version of the service config above
 
-### The Dockerfile
+### What happens behind the scenes:
 
-Compare the following with the supplied `Dockerfile` supplied by `$ wsk sdk install docker` to take the Python script `test.py` and make it ready to build the docker image.  
+- the service creates or updates a Google Cloud Platform service account that corresponds to the service config
+- the service creates or rotates the private keys for the service accouny
+- the service creates or updates a Google Bigquery dataset with proper tables
+- the service grants permission to the service user to write the Google Bigquery dataset
+- the service creates or updates a log configuration in Fastly that sends logs to the above Google Bigquery dataset using the private key and service account from above
 
-Hopefully the comments explain the differences. Any assets (data files or modules) in the current directory will become part of the image as will any Python dependencies listed in `requirements.txt`
+## Required Environment Variables
 
-```bash
-# Dockerfile for Python whisk docker action
-FROM openwhisk/dockerskeleton
+This service depends on three external services to operate
 
-ENV FLASK_PROXY_PORT 8080
+- Fastly
+- Adobe I/O Runtime (only for deployments)
+- Google Cloud Platform
 
-# Install our action's Python dependencies
-ADD requirements.txt /action/requirements.txt
-RUN cd /action; pip install -r requirements.txt
+It is configured using a number of environment variables that are required for testing (tests that miss required variables will be skipped) and deployment (deployment will fail or be non-functional). These variables are required and this is how to set them up:
 
-# Ensure source assets are not drawn from the cache 
-# after this date
-ENV REFRESHED_AT 2016-09-05T13:59:39Z
-# Add all source assets
-ADD . /action
-# Rename our executable Python action
-ADD test.py /action/exec
+### `CLIENT_EMAIL`
 
-# Leave CMD as is for Openwhisk
-CMD ["/bin/bash", "-c", "cd actionProxy && python -u actionproxy.py"]
+This is the email address associated with a Google Cloud Platform Service account. It looks like `<name>@<project>.iam.gserviceaccount.com`. You can create a proper service account following [the instructions in the Google Cloud Platform documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) or this step-by-step guide:
+
+1. log in to [Google Cloud Platform Console](https://console.cloud.google.com)
+2. select menu → "IAM & admin" → "Service accounts" → "Create service account"
+3. create the service account
+4. add following roles to the service account:
+   * BigQuery Admin
+   * Service Account Admin
+   * Service Account Key Admin
+   * Service Account Key Admin
+5. create a private key in JSON format for the service account and download the key file
+
+**Note:** The private key file and the value of the `CLIENT_EMAIL` environment variable should be considered private and should never be checked in to source control.
+
+The downloaded file will look something like this:
+
+```json
+{
+  "type": "service_account",
+  "project_id": "project-12345678",
+  "private_key_id": "111122223333aaaabbbbccccdddd123412345",
+  "private_key": "-----BEGIN PRIVATE KEY-----\n…\n-----END PRIVATE KEY-----\n",
+  "client_email": "example-account@project-12345678.iam.gserviceaccount.com",
+  "client_id": "111122223333444456789",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/example-account%40project-12345678.iam.gserviceaccount.com"
+}
 ```
 
-Note the `ENV REFRESHED_AT ...` which I used to make sure that an updated `test.py` was picked up afresh rather than being drawn from the cache when the image is built.
+Copy the value of the `client_email` field (e.g. `example-account@project-12345678.iam.gserviceaccount.com`) and save it in the `CLIENT_EMAIL` environment variable.
 
-## Build and push to Artifactory
+### `PRIVATE_KEY`
 
-```bash
-./buildAndPush.sh helix/log-setup:0.1.0
-```
+This is the private key associated with the Google Cloud Platform Service account created above. In order to retrieve the correct value see [Creating and Managing Service Account Keys in the Google Cloud Platform documentation](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) or continue the step-by-step guide from above:
 
-In the above command, `helix/log-setup:0.1.0` is the name and tag of the local docker image that will be built.
+6. make sure you've followed all steps to get the value of `CLIENT_EMAIL`
+7. copy the value of the `private_key` property in the JSON file you've downloaded
 
+**Note:** The private key and the value of the `PRIVATE_KEY` environment variable should be considered private and should never be checked in to source control.
 
-The `buildAndPush.sh` script does the following:
-* Logs in to Artifactory
-* Builds the Docker image, using the local `Dockerfile` 
-* Pushes the image to Artifactory
-* Prepares the OpenWhisk environment
-* Creates OpenWhisk action `hlx-log` 
+The private key is a multi-line value.
 
+**Note:** Private keys created using an API typically have a short expiration time and need to be rotated in regular intervals. Even for private keys that have been created manually, regular rotation is a best practice.
 
-# Setting up the development environment
+### `PROJECT_ID`
 
-For development, you can set up the development environment on your laptop.
-We're using `python3`.
+This is the Google Cloud Platform project ID. It looks like `project-12345678` and you will find it in lots of places in the Google Cloud Platform Console UI. In addition, you can just take the value of the `project_id` property in your downloaded key JSON file.
 
-The first step is creating a virtual environment:
-```
-# Set up virtualenv.
-virtualenv -p /usr/local/bin/python venv
-source venv/bin/activate
+### `HLX_FASTLY_NAMESPACE`
 
-# Install requirements.
-pip install -r requirements.txt 
-pip install -r requirements_tests.txt
-```
+This property is only required for testing and development. It is the service config ID that you can retrieve from Fastly.
+
+For testing, it is a good idea to use a separate, non-production service config, as the tests not only perform frequent updates, but they also rotate the private keys of the created Google Cloud Platform service accounts. As the tests don't activate the service config, this will lead to an invalid logging configuration in a short time.
+
+### `HLX_FASTLY_AUTH`
+
+This property is only required for testing and development. It is an API token for the Fastly API. Follow the [instructions in the Fastly documentation](https://docs.fastly.com/guides/account-management-and-security/using-api-tokens) to create a token.
+
+The token needs to have `global`, i.e. write access to your service config.
 
 
-### Running the tests
+**Note:** The API token and the value of the `HLX_FASTLY_AUTH` environment variable should be considered private and should never be checked in to source control.
 
-Tests mock API calls to both AWS and Faslty.
-Run the following command in the root directory, for running the tests:  
-```
-(venv) helix(master) $ nosetests
-.
-----------------------------------------------------------------------
-Ran 1 test in 2.139s
+### `VERSION_NUM`
 
-OK
-```
+This is the version number of a version of the service config above that has been checked out, but has never been activated. This means it is editable.
 
+## Developing Helix Logging
+
+You need `node>=8.0.0` and `npm>=5.4.0`. Follow the typical `npm install`, `npm test` workflow.
+
+[Contributions](CONTRIBUTING.md) are highly welcome.
+
+## Deploying Helix Logging
+
+Deploying Helix Logging requires the `wsk` command line client, authenticated to a namespace of your choice. For Project Helix, we use the `helix` namespace.
+
+Run `hlx deploy` to do a one-shot deploment of Helix Logging. All commits to `master` that pass the testing will be deployed automatically.
