@@ -12,7 +12,6 @@
 const addlogger = require('./src/addlogger');
 
 async function main(params) {
-  console.log('adding logger');
   return {
     body: await addlogger(
       params.CLIENT_EMAIL,
@@ -21,7 +20,7 @@ async function main(params) {
       params.token,
       params.PROJECT_ID,
       params.version,
-    )
+    ),
   };
 }
 
