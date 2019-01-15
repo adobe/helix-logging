@@ -18,7 +18,8 @@ async function main(params) {
     params.service,
     params.token,
     params.PROJECT_ID,
-    params.version);
+    params.version,
+  );
 }
 
 

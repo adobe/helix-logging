@@ -52,7 +52,7 @@ const schema = {
   req_http_Referer: '%{req.http.Referer}V',
   req_http_User_Agent: '%{req.http.User-Agent}V',
   resp_http_Content_Type: '%{resp.http.Content-Type}V',
-  service_config: '3l2MjGcHgWw5NUJz7OKYH',
+  service_config: 'undefined',
   status_code: '%>s',
 };
 
@@ -129,7 +129,7 @@ async function addlogger(email, key, service, token, project, version) {
       fastlyClient,
       version,
       logconfigname,
-      schema,
+      Object.assign(schema, { service_config: service }),
       googleKeys.email,
       project,
       dataSet.id,
