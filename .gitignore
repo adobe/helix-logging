@@ -3,6 +3,7 @@ node_modules
 .nyc_output
 coverage
 logs/
+*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

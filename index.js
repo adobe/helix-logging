@@ -9,60 +9,17 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-// const googleapis = require('googleapis');
-// const request = require('request-promise-native');
+const addlogger = require('./src/addlogger');
 
-async function main() {
-  /*
-  await googleapis.google.auth.getClient({
-    // Scopes can be specified either as an array or as a single, space-delimited string.
-    scopes: ['https://www.googleapis.com/auth/cloud-platform'],
-    credentials: {
-      client_email: key.client_email,
-      private_key: key.private_key,
-    },
-  });
-
-  const headers = await googleapis.google.auth.getRequestHeaders(
-    'https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts',
-  );
-
-  try {
-    const response = await request.post(
-      'https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts',
-      {
-        headers,
-        json: true,
-        body: {
-          accountId: 'foo-bar',
-          serviceAccount: {
-            displayName: 'foo-bar Logging Account',
-          },
-        },
-      },
-    );
-
-    console.log(response);
-  } catch (e) {
-    // service account already exists
-
-    const account = await request.get(
-      await googleapis.google.auth.authorizeRequest({
-        uri:
-          'https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts/foo-bar@helix-225321.iam.gserviceaccount.com',
-        json: true,
-      }),
-    );
-
-    console.log(account);
-  }
-
-  const { accounts } = await request.get(
-    'https://iam.googleapis.com/v1/projects/helix-225321/serviceAccounts',
-    { headers, json: true },
-  );
-  console.log(accounts.map(account => account.name));
-  */
+async function main(params) {
+  return addlogger(
+    params.CLIENT_EMAIL,
+    params.PRIVATE_KEY,
+    params.service,
+    params.token,
+    params.PROJECT_ID,
+    params.version);
 }
-/* eslint-disable-next-line no-console */
-main().catch(console.error);
+
+
+module.exports.main = main;
