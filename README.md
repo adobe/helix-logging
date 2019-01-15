@@ -10,6 +10,56 @@ Send a POST request with following parameters to `$ curl https://adobeioruntime.
 * `token`: a Fastly API token that has write permissions on the service above
 * `version`: the version number of a checked out (draft) version of the service config above
 
+```bash
+$ http https://adobeioruntime.net/api/v1/web/helix/default/addlogger service=6E6ge7REhiWetPCqy9jht2 version=2 token=thisismysecret
+{
+    "dataset": "helix_logging_6E6ge7REhiWetPCqy9jht2",
+    "format": {
+        "client_as_name": "%{client.as.name}V",
+        "client_geo_city": "%{client.geo.city.utf8}V",
+        "client_geo_conn_speed": "%{client.geo.conn_speed}V",
+        "client_geo_continent_code": "%{client.geo.continent_code}V",
+        "client_geo_country_code": "%{client.geo.country_code}V",
+        "client_geo_gmt_offset": "%{client.geo.gmt_offset}V",
+        "client_geo_latitude": "%{client.geo.latitude}V",
+        "client_geo_longitude": "%{client.geo.longitude}V",
+        "client_geo_metro_code": "%{client.geo.metro_code}V",
+        "client_geo_postal_code": "%{client.geo.postal_code}V",
+        "client_geo_region": "%{client.geo.region}V",
+        "client_ip_hashed": "%{digest.hash_sha1(client.ip)}V",
+        "client_ip_masked": "%{client.ip}V",
+        "fastly_info_state": "%{fastly_info.state}V",
+        "req_http_Referer": "%{req.http.Referer}V",
+        "req_http_User_Agent": "%{req.http.User-Agent}V",
+        "req_http_X_CDN_Request_ID": "%{req.http.X-CDN-Request-ID}V",
+        "req_http_X_Host": "%{req.http.X-Host}V",
+        "req_http_X_Owner": "%{req.http.X-Owner}V",
+        "req_http_X_Ref": "%{req.http.X-Ref}V",
+        "req_http_X_Repo": "%{req.http.X-Repo}V",
+        "req_http_X_Static": "%{req.http.X-Static}V",
+        "req_http_X_Strain": "%{req.http.X-Strain}V",
+        "req_http_X_URL": "%{req.http.X-URL}V",
+        "req_http_host": "%v",
+        "req_url": "https://%{req.http.X-Host}V%{req.http.X-URL}V",
+        "resp_http_Content_Type": "%{resp.http.Content-Type}V",
+        "resp_http_X_Version": "%{req.http.X-Version}V",
+        "resp_http_x_openwhisk_activation_id": "%{resp.http.x-openwhisk-activation-id}V",
+        "server_datacenter": "%{server.datacenter}V",
+        "server_region": "%{server.region}V",
+        "service_config": "6E6ge7REhiWetPCqy9jht2",
+        "status_code": "%>s",
+        "time_elapsed_usec": "%{time.elapsed.usec}V",
+        "time_end_usec": "%{time.end.usec}V",
+        "time_start_usec": "%{time.start.usec}V",
+        "vcl_sub": "log-general"
+    },
+    "name": "helix-logging",
+    "project": "helix-225321",
+    "service": "6E6ge7REhiWetPCqy9jht2",
+    "version": "2"
+}
+```
+
 ### What happens behind the scenes:
 
 - the service creates or updates a Google Cloud Platform service account that corresponds to the service config
