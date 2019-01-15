@@ -23,7 +23,7 @@ async function createDataset(email, key, project, name) {
     return await bq.createDataset(name);
   } catch (e) {
     if (e.code && e.code === 409 && e.errors && e.errors[0] && e.errors[0].reason && e.errors[0].reason === 'duplicate') {
-      return await bq.dataset(name);
+      return bq.dataset(name);
     }
     throw new Error(`Unable to create dataset ${name}: ${e}`);
   }
