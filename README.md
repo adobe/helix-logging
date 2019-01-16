@@ -63,7 +63,7 @@ $ http https://adobeioruntime.net/api/v1/web/helix/default/addlogger service=6E6
 ### What happens behind the scenes:
 
 - the service creates or updates a Google Cloud Platform service account that corresponds to the service config
-- the service creates or rotates the private keys for the service accouny
+- the service creates or rotates the private keys for the service account
 - the service creates or updates a Google Bigquery dataset with proper tables
 - the service grants permission to the service user to write the Google Bigquery dataset
 - the service creates or updates a log configuration in Fastly that sends logs to the above Google Bigquery dataset using the private key and service account from above
