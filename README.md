@@ -159,4 +159,4 @@ You need `node>=8.0.0` and `npm>=5.4.0`. Follow the typical `npm install`, `npm 
 
 Deploying Helix Logging requires the `wsk` command line client, authenticated to a namespace of your choice. For Project Helix, we use the `helix` namespace.
 
-Run `hlx deploy` to do a one-shot deploment of Helix Logging. All commits to `master` that pass the testing will be deployed automatically.
+Run `npm run deploy` to do a one-shot deploment of Helix Logging. All commits to `master` that pass the testing will be deployed automatically.
