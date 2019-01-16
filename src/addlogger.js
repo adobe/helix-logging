@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const f = require('@adobe/fastly-native-promises');
+const initfastly = require('@adobe/fastly-native-promises');
 const helix = require('@adobe/helix-shared');
 const iam = require('./google/iam');
 const auth = require('./google/auth');
@@ -78,7 +78,7 @@ async function addlogger({
     // do these three things in parallel:
     const [fastlyClient, googleKeys, dataSet] = await Promise.all([(async () => {
       // verify Fastly credentials
-      const Fastly = await f(token, service);
+      const Fastly = await initfastly(token, service);
       const versions = await Fastly.getVersions();
       logger.info(`Successfully authenticated with Fastly. Current version is ${versions.current}`);
       return Fastly;
