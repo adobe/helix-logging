@@ -17,12 +17,15 @@ const condit = require('./condit');
 describe('Test addlogger', () => {
   condit('Test successful logger setup', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'HLX_FASTLY_NAMESPACE', 'HLX_FASTLY_AUTH', 'PROJECT_ID', 'VERSION_NUM']), async () => {
     const res = await addlogger(
-      process.env.CLIENT_EMAIL,
-      process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-      process.env.HLX_FASTLY_NAMESPACE,
-      process.env.HLX_FASTLY_AUTH,
-      process.env.PROJECT_ID,
-      Number.parseInt(process.env.VERSION_NUM, 10),
+      {
+        email: process.env.CLIENT_EMAIL,
+        key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        service: process.env.HLX_FASTLY_NAMESPACE,
+        token: process.env.HLX_FASTLY_AUTH,
+        project: process.env.PROJECT_ID,
+        version: Number.parseInt(process.env.VERSION_NUM, 10),
+      },
+
     );
     assert.ok(res);
     assert.equal();
@@ -30,14 +33,14 @@ describe('Test addlogger', () => {
 
   condit('Test unsuccessful logger setup', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'HLX_FASTLY_NAMESPACE', 'HLX_FASTLY_AUTH', 'PROJECT_ID', 'VERSION_NUM']), async () => {
     try {
-      const logger = await addlogger(
-        'invalid@foo',
-        process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
-        process.env.HLX_FASTLY_NAMESPACE,
-        process.env.HLX_FASTLY_AUTH,
-        process.env.PROJECT_ID,
-        Number.parseInt(process.env.VERSION_NUM, 10),
-      );
+      const logger = await addlogger({
+        email: 'invalid@foo',
+        key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        service: process.env.HLX_FASTLY_NAMESPACE,
+        token: process.env.HLX_FASTLY_AUTH,
+        project: process.env.PROJECT_ID,
+        version: Number.parseInt(process.env.VERSION_NUM, 10),
+      });
       assert.fail(`${logger} should be undefined`);
     } catch (e) {
       assert.ok(e);

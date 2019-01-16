@@ -69,7 +69,9 @@ const logconfigname = 'helix-logging';
  * @param {string} project the Google project ID
  * @param {string} version the Fastly service config version to update
  */
-async function addlogger(email, key, service, token, project, version) {
+async function addlogger({
+  email, key, service, token, project, version,
+}) {
   const logger = helix.Logger.getLogger();
   logger.debug(`Adding logger for service config ${service}`);
   try {

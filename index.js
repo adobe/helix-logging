@@ -13,14 +13,14 @@ const addlogger = require('./src/addlogger');
 
 async function main(params) {
   return {
-    body: await addlogger(
-      params.CLIENT_EMAIL,
-      params.PRIVATE_KEY,
-      params.service,
-      params.token,
-      params.PROJECT_ID,
-      params.version,
-    ),
+    body: await addlogger({
+      email: params.CLIENT_EMAIL,
+      key: params.PRIVATE_KEY,
+      service: params.service,
+      token: params.token,
+      project: params.PROJECT_ID,
+      version: params.version,
+    }),
   };
 }
 
