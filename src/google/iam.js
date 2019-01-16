@@ -54,7 +54,7 @@ async function createServiceAccount(project, name) {
 
     return await request.post(options);
   } catch (e) {
-    if (e.statusCode && e.statusCode === 409) {
+    if (e.statusCode === 409) {
       // account ID already exists
       return getServiceAccount(project, name);
     }
