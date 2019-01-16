@@ -97,10 +97,7 @@ async function deleteServiceAccountKey(name) {
     const result = await request.delete(options);
     return !!(result);
   } catch (e) {
-    if (e.statusCode && e.statusCode !== 400) {
-      throw new Error(`Unable to delete key ${name}: ${e}`);
-    }
-    return true;
+    throw new Error(`Unable to delete key ${name}: ${e}`);
   }
 }
 
