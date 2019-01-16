@@ -75,14 +75,14 @@ async function addlogger({
   const logger = helix.Logger.getLogger();
   logger.debug(`Adding logger for service config ${service}`);
   try {
-    // do these three things in parallel:
-    const [fastlyClient, googleKeys, dataSet] = await Promise.all([(async () => {
+    const authFastly = (async () => {
       // verify Fastly credentials
       const Fastly = await initfastly(token, service);
       const versions = await Fastly.getVersions();
       logger.info(`Successfully authenticated with Fastly. Current version is ${versions.current}`);
       return Fastly;
-    })(), (async () => {
+    });
+    const createGoogleKey = (async () => {
       // create Google Service Account, and Key
       await auth.auth(email, key);
       const accountname = `hlx-${service}`.toLocaleLowerCase();
@@ -91,25 +91,20 @@ async function addlogger({
       logger.debug(`Creating new service account key for ${account.name}`);
       const {
         /* eslint-disable camelcase */
-        private_key_id,
-        client_email,
-        private_key,
+        private_key_id, client_email, private_key,
       } = await iam.createServiceAccountKey(project, accountname);
       logger.info(`Successfully created service account key ${private_key_id} for ${client_email}`);
-
       return {
         key: private_key,
         email: client_email,
       };
-      /* eslint-enable camelcase */
-    })(), (async () => {
+    });
+    const createGoogleTable = (async () => {
       // create Google BigQuery Dataset, and Table
       await auth.auth(email, key);
       const datasetname = `helix_logging_${service}`;
-
       const dataset = await bigquery.createDataset(email, key, project, datasetname);
       logger.debug(`Successfully created Google Bigquery dataset ${dataset.id || datasetname}`);
-
       const table = await bigquery.createTable(
         email,
         key,
@@ -119,9 +114,16 @@ async function addlogger({
         bigquery.makeFields(Object.keys(schema)),
       );
       logger.info(`Successfully created Google Bigquery table ${table.id} in ${datasetname}`);
-
       return dataset;
-    })()]);
+    });
+    // do these three things in parallel:
+    const [
+      fastlyClient,
+      googleKeys,
+      dataSet] = await Promise.all([
+      authFastly(),
+      createGoogleKey(),
+      createGoogleTable()]);
 
     logger.debug(`Setting up permissions for ${googleKeys.email} on ${dataSet.id}`);
     await iam.addIamPolicy(project, dataSet.id, 'WRITER', googleKeys.email);
