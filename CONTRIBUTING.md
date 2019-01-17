@@ -49,6 +49,8 @@ We enforce a coding styleguide using `eslint`. As part of your build, run `npm r
 
 You can fix some of the issues automatically by running `npx eslint . --fix`.
 
+All code must be tested and tests with less than 100% line, branch, and statement coverage are considered failing.
+
 # How Contributions get Reviewed
 
 One of the maintainers will look at the pull request within one week.
