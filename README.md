@@ -1,5 +1,7 @@
 # Helix Logging Setup Microservice
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/adobe/helix-logging.svg)](https://greenkeeper.io/)
+
 > This is a simple microservice (to be used in conjunction with [Project Helix](https://www.project-helix.io/)) that sets up correct logging for a Project Helix-managed Fastly service config. It makes sure logs will be sent to Google Bigquery.
 
 ## Usage
