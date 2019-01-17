@@ -13,7 +13,7 @@ Send a POST request with following parameters to `$ curl https://adobeioruntime.
 * `version`: the version number of a checked out (draft) version of the service config above
 
 ```bash
-$ http https://adobeioruntime.net/api/v1/web/helix/default/addlogger service=6E6ge7REhiWetPCqy9jht2 version=2 token=thisismysecret
+$ curl -X POST -H "Content-Type: application/json" -d '{"service":"6E6ge7REhiWetPCqy9jht2","version":2,"token":"thisismysecret"}'
 {
     "dataset": "helix_logging_6E6ge7REhiWetPCqy9jht2",
     "format": {
