@@ -1,5 +1,12 @@
 # Helix Logging Setup Microservice
 
+[![Known Vulnerabilities](https://snyk.io/test/github/adobe/helix-logging/badge.svg?targetFile=package.json)](https://snyk.io/test/github/adobe/helix-logging?targetFile=package.json)
+[![codecov](https://img.shields.io/codecov/c/github/adobe/helix-logging.svg)](https://codecov.io/gh/adobe/helix-logging)
+[![CircleCI](https://img.shields.io/circleci/project/github/adobe/helix-logging.svg)](https://circleci.com/gh/adobe/helix-logging)
+[![GitHub license](https://img.shields.io/github/license/adobe/helix-logging.svg)](https://github.com/adobe/helix-logging/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/adobe/helix-logging.svg)](https://github.com/adobe/helix-logging/issues) [![Greenkeeper badge](https://badges.greenkeeper.io/adobe/helix-logging.svg)](https://greenkeeper.io/)
+
+
 > This is a simple microservice (to be used in conjunction with [Project Helix](https://www.project-helix.io/)) that sets up correct logging for a Project Helix-managed Fastly service config. It makes sure logs will be sent to Google Bigquery.
 
 ## Usage
