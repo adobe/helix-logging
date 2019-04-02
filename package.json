@@ -29,7 +29,7 @@
   "dependencies": {
     "@adobe/fastly-native-promises": "^1.1.2",
     "@adobe/helix-shared": "^0.6.2",
-    "@google-cloud/bigquery": "^2.0.5",
+    "@google-cloud/bigquery": "^3.0.0",
     "googleapis": "^36.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
