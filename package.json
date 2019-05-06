@@ -10,7 +10,7 @@
     "preversion": "npm run junit",
     "postversion": "git push origin master --follow-tags",
     "zip": "npm ls --prod --parseable | grep node_modules | sed -e 's/.*node_modules/node_modules/' | xargs zip addlogger.zip -r src package.json index.js",
-    "deploy": "npm run zip && wsk action update addlogger addlogger.zip --kind nodejs:8 --web true --web-secure false --timeout 60000 -p CLIENT_EMAIL $CLIENT_EMAIL -p PRIVATE_KEY \"$PRIVATE_KEY\" -p PROJECT_ID $PROJECT_ID", 
+    "deploy": "npm run zip && wsk action update addlogger addlogger.zip --kind nodejs:10 --web true --web-secure false --timeout 60000 -p CLIENT_EMAIL $CLIENT_EMAIL -p PRIVATE_KEY \"$PRIVATE_KEY\" -p PROJECT_ID $PROJECT_ID",
     "delete-git-tag": "git tag -d v$npm_package_version && git push origin :v$npm_package_version"
   },
   "directories": {
@@ -28,8 +28,8 @@
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
     "@adobe/fastly-native-promises": "^1.1.2",
-    "@adobe/helix-shared": "^0.6.2",
     "@google-cloud/bigquery": "^3.0.0",
+    "@adobe/helix-shared": "^1.0.1",
     "googleapis": "^36.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
@@ -48,6 +48,6 @@
     "mocha": "^6.0.0",
     "mocha-junit-reporter": "^1.17.0",
     "mocha-parallel-tests": "^2.0.3",
-    "nyc": "^13.0.1"
+    "nyc": "^14.0.0"
   }
 }
