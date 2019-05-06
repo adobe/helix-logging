@@ -28,8 +28,8 @@
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
     "@adobe/fastly-native-promises": "^1.1.2",
+    "@google-cloud/bigquery": "^3.0.0",
     "@adobe/helix-shared": "^1.0.1",
-    "@google-cloud/bigquery": "^2.0.5",
     "googleapis": "^39.2.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
