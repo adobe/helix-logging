@@ -9,25 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const addlogger = require('./src/addlogger');
-const status = require('./src/status');
+/* eslint-env mocha */
+const assert = require('assert');
+const status = require('../src/status');
 
-async function main(params) {
-  // eslint-disable-next-line no-underscore-dangle
-  if (params.__ow_method === 'get') {
-    return status();
-  }
-  return {
-    body: await addlogger({
-      email: params.CLIENT_EMAIL,
-      key: params.PRIVATE_KEY,
-      service: params.service,
-      token: params.token,
-      project: params.PROJECT_ID,
-      version: params.version,
-    }),
-  };
-}
-
-
-module.exports.main = main;
+describe('Test status', () => {
+  it('Returns XML', async () => {
+    assert.equal((await status()).body.indexOf('<'), 0);
+  }).timeout(5000);
+});
