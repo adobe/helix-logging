@@ -15,11 +15,27 @@ const { version } = require('../package.json');
 module.exports = async () => {
   const start = Date.now();
 
-  await Promise.all([
-    request.get('https://api.fastly.com/docs'),
-    request.get('https://iam.googleapis.com/$discovery/rest?version=v1'),
-    request.get('https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest'),
-  ]);
+  try {
+    await Promise.all([
+      request.get('https://api.fastly.com/docs'),
+      request.get('https://iam.googleapis.com/$discovery/rest?version=v1'),
+      request.get('https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest'),
+    ]);
+  } catch (err) {
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/xml',
+        'X-Version': version,
+        'Cache-Control': 'no-store, private, must-revalidate',
+      },
+      body: `<pingdom_http_custom_check>
+              <status>Error: ${err}</status>
+              <version>${version}</version>
+              <response_time>${Math.abs(Date.now() - start)}</response_time>
+          </pingdom_http_custom_check>`,
+    };
+  }
 
   return {
     statusCode: 200,
