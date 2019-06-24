@@ -23,7 +23,7 @@ module.exports = async () => {
     ]);
   } catch (err) {
     return {
-      statusCode: 200,
+      statusCode: 503,
       headers: {
         'Content-Type': 'application/xml',
         'X-Version': version,
