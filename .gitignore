@@ -51,5 +51,6 @@ ENV/
 # Rope project settings
 .ropeproject
 .idea
+.vscode
 .logs
 .DS_Store
