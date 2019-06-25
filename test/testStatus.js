@@ -11,10 +11,25 @@
  */
 /* eslint-env mocha */
 const assert = require('assert');
+const nock = require('nock');
 const status = require('../src/status');
 
 describe('Test status', () => {
   it('Returns XML', async () => {
     assert.equal((await status()).body.indexOf('<'), 0);
   }).timeout(5000);
+
+  it('Returns XML with statusCode 503 for network errors', async () => {
+    nock.disableNetConnect();
+    try {
+      const { statusCode, headers, body } = await status();
+      assert.equal(statusCode, 503);
+      assert.equal(headers['Content-Type'], 'application/xml');
+      assert.equal(body.indexOf('<'), 0);
+    } finally {
+      // reset nock
+      nock.cleanAll();
+      nock.enableNetConnect();
+    }
+  });
 });
