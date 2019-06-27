@@ -11,7 +11,7 @@
  */
 
 const { wrap } = require('@adobe/helix-pingdom-status');
-// const { openWhiskWrapper } = require('epsagon');
+const { openWhiskWrapper } = require('epsagon');
 const addlogger = require('./src/addlogger');
 
 async function main(params) {
@@ -28,7 +28,11 @@ async function main(params) {
 }
 
 
-module.exports.main = wrap(main, {
+module.exports.main = wrap(openWhiskWrapper(main, {
+  token_param: 'EPSAGON_TOKEN',
+  appName: 'Helix Services',
+  metadataOnly: false, // Optional, send more trace data
+}), {
   fastly: 'https://api.fastly.com/docs',
   googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
   googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
