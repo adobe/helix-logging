@@ -11,7 +11,7 @@
 
 ## Usage
 
-Send a POST request with following parameters to `$ curl https://adobeioruntime.net/api/v1/web/helix/default/addlogger`:
+Send a POST request with following parameters to `$ curl https://adobeioruntime.net/api/v1/web/helix/helix-services/logging@v1`:
 
 * `service`: the Fastly service config ID of the service that should get updated
 * `token`: a Fastly API token that has write permissions on the service above
