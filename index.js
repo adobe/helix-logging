@@ -9,14 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
+const { wrap } = require('@adobe/helix-pingdom-status');
+const { openWhiskWrapper } = require('epsagon');
 const addlogger = require('./src/addlogger');
-const status = require('./src/status');
 
 async function main(params) {
-  // eslint-disable-next-line no-underscore-dangle
-  if (params.__ow_method === 'get') {
-    return status();
-  }
   return {
     body: await addlogger({
       email: params.CLIENT_EMAIL,
@@ -30,4 +28,12 @@ async function main(params) {
 }
 
 
-module.exports.main = main;
+module.exports.main = wrap(openWhiskWrapper(main, {
+  token_param: 'EPSAGON_TOKEN',
+  appName: 'Helix Services',
+  metadataOnly: false, // Optional, send more trace data
+}), {
+  fastly: 'https://api.fastly.com/docs',
+  googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
+  googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
+});
