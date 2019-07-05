@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/adobe/helix-logging/compare/v1.0.0...v1.0.1) (2019-07-05)
+
+
+### Bug Fixes
+
+* **package:** use latest pingdom-status 1.4.1 ([39d8baa](https://github.com/adobe/helix-logging/commit/39d8baa))
+
 # 1.0.0 (2019-06-28)
 
 
