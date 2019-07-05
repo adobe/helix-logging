@@ -12,7 +12,9 @@
     "lint": "./node_modules/.bin/eslint .",
     "junit": "mocha --exit -R mocha-junit-reporter",
     "build": "wsk-builder -v --entryFile index.js",
-    "deploy": "wsk-builder -v --deploy --test --entryFile index.js"
+    "deploy": "wsk-builder -v --deploy --test --entryFile index.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "directories": {
     "test": "tests"
@@ -35,7 +37,8 @@
     "epsagon": "^1.27.2",
     "googleapis": "^40.0.0",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "@adobe/openwhisk-action-builder": "^1.1.0",
@@ -64,5 +67,6 @@
   },
   "wsk": {
     "name": "helix-services/logging@1.0.0"
-  }
+  },
+  "snyk": true
 }
