@@ -41,7 +41,7 @@
     "snyk": "^1.189.0"
   },
   "devDependencies": {
-    "@adobe/openwhisk-action-builder": "^1.1.0",
+    "@adobe/openwhisk-action-builder": "^1.1.1",
     "@semantic-release/changelog": "^3.0.4",
     "@semantic-release/commit-analyzer": "^6.2.0",
     "@semantic-release/exec": "^3.3.5",
