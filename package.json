@@ -38,7 +38,7 @@
     "googleapis": "^40.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
-    "snyk": "^1.189.0"
+    "snyk": "^1.192.0"
   },
   "devDependencies": {
     "@adobe/openwhisk-action-builder": "^1.1.0",

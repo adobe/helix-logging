@@ -12,3 +12,25 @@ patch:
         patched: '2019-07-04T05:40:33.686Z'
     - '@adobe/helix-shared > winston > async > lodash':
         patched: '2019-07-04T05:40:33.686Z'
+    - snyk > inquirer > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > snyk-nodejs-lockfile-parser > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > snyk-mvn-plugin > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > snyk-config > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > snyk-nuget-plugin > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > @snyk/dep-graph > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > snyk-nodejs-lockfile-parser > graphlib > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > @snyk/dep-graph > graphlib > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
+    - snyk > snyk-php-plugin > @snyk/composer-lockfile-parser > lodash:
+        patched: '2019-07-05T05:33:31.015Z'
