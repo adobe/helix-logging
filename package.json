@@ -1,6 +1,6 @@
 {
   "name": "@adobe/helix-logging",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An OpenWhisk Action that sets up logging to Google BigQuery for a Fastly Service Config",
   "main": "index.js",
   "scripts": {
@@ -69,7 +69,7 @@
     "semantic-release": "^15.13.18"
   },
   "wsk": {
-    "name": "helix-services/logging@1.1.0"
+    "name": "helix-services/logging@1.1.1"
   },
   "snyk": true
 }
