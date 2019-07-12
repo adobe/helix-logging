@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/adobe/helix-logging/compare/v1.0.1...v1.1.0) (2019-07-12)
+
+
+### Features
+
+* **index:** conditional epsagon instrumentation [#51](https://github.com/adobe/helix-logging/issues/51) ([da08a27](https://github.com/adobe/helix-logging/commit/da08a27))
+
 ## [1.0.1](https://github.com/adobe/helix-logging/compare/v1.0.0...v1.0.1) (2019-07-05)
 
 
