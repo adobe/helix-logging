@@ -11,10 +11,9 @@
  */
 
 const { wrap } = require('@adobe/helix-pingdom-status');
-const { openWhiskWrapper } = require('epsagon');
 const addlogger = require('./src/addlogger');
 
-async function main(params) {
+async function setupLogger(params) {
   return {
     body: await addlogger({
       email: params.CLIENT_EMAIL,
@@ -27,13 +26,47 @@ async function main(params) {
   };
 }
 
+/**
+ * Runs the action by wrapping the `setupLogger` function with the pingdom-status utility.
+ * Additionally, if a EPSAGON_TOKEN is configured, the epsagon tracers are instrumented.
+ * @param params Action params
+ * @returns {Promise<*>} The response
+ */
+async function run(params) {
+  let action = setupLogger;
+  if (params && params.EPSAGON_TOKEN) {
+    // ensure that epsagon is only required, if a token is present. this is to avoid invoking their
+    // patchers otherwise.
+    // eslint-disable-next-line global-require
+    const { openWhiskWrapper } = require('epsagon');
+    action = openWhiskWrapper(action, {
+      token_param: 'EPSAGON_TOKEN',
+      appName: 'Helix Services',
+      metadataOnly: false, // Optional, send more trace data
+    });
+  }
+  return wrap(action, {
+    fastly: 'https://api.fastly.com/docs',
+    googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
+    googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
+  })(params);
+}
 
-module.exports.main = wrap(openWhiskWrapper(main, {
-  token_param: 'EPSAGON_TOKEN',
-  appName: 'Helix Services',
-  metadataOnly: false, // Optional, send more trace data
-}), {
-  fastly: 'https://api.fastly.com/docs',
-  googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
-  googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
-});
+/**
+ * Main function called by the openwhisk invoker.
+ * @param params Action params
+ * @returns {Promise<*>} The response
+ */
+async function main(params) {
+  try {
+    return await run(params);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+    return {
+      statusCode: e.statusCode || 500,
+    };
+  }
+}
+
+module.exports.main = main;
