@@ -33,7 +33,7 @@
   "dependencies": {
     "@adobe/fastly-native-promises": "^1.1.2",
     "@adobe/helix-pingdom-status": "^1.4.3",
-    "@adobe/helix-shared": "^1.0.1",
+    "@adobe/helix-shared": "^2.0.0",
     "@google-cloud/bigquery": "^4.0.0",
     "epsagon": "^1.27.2",
     "googleapis": "^41.0.0",
