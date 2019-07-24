@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/adobe/helix-logging/compare/v1.1.2...v1.1.3) (2019-07-24)
+
+
+### Bug Fixes
+
+* **package:** update @adobe/helix-pingdom-status to version 2.0.0 ([6bd1b31](https://github.com/adobe/helix-logging/commit/6bd1b31))
+
 ## [1.1.2](https://github.com/adobe/helix-logging/compare/v1.1.1...v1.1.2) (2019-07-17)
 
 
