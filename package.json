@@ -35,7 +35,7 @@
     "@adobe/helix-shared": "^2.1.1",
     "@google-cloud/bigquery": "^4.1.5",
     "epsagon": "^1.31.2",
-    "googleapis": "^41.0.1",
+    "googleapis": "^42.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "snyk": "^1.199.0"
