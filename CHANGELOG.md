@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/adobe/helix-logging/compare/v1.1.5...v1.1.6) (2019-08-01)
+
+
+### Bug Fixes
+
+* **monitoring:** mask sensitive parameters from Epsagon ([#71](https://github.com/adobe/helix-logging/issues/71)) ([6bd2170](https://github.com/adobe/helix-logging/commit/6bd2170))
+
 ## [1.1.5](https://github.com/adobe/helix-logging/compare/v1.1.4...v1.1.5) (2019-07-26)
 
 
