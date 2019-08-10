@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Adobe. All rights reserved.
+ * Copyright 2019 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License. You may obtain a copy
  * of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -11,7 +11,7 @@
  */
 
 const { wrap } = require('@adobe/helix-pingdom-status');
-const addlogger = require('./src/addlogger');
+const addlogger = require('./addlogger');
 
 async function setupLogger(params) {
   return {
@@ -43,6 +43,7 @@ async function run(params) {
       token_param: 'EPSAGON_TOKEN',
       appName: 'Helix Services',
       metadataOnly: false, // Optional, send more trace data
+      ignoredKeys: ['EPSAGON_TOKEN', 'token', 'PRIVATE_KEY'],
     });
   }
   return wrap(action, {
