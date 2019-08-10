@@ -54,3 +54,4 @@ ENV/
 .vscode
 .logs
 .DS_Store
+dist
