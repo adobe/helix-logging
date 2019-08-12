@@ -132,7 +132,7 @@ async function createServiceAccountKey(project, name, retry = true) {
       const keys = await listServiceAccountKeys(project, name);
 
       // only delete the two oldest keys
-      const deletekeys = keys.slice(0, 4).map(key => key.name).map(deleteServiceAccountKey);
+      const deletekeys = keys.slice(0, 4).map((key) => key.name).map(deleteServiceAccountKey);
 
       // wait for deletion to complete
       return Promise.all(deletekeys).then(again).catch(again);

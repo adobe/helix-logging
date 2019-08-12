@@ -86,7 +86,7 @@ async function updateFastlyConfig(
   key,
 ) {
   const fastly = await f(token, service);
-  await fastly.transact(async version => updateFastlyVersion(
+  await fastly.transact(async (version) => updateFastlyVersion(
     fastly,
     version,
     name,
