@@ -17,31 +17,31 @@ const { createDataset, createTable, makeFields } = require('../src/google/bigque
 const condit = require('./condit');
 
 describe('Test google.bigquery', () => {
-  condit('Testing authentication', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
-    const credentials = await auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'));
+  condit('Testing authentication', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID']), async () => {
+    const credentials = await auth(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'));
     const bq = new BigQuery({
-      projectId: process.env.PROJECT_ID,
+      projectId: process.env.GOOGLE_PROJECT_ID,
       credentials,
     });
     assert.ok(bq);
   });
 
-  condit('Testing unsuccessful data set creation', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
+  condit('Testing unsuccessful data set creation', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID']), async () => {
     try {
-      const dataset = await createDataset(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.PROJECT_ID, 'test-dataset');
+      const dataset = await createDataset(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.GOOGLE_PROJECT_ID, 'test-dataset');
       assert.fail('dataset is invalid', dataset);
     } catch (e) {
       assert.ok(e);
     }
   });
 
-  condit('Testing successful data set creation', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
-    const dataset = await createDataset(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.PROJECT_ID, 'test_dataset');
+  condit('Testing successful data set creation', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID']), async () => {
+    const dataset = await createDataset(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.GOOGLE_PROJECT_ID, 'test_dataset');
     assert.ok(dataset);
   });
 
-  condit('Testing successful table creation', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
-    const dataset = await createTable(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.PROJECT_ID, 'test_dataset', 'test_logs', [
+  condit('Testing successful table creation', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID']), async () => {
+    const dataset = await createTable(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.GOOGLE_PROJECT_ID, 'test_dataset', 'test_logs', [
       { name: 'client_as_name', type: 'string' },
       { name: 'client_geo_city', type: 'string' },
       { name: 'client_geo_conn_speed', type: 'string' },
@@ -82,9 +82,9 @@ describe('Test google.bigquery', () => {
     assert.ok(dataset);
   });
 
-  condit('Testing unsuccessful table creation', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'PROJECT_ID']), async () => {
+  condit('Testing unsuccessful table creation', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID']), async () => {
     try {
-      const table = await createTable(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.PROJECT_ID, 'test_dataset', 'illegal-table');
+      const table = await createTable(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.GOOGLE_PROJECT_ID, 'test_dataset', 'illegal-table');
       assert.fail(table);
     } catch (e) {
       assert.ok(e);

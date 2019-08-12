@@ -51,9 +51,9 @@ describe('Test fastly.logs', () => {
 
   condit('Test updateFastlyConfig', condit.hasenvs([
     'HLX_FASTLY_AUTH',
-    'CLIENT_EMAIL',
-    'PROJECT_ID',
-    'PRIVATE_KEY',
+    'GOOGLE_CLIENT_EMAIL',
+    'GOOGLE_PROJECT_ID',
+    'GOOGLE_PRIVATE_KEY',
     'HLX_FASTLY_NAMESPACE']), async () => {
     try {
       const result = await updateFastlyConfig(
@@ -64,12 +64,12 @@ describe('Test fastly.logs', () => {
           year: 'static',
           month: 'static',
         },
-        process.env.CLIENT_EMAIL,
-        process.env.PROJECT_ID,
+        process.env.GOOGLE_CLIENT_EMAIL,
+        process.env.GOOGLE_PROJECT_ID,
         'test_dataset',
         'test_logs',
         '',
-        process.env.PRIVATE_KEY,
+        process.env.GOOGLE_PRIVATE_KEY,
       );
       assert.ok(result);
     } catch (e) {
