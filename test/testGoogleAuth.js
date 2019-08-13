@@ -14,8 +14,8 @@ const { auth } = require('../src/google/auth');
 const condit = require('./condit');
 
 describe('Test google.auth', () => {
-  condit('Test successful authentication', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY']), (done) => {
-    auth(process.env.CLIENT_EMAIL, process.env.PRIVATE_KEY.replace(/\\n/g, '\n'))
+  condit('Test successful authentication', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY']), (done) => {
+    auth(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'))
       .then(() => done())
       .catch(done);
   });

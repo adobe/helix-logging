@@ -14,15 +14,23 @@ const assert = require('assert');
 const addlogger = require('../src/addlogger');
 const condit = require('./condit');
 
+const CI_ENVVAR_NAMES = [
+  'GOOGLE_CLIENT_EMAIL',
+  'GOOGLE_PRIVATE_KEY',
+  'GOOGLE_PROJECT_ID',
+  'HLX_FASTLY_NAMESPACE',
+  'HLX_FASTLY_AUTH',
+  'VERSION_NUM'];
+
 describe('Test addlogger', () => {
-  condit('Test successful logger setup', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'HLX_FASTLY_NAMESPACE', 'HLX_FASTLY_AUTH', 'PROJECT_ID', 'VERSION_NUM']), async () => {
+  condit('Test successful logger setup', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
     const res = await addlogger(
       {
-        email: process.env.CLIENT_EMAIL,
-        key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        email: process.env.GOOGLE_CLIENT_EMAIL,
+        key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
         service: process.env.HLX_FASTLY_NAMESPACE,
         token: process.env.HLX_FASTLY_AUTH,
-        project: process.env.PROJECT_ID,
+        project: process.env.GOOGLE_PROJECT_ID,
         version: Number.parseInt(process.env.VERSION_NUM, 10),
       },
 
@@ -31,14 +39,14 @@ describe('Test addlogger', () => {
     assert.equal();
   }).timeout(60000);
 
-  condit('Test unsuccessful logger setup', condit.hasenvs(['CLIENT_EMAIL', 'PRIVATE_KEY', 'HLX_FASTLY_NAMESPACE', 'HLX_FASTLY_AUTH', 'PROJECT_ID', 'VERSION_NUM']), async () => {
+  condit('Test unsuccessful logger setup', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
     try {
       const logger = await addlogger({
         email: 'invalid@foo',
-        key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+        key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
         service: process.env.HLX_FASTLY_NAMESPACE,
         token: process.env.HLX_FASTLY_AUTH,
-        project: process.env.PROJECT_ID,
+        project: process.env.GOOGLE_PROJECT_ID,
         version: Number.parseInt(process.env.VERSION_NUM, 10),
       });
       assert.fail(`${logger} should be undefined`);
