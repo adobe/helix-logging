@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/adobe/helix-logging/compare/v1.1.6...v1.1.7) (2019-08-13)
+
+
+### Bug Fixes
+
+* **params:** rename google specific params ([#77](https://github.com/adobe/helix-logging/issues/77)) ([8593772](https://github.com/adobe/helix-logging/commit/8593772)), closes [#76](https://github.com/adobe/helix-logging/issues/76)
+
 ## [1.1.6](https://github.com/adobe/helix-logging/compare/v1.1.5...v1.1.6) (2019-08-01)
 
 
