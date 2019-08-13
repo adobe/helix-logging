@@ -16,11 +16,11 @@ const addlogger = require('./addlogger');
 async function setupLogger(params) {
   return {
     body: await addlogger({
-      email: params.CLIENT_EMAIL,
-      key: params.PRIVATE_KEY,
+      email: params.GOOGLE_CLIENT_EMAIL,
+      key: params.GOOGLE_PRIVATE_KEY,
       service: params.service,
       token: params.token,
-      project: params.PROJECT_ID,
+      project: params.GOOGLE_PROJECT_ID,
       version: params.version,
     }),
   };
@@ -43,7 +43,7 @@ async function run(params) {
       token_param: 'EPSAGON_TOKEN',
       appName: 'Helix Services',
       metadataOnly: false, // Optional, send more trace data
-      ignoredKeys: ['EPSAGON_TOKEN', 'token', 'PRIVATE_KEY'],
+      ignoredKeys: ['EPSAGON_TOKEN', 'token', 'GOOGLE_PRIVATE_KEY'],
     });
   }
   return wrap(action, {
