@@ -11,7 +11,7 @@
  */
 /* eslint-env mocha */
 const { auth } = require('../src/google/auth');
-const condit = require('./condit');
+const { condit } = require('@adobe/helix-testutils');
 
 describe('Test google.auth', () => {
   condit('Test successful authentication', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY']), (done) => {

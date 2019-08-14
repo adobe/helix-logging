@@ -21,7 +21,7 @@ const {
   getIamPolicy,
   addIamPolicy,
 } = require('../src/google/iam');
-const condit = require('./condit');
+const { condit } = require('@adobe/helix-testutils');
 
 const GOOGLE_CI_ENV_NAMES = ['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID'];
 

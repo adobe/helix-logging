@@ -14,7 +14,7 @@ const assert = require('assert');
 const { BigQuery } = require('@google-cloud/bigquery');
 const { auth } = require('../src/google/auth');
 const { createDataset, createTable, makeFields } = require('../src/google/bigquery');
-const condit = require('./condit');
+const { condit } = require('@adobe/helix-testutils');
 
 describe('Test google.bigquery', () => {
   condit('Testing authentication', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID']), async () => {
