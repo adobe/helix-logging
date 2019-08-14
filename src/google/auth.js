@@ -24,14 +24,17 @@ async function auth(email, key) {
       client_email: email,
       private_key: key,
     };
-    await google.auth.getClient({
+
+    const auth = new google.auth.GoogleAuth({
       // Scopes can be specified either as an array or as a single, space-delimited string.
       scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/bigquery'],
       credentials,
     });
 
+    await auth.getClient();
+
     // verifying that the credentials are valid
-    await google.auth.getRequestHeaders(
+    await auth.getRequestHeaders(
       'https://iam.googleapis.com/v1/',
     );
 
