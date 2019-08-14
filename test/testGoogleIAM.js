@@ -11,6 +11,7 @@
  */
 /* eslint-env mocha */
 const assert = require('assert');
+const { condit } = require('@adobe/helix-testutils');
 const { googleauth } = require('../src/google/auth');
 const {
   createServiceAccount,
@@ -21,7 +22,6 @@ const {
   getIamPolicy,
   addIamPolicy,
 } = require('../src/google/iam');
-const { condit } = require('@adobe/helix-testutils');
 
 const GOOGLE_CI_ENV_NAMES = ['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID'];
 

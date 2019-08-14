@@ -11,8 +11,8 @@
  */
 /* eslint-env mocha */
 const assert = require('assert');
-const addlogger = require('../src/addlogger');
 const { condit } = require('@adobe/helix-testutils');
+const addlogger = require('../src/addlogger');
 
 const CI_ENVVAR_NAMES = [
   'GOOGLE_CLIENT_EMAIL',
