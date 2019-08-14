@@ -11,6 +11,29 @@
  */
 const { google } = require('googleapis');
 
+
+async function googleauth(email, key) {
+  const credentials = {
+    client_email: email,
+    private_key: key,
+  };
+
+  const gauth = new google.auth.GoogleAuth({
+    // Scopes can be specified either as an array or as a single, space-delimited string.
+    scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/bigquery'],
+    credentials,
+  });
+
+  await gauth.getClient();
+
+  // verifying that the credentials are valid
+  await gauth.getRequestHeaders(
+    'https://iam.googleapis.com/v1/',
+  );
+
+  return gauth;
+}
+
 /**
  *
  * @param {String} email the email of the service account to use for all subsequent requests
@@ -18,25 +41,12 @@ const { google } = require('googleapis');
  */
 async function auth(email, key) {
   try {
-    google.auth.cachedCredential = null;
-
     const credentials = {
       client_email: email,
       private_key: key,
     };
 
-    const auth = new google.auth.GoogleAuth({
-      // Scopes can be specified either as an array or as a single, space-delimited string.
-      scopes: ['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/bigquery'],
-      credentials,
-    });
-
-    await auth.getClient();
-
-    // verifying that the credentials are valid
-    await auth.getRequestHeaders(
-      'https://iam.googleapis.com/v1/',
-    );
+    await googleauth(email, key);
 
     return credentials;
   } catch (e) {
@@ -48,5 +58,5 @@ Service Account in the Google Cloud Platform Console under IAM.`);
 }
 
 module.exports = {
-  auth,
+  auth, googleauth,
 };
