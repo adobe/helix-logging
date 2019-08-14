@@ -14,8 +14,7 @@
     "build": "wsk-builder -v --entryFile index.js",
     "deploy": "wsk-builder -v --deploy --test=/_status_check/pingdom.xml",
     "deploy-sequences": "wsk-builder --no-build -no-hints -l latest -l major -l minor",
-    "deploy-ci": "wsk-builder -v --deploy --test=/_status_check/pingdom.xml --pkgVersion=ci$CIRCLE_BUILD_NUM -l ci",
-    "prepare": ""
+    "deploy-ci": "wsk-builder -v --deploy --test=/_status_check/pingdom.xml --pkgVersion=ci$CIRCLE_BUILD_NUM -l ci"
   },
   "directories": {
     "test": "tests"
@@ -38,7 +37,7 @@
     "epsagon": "^1.32.0",
     "googleapis": "^41.0.1",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
+    "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
     "@adobe/eslint-config-helix": "^1.0.0",
@@ -65,6 +64,5 @@
   },
   "wsk": {
     "name": "helix-services/logging@${version}"
-  },
-  "snyk": true
+  }
 }
