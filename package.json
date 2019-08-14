@@ -15,8 +15,7 @@
     "deploy": "wsk-builder -v --deploy --test=/_status_check/pingdom.xml",
     "deploy-sequences": "wsk-builder --no-build -no-hints -l latest -l major -l minor",
     "deploy-ci": "wsk-builder -v --deploy --test=/_status_check/pingdom.xml --pkgVersion=ci$CIRCLE_BUILD_NUM -l ci",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "prepare": ""
   },
   "directories": {
     "test": "tests"
@@ -40,7 +39,6 @@
     "googleapis": "^41.0.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
-    "snyk": "^1.216.0"
   },
   "devDependencies": {
     "@adobe/eslint-config-helix": "^1.0.0",
