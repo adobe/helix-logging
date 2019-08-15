@@ -47,7 +47,7 @@ async function run(params) {
     });
   }
   return wrap(action, {
-    fastly: 'https://api.fastly.com/docs',
+    fastly: 'https://api.fastly.com/public-ip-list',
     googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
     googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
   })(params);
