@@ -1,3 +1,12 @@
+## [1.1.9](https://github.com/adobe/helix-logging/compare/v1.1.8...v1.1.9) (2019-08-15)
+
+
+### Bug Fixes
+
+* **auth:** use new Google auth API ([ff3c6e9](https://github.com/adobe/helix-logging/commit/ff3c6e9))
+* **auth:** use new Google Auth client API ([5022b96](https://github.com/adobe/helix-logging/commit/5022b96))
+* **package:** update googleapis to version 42.0.0 ([0505a51](https://github.com/adobe/helix-logging/commit/0505a51))
+
 ## [1.1.8](https://github.com/adobe/helix-logging/compare/v1.1.7...v1.1.8) (2019-08-15)
 
 
