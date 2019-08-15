@@ -11,8 +11,8 @@
  */
 /* eslint-env mocha */
 const assert = require('assert');
+const { condit } = require('@adobe/helix-testutils');
 const { makeFormat, makeConfig, updateFastlyConfig } = require('../src/fastly/logs');
-const condit = require('./condit');
 
 
 describe('Test fastly.logs', () => {

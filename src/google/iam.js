@@ -10,16 +10,15 @@
  * governing permissions and limitations under the License.
  */
 
-const googleapis = require('googleapis');
 const request = require('request-promise-native');
 /**
  * Gets a service account for a given project
  * @param {String} project project ID
  * @param {String} name name of the new service account
  */
-async function getServiceAccount(project, name) {
+async function getServiceAccount(project, name, auth) {
   try {
-    const options = await googleapis.google.auth.authorizeRequest({
+    const options = await auth.authorizeRequest({
       uri:
         `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts/${name}@${project}.iam.gserviceaccount.com`,
       json: true,
@@ -38,9 +37,9 @@ async function getServiceAccount(project, name) {
  * @param {String} project project ID
  * @param {String} name name of the new service account
  */
-async function createServiceAccount(project, name) {
+async function createServiceAccount(project, name, auth) {
   try {
-    const options = await googleapis.google.auth.authorizeRequest({
+    const options = await auth.authorizeRequest({
       uri: `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts`,
       json: true,
       timeout: 2000,
@@ -56,18 +55,18 @@ async function createServiceAccount(project, name) {
   } catch (e) {
     if (e.statusCode === 409) {
       // account ID already exists
-      return getServiceAccount(project, name);
+      return getServiceAccount(project, name, auth);
     }
     throw new Error(`Service account ${name} cannot be created: ${e}`);
   }
 }
 
-async function listServiceAccountKeys(project, name) {
+async function listServiceAccountKeys(project, name, auth) {
   try {
-    const account = await createServiceAccount(project, name);
+    const account = await createServiceAccount(project, name, auth);
     const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
 
-    const options = await googleapis.google.auth.authorizeRequest({
+    const options = await auth.authorizeRequest({
       uri,
       json: true,
       timeout: 2000,
@@ -85,11 +84,11 @@ async function listServiceAccountKeys(project, name) {
  * @param {String} name in the format
  * projects/<project>/serviceAccounts/<account>@<project>.iam.gserviceaccount.com/keys/<id>
  */
-async function deleteServiceAccountKey(name) {
+async function deleteServiceAccountKey(name, auth) {
   try {
     const uri = `https://iam.googleapis.com/v1/${name}`;
 
-    const options = await googleapis.google.auth.authorizeRequest({
+    const options = await auth.authorizeRequest({
       uri,
       json: true,
       timeout: 2000,
@@ -108,16 +107,16 @@ async function deleteServiceAccountKey(name) {
  * @param {String} project project ID
  * @param {String} name name of the new service account
  */
-async function createServiceAccountKey(project, name, retry = true) {
+async function createServiceAccountKey(project, name, auth, retry = true) {
   function again() {
-    return createServiceAccountKey(project, name, false);
+    return createServiceAccountKey(project, name, auth, false);
   }
 
   try {
-    const account = await createServiceAccount(project, name);
+    const account = await createServiceAccount(project, name, auth);
     const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
 
-    const options = await googleapis.google.auth.authorizeRequest({
+    const options = await auth.authorizeRequest({
       uri,
       json: true,
       timeout: 10000, // note the raised timeout
@@ -129,10 +128,13 @@ async function createServiceAccountKey(project, name, retry = true) {
     return data;
   } catch (e) {
     if (e.statusCode && e.statusCode === 429 && e.error && e.error.error && e.error.error.status && e.error.error.status === 'RESOURCE_EXHAUSTED' && retry) {
-      const keys = await listServiceAccountKeys(project, name);
+      const keys = await listServiceAccountKeys(project, name, auth);
 
       // only delete the two oldest keys
-      const deletekeys = keys.slice(0, 4).map((key) => key.name).map(deleteServiceAccountKey);
+      const deletekeys = keys
+        .slice(0, 4)
+        .map((key) => key.name)
+        .map((sname) => deleteServiceAccountKey(sname, auth));
 
       // wait for deletion to complete
       return Promise.all(deletekeys).then(again).catch(again);
@@ -146,11 +148,11 @@ async function createServiceAccountKey(project, name, retry = true) {
  * @param {String} project project id
  * @param {String} dataset dataset id
  */
-async function getIamPolicy(project, dataset) {
+async function getIamPolicy(project, dataset, auth) {
   try {
     const uri = `https://www.googleapis.com/bigquery/v2/projects/${project}/datasets/${dataset}`;
 
-    const options = await googleapis.google.auth.authorizeRequest({
+    const options = await auth.authorizeRequest({
       uri,
       json: true,
       timeout: 10000, // note the raised timeout
@@ -170,13 +172,13 @@ async function getIamPolicy(project, dataset) {
  * @param {String} role can be READER, WRITER, OWNER
  * @param {String} email email address of the user or service account
  */
-async function addIamPolicy(project, dataset, role, email) {
+async function addIamPolicy(project, dataset, role, email, auth) {
   try {
     const uri = `https://www.googleapis.com/bigquery/v2/projects/${project}/datasets/${dataset}`;
 
-    const oldaccess = (await getIamPolicy(project, dataset)).access;
+    const oldaccess = (await getIamPolicy(project, dataset, auth)).access;
 
-    const options = await googleapis.google.auth.authorizeRequest({
+    const options = await auth.authorizeRequest({
       uri,
       json: true,
       timeout: 2000,

@@ -10,8 +10,8 @@
  * governing permissions and limitations under the License.
  */
 /* eslint-env mocha */
+const { condit } = require('@adobe/helix-testutils');
 const { auth } = require('../src/google/auth');
-const condit = require('./condit');
 
 describe('Test google.auth', () => {
   condit('Test successful authentication', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY']), (done) => {

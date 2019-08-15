@@ -75,6 +75,8 @@ async function addlogger({
   const logger = helix.Logger.getLogger();
   logger.debug(`Adding logger for service config ${service}`);
   try {
+    const authclient = await auth.googleauth(email, key);
+
     const authFastly = (async () => {
       // verify Fastly credentials
       const Fastly = await initfastly(token, service);
@@ -84,15 +86,14 @@ async function addlogger({
     });
     const createGoogleKey = (async () => {
       // create Google Service Account, and Key
-      await auth.auth(email, key);
       const accountname = `hlx-${service}`.toLocaleLowerCase();
       logger.debug(`Creating service account ${accountname} in Google Cloud Platform`);
-      const account = await iam.createServiceAccount(project, accountname);
+      const account = await iam.createServiceAccount(project, accountname, authclient);
       logger.debug(`Creating new service account key for ${account.name}`);
       const {
         /* eslint-disable camelcase */
         private_key_id, client_email, private_key,
-      } = await iam.createServiceAccountKey(project, accountname);
+      } = await iam.createServiceAccountKey(project, accountname, authclient);
       logger.info(`Successfully created service account key ${private_key_id} for ${client_email}`);
       return {
         key: private_key,
@@ -101,7 +102,6 @@ async function addlogger({
     });
     const createGoogleTable = (async () => {
       // create Google BigQuery Dataset, and Table
-      await auth.auth(email, key);
       const datasetname = `helix_logging_${service}`;
       const dataset = await bigquery.createDataset(email, key, project, datasetname);
       logger.debug(`Successfully created Google Bigquery dataset ${dataset.id || datasetname}`);
@@ -126,7 +126,7 @@ async function addlogger({
       createGoogleTable()]);
 
     logger.debug(`Setting up permissions for ${googleKeys.email} on ${dataSet.id}`);
-    await iam.addIamPolicy(project, dataSet.id, 'WRITER', googleKeys.email);
+    await iam.addIamPolicy(project, dataSet.id, 'WRITER', googleKeys.email, authclient);
 
     logger.debug(`Updating Fastly service config ${service} to send logs to ${dataSet.id} with user ${googleKeys.email}`);
     const logconfig = await logs.updateFastlyVersion(
