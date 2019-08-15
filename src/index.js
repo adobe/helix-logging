@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-const { wrap } = require('@adobe/helix-pingdom-status');
+const { wrap } = require('@adobe/helix-status');
 const addlogger = require('./addlogger');
 
 async function setupLogger(params) {
