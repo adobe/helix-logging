@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/adobe/helix-logging/compare/v1.1.7...v1.1.8) (2019-08-15)
+
+
+### Bug Fixes
+
+* **index:** better fastly API endpoint for status checks ([27075ff](https://github.com/adobe/helix-logging/commit/27075ff))
+
 ## [1.1.7](https://github.com/adobe/helix-logging/compare/v1.1.6...v1.1.7) (2019-08-13)
 
 
