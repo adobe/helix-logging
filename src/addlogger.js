@@ -103,7 +103,9 @@ async function addlogger({
     const createGoogleTable = (async () => {
       // create Google BigQuery Dataset, and Table
       const datasetname = `helix_logging_${service}`;
-      const dataset = await bigquery.createDataset(email, key, project, datasetname);
+      const ds = await bigquery.createDataset(email, key, project, datasetname);
+      // odd: bigquery.createDataset sometimes returns an array of datasets
+      const dataset = Array.isArray(ds) ? ds[0] : ds;
       logger.debug(`Successfully created Google Bigquery dataset ${dataset.id || datasetname}`);
       const table = await bigquery.createTable(
         email,
@@ -113,7 +115,7 @@ async function addlogger({
         tablename,
         bigquery.makeFields(Object.keys(schema)),
       );
-      logger.info(`Successfully created Google Bigquery table ${table.id} in ${datasetname}`);
+      logger.info(`Successfully created Google Bigquery table ${Array.isArray(table) ? table[0].id : table.id} in ${datasetname}`);
       return dataset;
     });
     // do these three things in parallel:
