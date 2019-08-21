@@ -1,3 +1,10 @@
+## [1.1.10](https://github.com/adobe/helix-logging/compare/v1.1.9...v1.1.10) (2019-08-21)
+
+
+### Bug Fixes
+
+* **addlogger:** guard against google APIs returning arrays instead of objects ([2783651](https://github.com/adobe/helix-logging/commit/2783651)), closes [#85](https://github.com/adobe/helix-logging/issues/85)
+
 ## [1.1.9](https://github.com/adobe/helix-logging/compare/v1.1.8...v1.1.9) (2019-08-15)
 
 
