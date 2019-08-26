@@ -1,3 +1,10 @@
+## [1.1.11](https://github.com/adobe/helix-logging/compare/v1.1.10...v1.1.11) (2019-08-26)
+
+
+### Bug Fixes
+
+* **monitoring:** upgrade epsagon and hide more params ([4c6d8bd](https://github.com/adobe/helix-logging/commit/4c6d8bd))
+
 ## [1.1.10](https://github.com/adobe/helix-logging/compare/v1.1.9...v1.1.10) (2019-08-21)
 
 
