@@ -1,3 +1,10 @@
+## [1.1.14](https://github.com/adobe/helix-logging/compare/v1.1.13...v1.1.14) (2019-09-30)
+
+
+### Bug Fixes
+
+* **package:** update @adobe/helix-status to version 5.0.0 ([859c020](https://github.com/adobe/helix-logging/commit/859c020))
+
 ## [1.1.13](https://github.com/adobe/helix-logging/compare/v1.1.12...v1.1.13) (2019-09-06)
 
 
