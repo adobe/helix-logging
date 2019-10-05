@@ -21,7 +21,7 @@ const { expect } = chai;
 
 function getbaseurl() {
   const namespace = 'helix';
-  const package = 'helix-services';
+  const package = 'helix-services-private';
   const name = packjson.name.replace('@adobe/helix-', '');
   let version = `${packjson.version}`;
   if (process.env.CI && process.env.CIRCLE_BUILD_NUM && process.env.CIRCLE_BRANCH !== 'master') {

@@ -16,6 +16,10 @@
     "deploy-sequences": "wsk-builder --no-build -no-hints -l latest -l major -l minor",
     "deploy-ci": "wsk-builder -v --deploy --test=/_status_check/pingdom.xml --pkgVersion=ci$CIRCLE_BUILD_NUM -l ci"
   },
+  "wsk": {
+    "name": "helix-services-private/logging@${version}",
+    "linksPackage": "helix-services"
+  },
   "directories": {
     "test": "tests"
   },
@@ -42,7 +46,7 @@
   "devDependencies": {
     "@adobe/eslint-config-helix": "1.1.0",
     "@adobe/helix-testutils": "0.2.0",
-    "@adobe/openwhisk-action-builder": "2.1.0",
+    "@adobe/openwhisk-action-builder": "2.1.1",
     "@semantic-release/changelog": "3.0.4",
     "@semantic-release/commit-analyzer": "6.3.0",
     "@semantic-release/exec": "3.3.7",
@@ -64,9 +68,6 @@
     "nock": "11.3.5",
     "nyc": "14.1.1",
     "semantic-release": "15.13.24"
-  },
-  "wsk": {
-    "name": "helix-services/logging@${version}"
   },
   "statuspage": {
     "name": "Helix Logging",
