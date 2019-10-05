@@ -1,3 +1,10 @@
+## [1.1.16](https://github.com/adobe/helix-logging/compare/v1.1.15...v1.1.16) (2019-10-05)
+
+
+### Bug Fixes
+
+* **deploy:** use helix-services-private ([14dd2e0](https://github.com/adobe/helix-logging/commit/14dd2e0))
+
 ## [1.1.15](https://github.com/adobe/helix-logging/compare/v1.1.14...v1.1.15) (2019-10-02)
 
 
