@@ -1,3 +1,10 @@
+## [1.1.17](https://github.com/adobe/helix-logging/compare/v1.1.16...v1.1.17) (2019-10-05)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-status to v5.0.2 ([#103](https://github.com/adobe/helix-logging/issues/103)) ([c15788f](https://github.com/adobe/helix-logging/commit/c15788f))
+
 ## [1.1.16](https://github.com/adobe/helix-logging/compare/v1.1.15...v1.1.16) (2019-10-05)
 
 
