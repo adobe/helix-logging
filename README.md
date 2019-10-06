@@ -7,7 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/adobe/helix-logging.svg)](https://github.com/adobe/helix-logging/issues) 
 [![Greenkeeper badge](https://badges.greenkeeper.io/adobe/helix-logging.svg)](https://greenkeeper.io/)
 
-> This is a simple microservice (to be used in conjunction with [Project Helix](https://www.project-helix.io/)) that sets up correct logging for a Project Helix-managed Fastly service config. It makes sure logs will be sent to Google Bigquery.
+> This is a simple microservice (to be used in conjunction with [Project Helix](https://www.project-helix.io/)) that sets up correct logging for a Project Helix-managed Fastly service config. It makes sure logs will be sent to Google BigQuery.
 
 ## Usage
 
@@ -71,13 +71,13 @@ $ curl -X POST -H "Content-Type: application/json" -d '{"service":"6E6ge7REhiWet
 
 - the service creates or updates a Google Cloud Platform service account that corresponds to the service config
 - the service creates or rotates the private keys for the service account
-- the service creates or updates a Google Bigquery dataset with proper tables
-- the service grants permission to the service user to write the Google Bigquery dataset
-- the service creates or updates a log configuration in Fastly that sends logs to the above Google Bigquery dataset using the private key and service account from above
+- the service creates or updates a Google BigQuery dataset with proper tables
+- the service grants permission to the service user to write the Google BigQuery dataset
+- the service creates or updates a log configuration in Fastly that sends logs to the above Google BigQuery dataset using the private key and service account from above
 
 ## Required Environment Variables
 
-This service depends on three external services to operate
+This service depends on three external services to operate:
 
 - Fastly
 - Adobe I/O Runtime (only for deployments)
@@ -89,15 +89,15 @@ It is configured using a number of environment variables that are required for t
 
 This is the email address associated with a Google Cloud Platform Service account. It looks like `<name>@<project>.iam.gserviceaccount.com`. You can create a proper service account following [the instructions in the Google Cloud Platform documentation](https://cloud.google.com/iam/docs/creating-managing-service-accounts) or this step-by-step guide:
 
-1. log in to [Google Cloud Platform Console](https://console.cloud.google.com)
-2. select menu → "IAM & admin" → "Service accounts" → "Create service account"
-3. create the service account
-4. add following roles to the service account:
+1. Log in to [Google Cloud Platform Console](https://console.cloud.google.com)
+2. Select menu → "IAM & admin" → "Service accounts" → "Create service account"
+3. Create the service account
+4. Add the following roles to the service account:
    * BigQuery Admin
    * Service Account Admin
    * Service Account Key Admin
    * Service Account Key Admin
-5. create a private key in JSON format for the service account and download the key file
+5. Create a private key in JSON format for the service account and download the key file
 
 **Note:** The private key file and the value of the `GOOGLE_CLIENT_EMAIL` environment variable should be considered private and should never be checked in to source control.
 
@@ -122,10 +122,10 @@ Copy the value of the `client_email` field (e.g. `example-account@project-123456
 
 ### `GOOGLE_PRIVATE_KEY`
 
-This is the private key associated with the Google Cloud Platform Service account created above. In order to retrieve the correct value see [Creating and Managing Service Account Keys in the Google Cloud Platform documentation](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) or continue the step-by-step guide from above:
+This is the private key associated with the Google Cloud Platform Service account created above. In order to retrieve the correct value, see [Creating and Managing Service Account Keys in the Google Cloud Platform documentation](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) or continue the step-by-step guide from above:
 
-6. make sure you've followed all steps to get the value of `GOOGLE_CLIENT_EMAIL`
-7. copy the value of the `private_key` property in the JSON file you've downloaded
+6. Make sure you've followed all steps to get the value of `GOOGLE_CLIENT_EMAIL`
+7. Copy the value of the `private_key` property in the JSON file you've downloaded
 
 **Note:** The private key and the value of the `GOOGLE_PRIVATE_KEY` environment variable should be considered private and should never be checked in to source control.
 
@@ -164,6 +164,6 @@ You need `node>=8.0.0` and `npm>=5.4.0`. Follow the typical `npm install`, `npm 
 
 ## Deploying Helix Logging
 
-Deploying Helix Logging requires the `wsk` command line client, authenticated to a namespace of your choice. For Project Helix, we use the `helix` namespace.
+Deploying Helix Logging requires the `wsk` command-line client, authenticated to a namespace of your choice. For Project Helix, we use the `helix` namespace.
 
 Run `npm run deploy` to do a one-shot deploment of Helix Logging. All commits to `master` that pass the testing will be deployed automatically.

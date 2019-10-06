@@ -30,10 +30,10 @@ function makeConfig(name, patterns, user, project, dataset, table, suffix, key) 
 }
 /**
  *
- * @param {Fastly} fastly  fastly client
+ * @param {Fastly} fastly  Fastly client
  * @param {number} version version to update
  * @param {string} name the name of the logging config (must be unique per service)
- * @param {Object} patterns keys are the column names in Google Bigquery, values are the
+ * @param {Object} patterns keys are the column names in Google BigQuery, values are the
  * VCL log expressions
  * @param {string} user email address of the Google Cloud service account
  * @param {string} project project ID of the Google Cloud Platform project

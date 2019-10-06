@@ -64,8 +64,8 @@ const logconfigname = 'helix-logging';
  *
  * @param {string} email email address of the Google service account
  * @param {string} key private key of the global Google service account
- * @param {string} service the fastly service config ID
- * @param {string} token the fastly authentication token
+ * @param {string} service the Fastly service config ID
+ * @param {string} token the Fastly authentication token
  * @param {string} project the Google project ID
  * @param {string} version the Fastly service config version to update
  */
@@ -106,7 +106,7 @@ async function addlogger({
       const ds = await bigquery.createDataset(email, key, project, datasetname);
       // odd: bigquery.createDataset sometimes returns an array of datasets
       const dataset = Array.isArray(ds) ? ds[0] : ds;
-      logger.debug(`Successfully created Google Bigquery dataset ${dataset.id || datasetname}`);
+      logger.debug(`Successfully created Google BigQuery dataset ${dataset.id || datasetname}`);
       const table = await bigquery.createTable(
         email,
         key,
@@ -115,7 +115,7 @@ async function addlogger({
         tablename,
         bigquery.makeFields(Object.keys(schema)),
       );
-      logger.info(`Successfully created Google Bigquery table ${Array.isArray(table) ? table[0].id : table.id} in ${datasetname}`);
+      logger.info(`Successfully created Google BigQuery table ${Array.isArray(table) ? table[0].id : table.id} in ${datasetname}`);
       return dataset;
     });
     // do these three things in parallel:
