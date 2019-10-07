@@ -36,7 +36,7 @@
   "dependencies": {
     "@adobe/fastly-native-promises": "1.13.0",
     "@adobe/helix-shared": "3.0.1",
-    "@adobe/helix-status": "5.0.2",
+    "@adobe/helix-status": "5.1.0",
     "@google-cloud/bigquery": "4.2.1",
     "epsagon": "1.37.0",
     "googleapis": "43.0.0",
