@@ -1,3 +1,10 @@
+## [1.1.19](https://github.com/adobe/helix-logging/compare/v1.1.18...v1.1.19) (2019-10-08)
+
+
+### Bug Fixes
+
+* **deps:** update any ([#108](https://github.com/adobe/helix-logging/issues/108)) ([8e96ac0](https://github.com/adobe/helix-logging/commit/8e96ac0))
+
 ## [1.1.18](https://github.com/adobe/helix-logging/compare/v1.1.17...v1.1.18) (2019-10-07)
 
 
