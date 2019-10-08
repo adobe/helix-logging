@@ -1,3 +1,10 @@
+## [1.1.20](https://github.com/adobe/helix-logging/compare/v1.1.19...v1.1.20) (2019-10-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-shared to v3.0.3 ([#112](https://github.com/adobe/helix-logging/issues/112)) ([307fef6](https://github.com/adobe/helix-logging/commit/307fef6))
+
 ## [1.1.19](https://github.com/adobe/helix-logging/compare/v1.1.18...v1.1.19) (2019-10-08)
 
 
