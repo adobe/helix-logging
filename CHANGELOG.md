@@ -1,3 +1,10 @@
+## [1.1.23](https://github.com/adobe/helix-logging/compare/v1.1.22...v1.1.23) (2019-10-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v44 ([ce534ff](https://github.com/adobe/helix-logging/commit/ce534ff))
+
 ## [1.1.22](https://github.com/adobe/helix-logging/compare/v1.1.21...v1.1.22) (2019-10-21)
 
 
