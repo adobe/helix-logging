@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
-    "@adobe/fastly-native-promises": "1.14.0",
+    "@adobe/fastly-native-promises": "1.14.1",
     "@adobe/helix-shared": "3.1.0",
     "@adobe/helix-status": "5.2.0",
     "@google-cloud/bigquery": "4.3.0",
