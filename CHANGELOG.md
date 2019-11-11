@@ -1,3 +1,10 @@
+## [1.1.30](https://github.com/adobe/helix-logging/compare/v1.1.29...v1.1.30) (2019-11-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v45 ([#137](https://github.com/adobe/helix-logging/issues/137)) ([13b918b](https://github.com/adobe/helix-logging/commit/13b918b085da43ef25b66579ecea771edffa4d68))
+
 ## [1.1.29](https://github.com/adobe/helix-logging/compare/v1.1.28...v1.1.29) (2019-11-10)
 
 
