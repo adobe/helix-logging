@@ -1,3 +1,10 @@
+## [1.1.33](https://github.com/adobe/helix-logging/compare/v1.1.32...v1.1.33) (2019-11-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-status to v7 ([5a6111e](https://github.com/adobe/helix-logging/commit/5a6111e4156af2b900e92b132f578f8e528bee95))
+
 ## [1.1.32](https://github.com/adobe/helix-logging/compare/v1.1.31...v1.1.32) (2019-11-20)
 
 
