@@ -1,3 +1,10 @@
+## [1.1.35](https://github.com/adobe/helix-logging/compare/v1.1.34...v1.1.35) (2019-12-02)
+
+
+### Bug Fixes
+
+* **deps:** add missing monitoring dependencies ([94fdc44](https://github.com/adobe/helix-logging/commit/94fdc447a024a62240e968a59d05631b8a2cc425))
+
 ## [1.1.34](https://github.com/adobe/helix-logging/compare/v1.1.33...v1.1.34) (2019-12-02)
 
 
