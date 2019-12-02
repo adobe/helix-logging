@@ -1,3 +1,10 @@
+## [1.1.34](https://github.com/adobe/helix-logging/compare/v1.1.33...v1.1.34) (2019-12-02)
+
+
+### Bug Fixes
+
+* **release:** triggering release ([9565835](https://github.com/adobe/helix-logging/commit/95658357aeb2c1147cc5442b172017427f5f7aae))
+
 ## [1.1.33](https://github.com/adobe/helix-logging/compare/v1.1.32...v1.1.33) (2019-11-20)
 
 
