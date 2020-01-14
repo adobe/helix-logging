@@ -1,3 +1,10 @@
+## [1.1.42](https://github.com/adobe/helix-logging/compare/v1.1.41...v1.1.42) (2020-01-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-shared to v4 ([f5e9f62](https://github.com/adobe/helix-logging/commit/f5e9f62c8c567c7cc9c017c08b8b442636789bd9))
+
 ## [1.1.41](https://github.com/adobe/helix-logging/compare/v1.1.40...v1.1.41) (2020-01-14)
 
 
