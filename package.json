@@ -37,8 +37,8 @@
     "@adobe/fastly-native-promises": "1.15.0",
     "@adobe/helix-shared": "3.3.0",
     "@adobe/helix-status": "7.0.3",
-    "@google-cloud/bigquery": "4.5.0",
-    "epsagon": "1.46.1",
+    "@google-cloud/bigquery": "4.6.1",
+    "epsagon": "1.46.2",
     "googleapis": "46.0.0",
     "request": "2.88.0",
     "request-promise-native": "1.0.8"
@@ -57,13 +57,13 @@
     "codecov": "3.6.1",
     "eslint": "6.8.0",
     "eslint-plugin-header": "3.0.0",
-    "eslint-plugin-import": "2.19.1",
+    "eslint-plugin-import": "2.20.0",
     "istanbul": "1.1.0-alpha.1",
     "junit-report-builder": "1.3.3",
     "mocha": "7.0.0",
-    "mocha-junit-reporter": "1.23.1",
+    "mocha-junit-reporter": "1.23.2",
     "mocha-parallel-tests": "2.2.2",
-    "nock": "11.7.1",
+    "nock": "11.7.2",
     "nyc": "15.0.0",
     "semantic-release": "15.14.0"
   }
