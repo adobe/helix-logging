@@ -1,3 +1,10 @@
+## [1.1.44](https://github.com/adobe/helix-logging/compare/v1.1.43...v1.1.44) (2020-01-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v47 ([#172](https://github.com/adobe/helix-logging/issues/172)) ([10f8ca6](https://github.com/adobe/helix-logging/commit/10f8ca609bcfb4be9c3e7bfe14209af92cf2fdb1))
+
 ## [1.1.43](https://github.com/adobe/helix-logging/compare/v1.1.42...v1.1.43) (2020-01-15)
 
 
