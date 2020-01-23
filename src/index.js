@@ -10,7 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-const { wrap } = require('@adobe/helix-status');
+const { wrap: status } = require('@adobe/helix-status');
+const { wrap } = require('@adobe/openwhisk-action-utils');
+const { logger } = require('@adobe/openwhisk-action-logger');
+
 const addlogger = require('./addlogger');
 
 async function setupLogger(params) {
@@ -46,11 +49,7 @@ async function run(params) {
       ignoredKeys: ['EPSAGON_TOKEN', 'token', 'GOOGLE_PRIVATE_KEY', /[A-Z0-9_]+/],
     });
   }
-  return wrap(action, {
-    fastly: 'https://api.fastly.com/public-ip-list',
-    googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
-    googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
-  })(params);
+  return action(params);
 }
 
 /**
@@ -58,16 +57,11 @@ async function run(params) {
  * @param params Action params
  * @returns {Promise<*>} The response
  */
-async function main(params) {
-  try {
-    return await run(params);
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
-    return {
-      statusCode: e.statusCode || 500,
-    };
-  }
-}
-
-module.exports.main = main;
+module.exports.main = wrap(run)
+  .with(status, {
+    fastly: 'https://api.fastly.com/public-ip-list',
+    googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
+    googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
+  })
+  .with(logger.trace)
+  .with(logger);
