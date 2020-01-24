@@ -13,6 +13,7 @@
 const { wrap: status } = require('@adobe/helix-status');
 const { wrap } = require('@adobe/openwhisk-action-utils');
 const { logger } = require('@adobe/openwhisk-action-logger');
+const { epsagon } = require('@adobe/helix-epsagon');
 
 const addlogger = require('./addlogger');
 
@@ -30,34 +31,12 @@ async function setupLogger(params) {
 }
 
 /**
- * Runs the action by wrapping the `setupLogger` function with the pingdom-status utility.
- * Additionally, if a EPSAGON_TOKEN is configured, the epsagon tracers are instrumented.
- * @param params Action params
- * @returns {Promise<*>} The response
- */
-async function run(params) {
-  let action = setupLogger;
-  if (params && params.EPSAGON_TOKEN) {
-    // ensure that epsagon is only required, if a token is present. this is to avoid invoking their
-    // patchers otherwise.
-    // eslint-disable-next-line global-require
-    const { openWhiskWrapper } = require('epsagon');
-    action = openWhiskWrapper(action, {
-      token_param: 'EPSAGON_TOKEN',
-      appName: 'Helix Services',
-      metadataOnly: false, // Optional, send more trace data
-      ignoredKeys: ['EPSAGON_TOKEN', 'token', 'GOOGLE_PRIVATE_KEY', /[A-Z0-9_]+/],
-    });
-  }
-  return action(params);
-}
-
-/**
  * Main function called by the openwhisk invoker.
  * @param params Action params
  * @returns {Promise<*>} The response
  */
-module.exports.main = wrap(run)
+module.exports.main = wrap(setupLogger)
+  .with(epsagon)
   .with(status, {
     fastly: 'https://api.fastly.com/public-ip-list',
     googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
