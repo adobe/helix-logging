@@ -1,3 +1,11 @@
+## [1.1.46](https://github.com/adobe/helix-logging/compare/v1.1.45...v1.1.46) (2020-01-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-shared to v5 ([#169](https://github.com/adobe/helix-logging/issues/169)) ([26c3f4d](https://github.com/adobe/helix-logging/commit/26c3f4d51b0d9d627d27d8dfc43b2de047ee6cd0))
+* **epsagon:** use helix-epsagon-wrapper ([#176](https://github.com/adobe/helix-logging/issues/176)) ([94727c0](https://github.com/adobe/helix-logging/commit/94727c033f7cf7ec91de05df2de43800edc464d7))
+
 ## [1.1.45](https://github.com/adobe/helix-logging/compare/v1.1.44...v1.1.45) (2020-01-22)
 
 
