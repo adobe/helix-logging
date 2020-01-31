@@ -1,3 +1,10 @@
+## [1.1.52](https://github.com/adobe/helix-logging/compare/v1.1.51...v1.1.52) (2020-01-31)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/openwhisk-action-logger to v2.1.0 ([b6bf82e](https://github.com/adobe/helix-logging/commit/b6bf82e784892045a024d25e51ce73ddd8015877))
+
 ## [1.1.51](https://github.com/adobe/helix-logging/compare/v1.1.50...v1.1.51) (2020-01-31)
 
 
