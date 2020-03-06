@@ -39,7 +39,7 @@
     "@adobe/helix-log": "4.5.1",
     "@adobe/helix-status": "7.1.2",
     "@adobe/openwhisk-action-logger": "2.2.0",
-    "@adobe/openwhisk-action-utils": "4.2.0",
+    "@adobe/openwhisk-action-utils": "4.2.1",
     "@google-cloud/bigquery": "4.7.0",
     "googleapis": "47.0.0",
     "request": "2.88.2",
