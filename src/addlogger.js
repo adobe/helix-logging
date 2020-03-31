@@ -47,7 +47,7 @@ const schema = {
   time_start_usec: '%{time.start.usec}V',
   time_end_usec: '%{time.end.usec}V',
   time_elapsed_usec: '%{time.elapsed.usec}V',
-  resp_http_x_openwhisk_activation_id: '%{resp.http.x-openwhisk-activation-id}V',
+  resp_http_x_openwhisk_activation_id: '%{req.http.x-openwhisk-activation-id}V',
   resp_http_X_Version: '%{req.http.X-Version}V',
   req_http_Referer: '%{req.http.Referer}V',
   req_http_User_Agent: '%{req.http.User-Agent}V',
