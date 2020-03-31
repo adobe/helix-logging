@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/adobe/helix-logging/compare/v1.1.68...v1.2.0) (2020-03-31)
+
+
+### Features
+
+* **addLogger:** adapt to VCL change (adobe/helix-publish[#384](https://github.com/adobe/helix-logging/issues/384)) ([0b9ff73](https://github.com/adobe/helix-logging/commit/0b9ff73a02e1b0b8be60a8f5f4deb940f5ae543e))
+
 ## [1.1.68](https://github.com/adobe/helix-logging/compare/v1.1.67...v1.1.68) (2020-03-26)
 
 
