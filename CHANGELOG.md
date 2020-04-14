@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/adobe/helix-logging/compare/v1.2.5...v1.2.6) (2020-04-14)
+
+
+### Bug Fixes
+
+* **deploy:** use helix-services package ([54d483c](https://github.com/adobe/helix-logging/commit/54d483ce0ce1434b478611a4b6acd7d5a1b5befa))
+
 ## [1.2.5](https://github.com/adobe/helix-logging/compare/v1.2.4...v1.2.5) (2020-04-08)
 
 
