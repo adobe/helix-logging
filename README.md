@@ -17,6 +17,13 @@ Send a POST request with following parameters to `$ curl https://adobeioruntime.
 * `token`: a Fastly API token that has write permissions on the service above
 * `version`: the version number of a checked out (draft) version of the service config above
 
+Optional:
+
+* `coralogixkey`: A private key from Coralogix
+* `coralogixapp`: name of the Coralogix application to send logs to
+
+Sending over these optional parameters will also enable logging to Coralogix.
+
 ```bash
 $ curl -X POST -H "Content-Type: application/json" -d '{"service":"6E6ge7REhiWetPCqy9jht2","version":2,"token":"thisismysecret"}'
 {
