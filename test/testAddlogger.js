@@ -39,6 +39,24 @@ describe('Test addlogger', () => {
     assert.equal();
   }).timeout(60000);
 
+  condit('Test successful logger setup with Coralogix', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
+    const res = await addlogger(
+      {
+        email: process.env.GOOGLE_CLIENT_EMAIL,
+        key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        service: process.env.HLX_FASTLY_NAMESPACE,
+        token: process.env.HLX_FASTLY_AUTH,
+        project: process.env.GOOGLE_PROJECT_ID,
+        version: Number.parseInt(process.env.VERSION_NUM, 10),
+        coralogixkey: 'fake',
+        coralogixapp: 'testing-helix-logging',
+      },
+
+    );
+    assert.ok(res);
+    assert.equal();
+  }).timeout(60000);
+
   condit('Test unsuccessful logger setup', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
     try {
       const logger = await addlogger({
