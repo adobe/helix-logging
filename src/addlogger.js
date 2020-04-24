@@ -16,6 +16,7 @@ const auth = require('./google/auth');
 const bigquery = require('./google/bigquery');
 const logs = require('./fastly/logs');
 const bigquerySchema = require('./google/schema');
+const coralogixSchema = require('./coralogix/schema');
 
 const tablename = 'requests';
 
@@ -31,7 +32,7 @@ const logconfigname = 'helix-logging';
  * @param {string} version the Fastly service config version to update
  */
 async function addlogger({
-  email, key, service, token, project, version,
+  email, key, service, token, project, version, coralogixkey, coralogixapp,
 }) {
   debug(`Adding logger for service config ${service}`);
   try {
@@ -91,11 +92,11 @@ async function addlogger({
     await iam.addIamPolicy(project, dataSet.id, 'WRITER', googleKeys.email, authclient);
 
     debug(`Updating Fastly service config ${service} to send logs to ${dataSet.id} with user ${googleKeys.email}`);
-    const logconfig = await logs.updateFastlyVersion(
+    const bigquerylogconfigtask = logs.updateFastlyVersion(
       fastlyClient,
       version,
       logconfigname,
-      Object.assign(schema, { service_config: service }),
+      Object.assign(bigquerySchema, { service_config: service }),
       googleKeys.email,
       project,
       dataSet.id,
@@ -103,6 +104,22 @@ async function addlogger({
       '%Y%m',
       googleKeys.key,
     );
+
+    const coralogixlogconfigtask = (coralogixapp && coralogixkey)
+      ? logs.updateFastlyVersionWithCoralogix(
+        fastlyClient,
+        version,
+        'helix-coralogix',
+        service,
+        coralogixSchema,
+        coralogixkey,
+        coralogixapp,
+      ) : Promise.resolve();
+
+
+    const [logconfig] = await Promise.all([bigquerylogconfigtask, coralogixlogconfigtask]);
+
+
     info(`Successfully updated Fastly service config ${service} to send logs to ${dataSet.id} with user ${googleKeys.email}`);
     return {
       name: logconfig.data.name,
