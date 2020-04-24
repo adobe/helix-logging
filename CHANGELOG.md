@@ -1,3 +1,11 @@
+## [1.2.8](https://github.com/adobe/helix-logging/compare/v1.2.7...v1.2.8) (2020-04-24)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/fastly-native-promises to v1.16.0 ([aefb309](https://github.com/adobe/helix-logging/commit/aefb30909e195b057fa73252b71099240d781bd8))
+* **deps:** update dependency googleapis to v49 ([284cb18](https://github.com/adobe/helix-logging/commit/284cb18762537c2cfffe2647ac50d5628d44b979))
+
 ## [1.2.7](https://github.com/adobe/helix-logging/compare/v1.2.6...v1.2.7) (2020-04-14)
 
 
