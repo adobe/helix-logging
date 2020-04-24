@@ -18,19 +18,13 @@ const bigschema = require('../src/coralogix/schema');
 
 describe('Schema Helper Integration Tests', () => {
   it('toString works with empty schemas', () => {
-    assert.equal(toString({}), '{}');
+    assert.equal(toString({}), '{ }');
   });
 
   it('toString works with simple schemas', () => {
     assert.equal(toString({
       foo: '%D',
-    }), '{"foo": %D}');
-  });
-
-  it('toString works with simple schemas', () => {
-    assert.equal(toString({
-      foo: '%D',
-    }), '{"foo": %D}');
+    }), '{ "foo": %D }');
   });
 
   it('toString works with nested schemas and VCL encoding', () => {
@@ -39,7 +33,7 @@ describe('Schema Helper Integration Tests', () => {
         bar: vcl`client.as.number`,
         baz: str(vcl`req.http.X-CDN-Request-ID`),
       },
-    }), '{"foo": {"bar": %{client.as.number}V, "baz": "%{req.http.X-CDN-Request-ID}V"}}');
+    }), '{ "foo": { "bar": %{client.as.number}V,  "baz": "%{req.http.X-CDN-Request-ID}V" } }');
   });
 
   it('toString works with nested schemas and more VCL encoding', () => {
@@ -59,7 +53,7 @@ describe('Schema Helper Integration Tests', () => {
           ),
         ),
       },
-    }), '{"foo": {"bar": %{client.as.number}V, "baz": "%{req.http.X-CDN-Request-ID}V", "method": "%m", "referer": "%{Referer}i", "age": "%{Age}o", "end": "%{end:%Y-%m-%dT%H:%M:%S}t.%{end:msec_frac}t%{end:%z}t"}}');
+    }), '{ "foo": { "bar": %{client.as.number}V,  "baz": "%{req.http.X-CDN-Request-ID}V",  "method": "%m",  "referer": "%{Referer}i",  "age": "%{Age}o",  "end": "%{end:%Y-%m-%dT%H:%M:%S}t.%{end:msec_frac}t%{end:%z}t" } }');
   });
 
   it('Spot check the big schema', () => {
