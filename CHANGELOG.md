@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/adobe/helix-logging/compare/v1.2.8...v1.3.0) (2020-04-28)
+
+
+### Features
+
+* **coralogix:** support adding the coralogix log entry ([c627a10](https://github.com/adobe/helix-logging/commit/c627a10ca2565403c03fe332db16b852ba56219c)), closes [#282](https://github.com/adobe/helix-logging/issues/282)
+* **index:** add coralogix logging parameters ([0429068](https://github.com/adobe/helix-logging/commit/0429068d5f663a1f3772b9f9990dfa98c26b80f8)), closes [#282](https://github.com/adobe/helix-logging/issues/282)
+
 ## [1.2.8](https://github.com/adobe/helix-logging/compare/v1.2.7...v1.2.8) (2020-04-24)
 
 
