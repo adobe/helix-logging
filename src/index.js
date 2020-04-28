@@ -26,6 +26,8 @@ async function setupLogger(params) {
       token: params.token,
       project: params.GOOGLE_PROJECT_ID,
       version: params.version,
+      coralogixkey: params.coralogixkey,
+      coralogixapp: params.coralogixapp,
     }),
   };
 }

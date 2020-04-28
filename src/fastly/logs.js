@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const f = require('@adobe/fastly-native-promises');
+const { toString } = require('../util/schemahelper');
 
 
 function makeFormat(patterns) {
@@ -28,6 +29,21 @@ function makeConfig(name, patterns, user, project, dataset, table, suffix, key) 
     secret_key: key,
   };
 }
+
+function makeCoralogixConfig(name, service, pattern, key, application) {
+  return {
+    name,
+    format: toString(Object.assign(pattern, { applicationName: application })),
+    url: 'https://api.coralogix.com/logs/rest/singles',
+    request_max_bytes: 2000000,
+    content_type: 'application/json',
+    header_name: 'private_key',
+    header_value: key,
+    json_format: 1,
+    service_id: service,
+  };
+}
+
 /**
  *
  * @param {Fastly} fastly  Fastly client
@@ -56,6 +72,19 @@ async function updateFastlyVersion(
 ) {
   const data = makeConfig(name, patterns, user, project, dataset, table, suffix, key);
   return fastly.writeBigquery(version, name, data);
+}
+
+async function updateFastlyVersionWithCoralogix(
+  fastly,
+  version,
+  name,
+  service,
+  patterns,
+  key,
+  application,
+) {
+  const data = makeCoralogixConfig(name, service, patterns, key, application);
+  return fastly.writeHttps(version, name, data);
 }
 
 
@@ -102,5 +131,5 @@ async function updateFastlyConfig(
 }
 
 module.exports = {
-  makeConfig, makeFormat, updateFastlyConfig, updateFastlyVersion,
+  makeConfig, makeFormat, updateFastlyConfig, updateFastlyVersion, updateFastlyVersionWithCoralogix,
 };
