@@ -47,7 +47,6 @@ const schema = {
   resp_http_Content_Type: '%{resp.http.Content-Type}V',
   service_config: 'undefined',
   status_code: '%>s',
-  resp_http_x_trace: '%{req.http.x-trace}V',
 };
 
 module.exports = schema;
