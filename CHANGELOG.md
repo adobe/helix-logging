@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/adobe/helix-logging/compare/v1.3.1...v1.4.0) (2020-05-07)
+
+
+### Features
+
+* log vcl trace to support post mortem incident analysis ([f678c4c](https://github.com/adobe/helix-logging/commit/f678c4ce75c40aa440b4436289a232d553202b53))
+* removing trace from bigquery log, as requested ([f51a263](https://github.com/adobe/helix-logging/commit/f51a263fb887ed2b4249785f790594753b6a7128))
+
 ## [1.3.1](https://github.com/adobe/helix-logging/compare/v1.3.0...v1.3.1) (2020-05-07)
 
 
