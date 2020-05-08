@@ -53,7 +53,6 @@ const schema = {
         ),
         end_msec: vcl`time.end.msec`,
         elapsed: '%D',
-        vcl_trace: str(vcl`req.http.x-trace`),
       },
       client: {
         name: str(vcl`client.as.name`),
@@ -134,6 +133,7 @@ const schema = {
         tcpi_delta_retrans: vcl`client.socket.tcpi_delta_retrans`,
         ploss: vcl`client.socket.ploss`,
       },
+      vcl_trace: str(vcl`req.http.x-trace`),
     },
   },
 };
