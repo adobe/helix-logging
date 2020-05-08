@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/adobe/helix-logging/compare/v1.4.0...v1.4.1) (2020-05-08)
+
+
+### Bug Fixes
+
+* **schema:** move vcl_trace to cnd.vcl_trace ([45d43c3](https://github.com/adobe/helix-logging/commit/45d43c330f2b2c9d8695325260a833d5f69c3897))
+
 # [1.4.0](https://github.com/adobe/helix-logging/compare/v1.3.1...v1.4.0) (2020-05-07)
 
 
