@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/adobe/helix-logging/compare/v1.4.2...v1.4.3) (2020-05-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-epsagon to v1.3.0 ([b38b8f1](https://github.com/adobe/helix-logging/commit/b38b8f180cb133e5b124f8d42bac81b6fd64da79))
+
 ## [1.4.2](https://github.com/adobe/helix-logging/compare/v1.4.1...v1.4.2) (2020-05-12)
 
 
