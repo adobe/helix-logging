@@ -14,7 +14,6 @@ const assert = require('assert');
 const { condit } = require('@adobe/helix-testutils');
 const { makeFormat, makeConfig, updateFastlyConfig } = require('../src/fastly/logs');
 
-
 describe('Test fastly.logs', () => {
   it('Test makeFormat', () => {
     assert.deepEqual(makeFormat({ foo: 'bar %Y', baz: 'bop %T' }), `{

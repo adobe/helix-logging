@@ -20,7 +20,6 @@ describe('Test google.auth', () => {
       .catch(done);
   });
 
-
   it('Test unsuccessful authentication', (done) => {
     auth('foo', 'bar')
       .then(() => done('should throw error'))

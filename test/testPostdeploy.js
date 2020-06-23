@@ -15,7 +15,6 @@ const chaiHttp = require('chai-http');
 const { condit } = require('@adobe/helix-testutils');
 const packjson = require('../package.json');
 
-
 chai.use(chaiHttp);
 const { expect } = chai;
 

@@ -116,9 +116,7 @@ async function addlogger({
         coralogixapp,
       ) : Promise.resolve();
 
-
     const [logconfig] = await Promise.all([bigquerylogconfigtask, coralogixlogconfigtask]);
-
 
     info(`Successfully updated Fastly service config ${service} to send logs to ${dataSet.id} with user ${googleKeys.email}`);
     return {
