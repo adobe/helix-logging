@@ -10,7 +10,6 @@
  * governing permissions and limitations under the License.
  */
 
-
 function toString(schema) {
   if (typeof schema === 'object') {
     return `{${Object

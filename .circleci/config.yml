@@ -36,6 +36,9 @@ jobs:
       - run: mkdir junit
       # test & get code coverage
       - run:
+          name: Lint
+          command: npm run lint
+      - run:
           name: Test and Code Coverage
           command: npm run test-ci
           environment:

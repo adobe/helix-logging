@@ -12,7 +12,6 @@
 const f = require('@adobe/fastly-native-promises');
 const { toString } = require('../util/schemahelper');
 
-
 function makeFormat(patterns) {
   return JSON.stringify(patterns, undefined, 2);
 }
@@ -86,7 +85,6 @@ async function updateFastlyVersionWithCoralogix(
   const data = makeCoralogixConfig(name, service, patterns, key, application);
   return fastly.writeHttps(version, name, data);
 }
-
 
 /**
  * Updates the Fastly Service Config with a BigQuery logging configuration
