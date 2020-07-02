@@ -1,3 +1,11 @@
+## [1.4.22](https://github.com/adobe/helix-logging/compare/v1.4.21...v1.4.22) (2020-07-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/fastly-native-promises to v1.16.1 ([0a83acc](https://github.com/adobe/helix-logging/commit/0a83accafb8fdb03534fcc4c25c55d94991e61ba))
+* **deps:** update dependency @adobe/helix-epsagon to v1.3.13 ([89cd5ba](https://github.com/adobe/helix-logging/commit/89cd5bacf551a8c3e86b6e80e1f4baabb948a215))
+
 ## [1.4.21](https://github.com/adobe/helix-logging/compare/v1.4.20...v1.4.21) (2020-07-02)
 
 
