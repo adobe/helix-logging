@@ -1,3 +1,10 @@
+## [1.4.23](https://github.com/adobe/helix-logging/compare/v1.4.22...v1.4.23) (2020-07-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @google-cloud/bigquery to v5.0.1 ([a6fe427](https://github.com/adobe/helix-logging/commit/a6fe4274b3d63a1fa3f34f758815954e25521914))
+
 ## [1.4.22](https://github.com/adobe/helix-logging/compare/v1.4.21...v1.4.22) (2020-07-02)
 
 
