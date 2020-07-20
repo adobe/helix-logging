@@ -1,3 +1,12 @@
+## [1.4.24](https://github.com/adobe/helix-logging/compare/v1.4.23...v1.4.24) (2020-07-20)
+
+
+### Bug Fixes
+
+* **deps:** update [@adobe](https://github.com/adobe) fixes ([ecbedde](https://github.com/adobe/helix-logging/commit/ecbedde127f835058f09476a939f13ec4816cf0b))
+* **deps:** update dependency googleapis to v54 ([#311](https://github.com/adobe/helix-logging/issues/311)) ([25163d3](https://github.com/adobe/helix-logging/commit/25163d37370ed05b46a901875a5338032b170546))
+* **deps:** update dependency googleapis to v55 ([#315](https://github.com/adobe/helix-logging/issues/315)) ([d4b3fa0](https://github.com/adobe/helix-logging/commit/d4b3fa0ce7436034f501b2f3a2ad6048ccbe083a))
+
 ## [1.4.23](https://github.com/adobe/helix-logging/compare/v1.4.22...v1.4.23) (2020-07-13)
 
 
