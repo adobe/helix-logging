@@ -1,3 +1,10 @@
+## [1.4.26](https://github.com/adobe/helix-logging/compare/v1.4.25...v1.4.26) (2020-07-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-status to v8.1.2 ([#318](https://github.com/adobe/helix-logging/issues/318)) ([ab06a70](https://github.com/adobe/helix-logging/commit/ab06a70a855bbdbb197cf649c72243ed165a1179))
+
 ## [1.4.25](https://github.com/adobe/helix-logging/compare/v1.4.24...v1.4.25) (2020-07-22)
 
 
