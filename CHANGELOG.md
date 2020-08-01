@@ -1,3 +1,10 @@
+## [1.4.29](https://github.com/adobe/helix-logging/compare/v1.4.28...v1.4.29) (2020-08-01)
+
+
+### Bug Fixes
+
+* **deps:** update external fixes ([81dc332](https://github.com/adobe/helix-logging/commit/81dc3328e450e16eb45e6187e07f883d92197e5c))
+
 ## [1.4.28](https://github.com/adobe/helix-logging/compare/v1.4.27...v1.4.28) (2020-07-29)
 
 
