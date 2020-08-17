@@ -40,7 +40,7 @@
     "@adobe/openwhisk-action-logger": "2.2.0",
     "@adobe/openwhisk-action-utils": "4.2.3",
     "@google-cloud/bigquery": "5.2.0",
-    "googleapis": "58.0.0",
+    "googleapis": "59.0.0",
     "request": "2.88.2",
     "request-promise-native": "1.0.9"
   },
