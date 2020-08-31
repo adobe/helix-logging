@@ -86,7 +86,6 @@ const schema = {
         forwarded: req`forwarded`,
         via: req`Via`,
         cache_control: req`Cache-Control`,
-        x_requested_with: req`X-Requested-With`,
         header_size: vcl`req.header_bytes_read`,
         body_size: vcl`req.body_bytes_read`,
       },
