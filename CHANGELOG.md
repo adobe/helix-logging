@@ -1,3 +1,11 @@
+## [1.4.39](https://github.com/adobe/helix-logging/compare/v1.4.38...v1.4.39) (2020-08-31)
+
+
+### Bug Fixes
+
+* **coralogix:** truncate forwarded ips ([41f74fc](https://github.com/adobe/helix-logging/commit/41f74fcd81dbc169c505b914d5ec683a1bbf4b53))
+* **google:** properly mask ips ([eadc08d](https://github.com/adobe/helix-logging/commit/eadc08d37ae0d4b349da62999cd97ee5abf66109))
+
 ## [1.4.38](https://github.com/adobe/helix-logging/compare/v1.4.37...v1.4.38) (2020-08-31)
 
 
