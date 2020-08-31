@@ -1,3 +1,14 @@
+## [1.4.38](https://github.com/adobe/helix-logging/compare/v1.4.37...v1.4.38) (2020-08-31)
+
+
+### Bug Fixes
+
+* **coralogix:** remove cdn.request.dnt ([fccc8b6](https://github.com/adobe/helix-logging/commit/fccc8b6bc186e13c3301345cc13a69f8fcd07ad3))
+* **coralogix:** remove cdn.request.h2_stream_id ([0e0dde3](https://github.com/adobe/helix-logging/commit/0e0dde36cec8d2d2a2be2c25aa996adba0184358))
+* **coralogix:** remove cdn.request.x-requested-with ([ba43253](https://github.com/adobe/helix-logging/commit/ba432539d667703724c7a9064d7b8b3f201351cb))
+* **coralogix:** remove cdn.response.tsv ([bbf70ed](https://github.com/adobe/helix-logging/commit/bbf70edc86067825997572dd638b2a2108e91542))
+* **coralogix:** remove cdn.socket ([df98beb](https://github.com/adobe/helix-logging/commit/df98beb7f9b3d70d1b2e7f27e8ccb14698835140))
+
 ## [1.4.37](https://github.com/adobe/helix-logging/compare/v1.4.36...v1.4.37) (2020-08-26)
 
 
