@@ -65,7 +65,7 @@ const schema = {
         country_name: str(vcl`client.geo.country_name.ascii`),
         connection_speed: str(vcl`client.geo.conn_speed`),
         ip: str(
-          vcl`regsuball(req.http.X-Forwarded-For, "((\\d+)\\.(\\d+)\\.(\\d+)\\.)(\\d+)", "\\1xxx")`,
+          vcl`regsuball(req.http.x-forwarded-for, ",.*", "")`,
         ),
       },
       request: {
