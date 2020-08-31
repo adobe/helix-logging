@@ -75,7 +75,6 @@ const schema = {
         h2: vcl`if(fastly_info.is_h2, "true", "false")`,
         h2_push: vcl`if(fastly_info.h2.is_push, "true", "false")`,
         is_ipv6: vcl`if(req.is_ipv6, "true", "false")`,
-        h2_stream_id: str(vcl`fastly_info.h2.stream_id`),
         url: str(vcl`cstr_escape(req.url)`),
         referer: req`Referer`,
         user_agent: req`User-Agent`,
