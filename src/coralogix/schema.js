@@ -104,7 +104,6 @@ const schema = {
         cache_control: res`Cache-Control`,
         expires: res`Expires`,
         last_modified: res`Last-Modified`,
-        tsv: res`TSV`,
         header_size: vcl`resp.header_bytes_written`,
         body_size: '%B',
       },
