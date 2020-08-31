@@ -83,7 +83,6 @@ const schema = {
         accept_encoding: req`Accept-Encoding`,
         accept_charset: req`Accept-Charset`,
         connection: req`Connection`,
-        dnt: req`DNT`,
         forwarded: req`forwarded`,
         via: req`Via`,
         cache_control: req`Cache-Control`,
