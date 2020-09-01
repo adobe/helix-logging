@@ -9,6 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
 const schema = {
   client_geo_city: '%{client.geo.city.utf8}V',
   client_as_name: '%{client.as.name}V',
@@ -32,16 +33,16 @@ const schema = {
   server_datacenter: '%{server.datacenter}V',
   server_region: '%{server.region}V',
   req_http_host: '%v',
-  req_http_X_Host: '%{req.http.X-Orig-Host}V',
-  req_url: 'https://%{req.http.X-Orig-Host}V%{req.http.X-Orig-URL}V',
-  req_http_X_URL: '%{req.http.X-Orig-URL}V',
-  req_http_X_CDN_Request_ID: '%{req.http.X-CDN-Request-ID}V',
+  req_http_X_Host: '%{if(req.http.X-Orig-Host, req.http.X-Orig-Host, req.http.Host)}V',
+  req_url: 'https://%{if(req.http.X-Orig-Host, req.http.X-Orig-Host, req.http.Host)}V%{if(req.http.X-Orig-URL, req.http.X-Orig-URL, req.url)}V',
+  req_http_X_URL: '%{if(req.http.X-Orig-URL, req.http.X-Orig-URL, req.url)}V',
+  req_http_X_CDN_Request_ID: '%{if(req.http.X-CDN-Request-ID, req.http.X-CDN-Request-ID, randomstr(8, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(1, "89ab") + randomstr(3, "0123456789abcdef") + "-" + randomstr(12, "0123456789abcdef"))}V',
   vcl_sub: 'log-general',
   time_start_usec: '%{time.start.usec}V',
   time_end_usec: '%{time.end.usec}V',
   time_elapsed_usec: '%{time.elapsed.usec}V',
   resp_http_x_openwhisk_activation_id: '%{req.http.x-openwhisk-activation-id}V',
-  resp_http_X_Version: '%{req.http.X-Version}V',
+  resp_http_X_Version: '%{if(req.http.X-Version, req.http.X-Version, regsub(req.vcl, "([^.]+)\\.(\\d+)_(\\d+)-(.*)", "\\2"))}V',
   req_http_Referer: '%{req.http.Referer}V',
   req_http_User_Agent: '%{req.http.User-Agent}V',
   resp_http_Content_Type: '%{resp.http.Content-Type}V',
