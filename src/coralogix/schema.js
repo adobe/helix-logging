@@ -108,9 +108,7 @@ const schema = {
         body_size: '%B',
       },
       edge: {
-        cache_status: str(
-          vcl`fastly_info.state`,
-        ),
+        cache_status: str(vcl`fastly_info.state`),
         datacenter: str(vcl`server.datacenter`),
         ip: str('%A'),
       },
