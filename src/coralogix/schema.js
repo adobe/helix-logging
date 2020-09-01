@@ -32,7 +32,7 @@ const schema = {
         concat('https://', vcl`req.http.host`, vcl`cstr_escape(req.url)`),
       ),
       service_id: str(vcl`req.service_id`),
-      version: str(vcl`req.http.X-Version`),
+      version: str(vcl`if(req.http.X-Version, req.http.X-Version, regsub(req.vcl, "([^.]+)\\.(\\d+)_(\\d+)-(.*)", "\\2"))`),
       time: {
         start: str(
           concat(
@@ -69,7 +69,7 @@ const schema = {
         ),
       },
       request: {
-        id: str(vcl`req.http.X-CDN-Request-ID`),
+        id: str(vcl`if(req.http.X-CDN-Request-ID, req.http.X-CDN-Request-ID, randomstr(8, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(1, "89ab") + randomstr(3, "0123456789abcdef") + "-" + randomstr(12, "0123456789abcdef"))`),
         method: str('%m'),
         protocol: str(vcl`if(fastly_info.is_h2, "HTTP/2", "HTTP/1.1")`),
         h2: vcl`if(fastly_info.is_h2, "true", "false")`,
@@ -91,11 +91,11 @@ const schema = {
       },
       origin: {
         host: str('%v'),
-        url: str(vcl`req.http.x-backend-url`),
+        url: str(vcl`if(req.http.x-backend-url, req.http.x-backend-url, req.url)`),
       },
       helix: {
-        strain: str(vcl`req.http.X-Strain`),
-        type: str(vcl`req.http.X-Request-Type`),
+        strain: str(vcl`if(req.http.X-Strain, req.http.X-Strain, "Outer-CDN")`),
+        type: str(vcl`if(req.http.X-Request-Type, req.http.X-Request-Type, "Outer-CDN")`),
       },
       response: {
         status: str('%s'),
