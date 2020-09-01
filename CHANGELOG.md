@@ -1,3 +1,11 @@
+## [1.5.1](https://github.com/adobe/helix-logging/compare/v1.5.0...v1.5.1) (2020-09-01)
+
+
+### Bug Fixes
+
+* **schema:** fix cache status ([#322](https://github.com/adobe/helix-logging/issues/322)) ([670bb90](https://github.com/adobe/helix-logging/commit/670bb900ae37e10e5d57de0f833b9b89ad5f8ba2))
+* **schema:** formatting ([#322](https://github.com/adobe/helix-logging/issues/322)) ([f96a14b](https://github.com/adobe/helix-logging/commit/f96a14bc846346558d285b76e567daa7f8cf7144))
+
 # [1.5.0](https://github.com/adobe/helix-logging/compare/v1.4.39...v1.5.0) (2020-09-01)
 
 
