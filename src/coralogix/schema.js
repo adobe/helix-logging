@@ -108,10 +108,7 @@ const schema = {
         body_size: '%B',
       },
       edge: {
-        cache_status: str(
-          vcl`regsub(fastly_info.state, "^(HIT-(SYNTH)|(HITPASS|HIT|MISS|PASS|ERROR|PIPE)).*", "\\\\2\\\\3")`,
-        ),
-        is_cacheable: vcl`if(fastly_info.state ~"^(HIT|MISS)$", "true", "false")`,
+        cache_status: str(vcl`fastly_info.state`),
         datacenter: str(vcl`server.datacenter`),
         ip: str('%A'),
       },
