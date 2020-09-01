@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/adobe/helix-logging/compare/v1.4.39...v1.5.0) (2020-09-01)
+
+
+### Features
+
+* **coralogix:** support outer cdns ([27037d5](https://github.com/adobe/helix-logging/commit/27037d55614e78eed21753687af72b973e28a2df))
+* **google:** support outer cdns ([13974ad](https://github.com/adobe/helix-logging/commit/13974ad75deeaeaf1f5e06fc4edcb3f49eff1b0a))
+
 ## [1.4.39](https://github.com/adobe/helix-logging/compare/v1.4.38...v1.4.39) (2020-08-31)
 
 
