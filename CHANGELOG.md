@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/adobe/helix-logging/compare/v1.5.2...v1.6.0) (2020-09-03)
+
+
+### Features
+
+* **index.js:** force release ([#349](https://github.com/adobe/helix-logging/issues/349)) ([a8010db](https://github.com/adobe/helix-logging/commit/a8010db7c5bc7d656d652401dcba8fe2da119119))
+
 ## [1.5.2](https://github.com/adobe/helix-logging/compare/v1.5.1...v1.5.2) (2020-09-02)
 
 
