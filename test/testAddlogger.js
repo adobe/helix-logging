@@ -35,6 +35,7 @@ describe('Test addlogger', () => {
       },
 
     );
+    console.log(res);
     assert.ok(res);
     assert.equal();
   }).timeout(60000);

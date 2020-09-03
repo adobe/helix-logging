@@ -13,7 +13,7 @@ const f = require('@adobe/fastly-native-promises');
 const { toString } = require('../util/schemahelper');
 
 function makeFormat(patterns) {
-  return JSON.stringify(patterns, undefined, 2);
+  return toString(patterns);
 }
 
 function makeConfig(name, patterns, user, project, dataset, table, suffix, key) {

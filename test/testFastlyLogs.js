@@ -12,20 +12,19 @@
 /* eslint-env mocha */
 const assert = require('assert');
 const { condit } = require('@adobe/helix-testutils');
+const { str } = require('../src/util/schemahelper');
 const { makeFormat, makeConfig, updateFastlyConfig } = require('../src/fastly/logs');
 
 describe('Test fastly.logs', () => {
   it('Test makeFormat', () => {
-    assert.deepEqual(makeFormat({ foo: 'bar %Y', baz: 'bop %T' }), `{
-  "foo": "bar %Y",
-  "baz": "bop %T"
-}`);
+    assert.deepEqual(makeFormat({ foo: str('bar %Y'), baz: str('bop %T') }),
+      '{ "foo": "bar %Y",  "baz": "bop %T" }');
   });
 
   it('Test makeConfig', () => {
     assert.deepEqual(makeConfig(
       'helix-logs',
-      { foo: 'bar %Y', baz: 'bop %T' },
+      { foo: str('bar %Y'), baz: str('bop %T') },
       'new-bar@fakeproject.iam.gserviceaccount.com',
       'fakeproject',
       'helix-logging',
@@ -35,10 +34,7 @@ describe('Test fastly.logs', () => {
     ),
     {
       dataset: 'helix-logging',
-      format: `{
-  "foo": "bar %Y",
-  "baz": "bop %T"
-}`,
+      format: '{ "foo": "bar %Y",  "baz": "bop %T" }',
       name: 'helix-logs',
       project_id: 'fakeproject',
       table: 'requests',
