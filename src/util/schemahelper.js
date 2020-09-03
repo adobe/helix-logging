@@ -25,7 +25,7 @@ function concat(...args) {
 }
 
 function vcl([expr]) {
-  return `%{${expr}}V`;
+  return `%{json.escape(${expr})}V`;
 }
 
 function str(expr) {
