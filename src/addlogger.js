@@ -17,6 +17,7 @@ const bigquery = require('./google/bigquery');
 const logs = require('./fastly/logs');
 const bigquerySchema = require('./google/schema');
 const coralogixSchema = require('./coralogix/schema');
+const { str } = require('./util/schemahelper');
 
 const tablename = 'requests';
 
@@ -96,7 +97,7 @@ async function addlogger({
       fastlyClient,
       version,
       logconfigname,
-      Object.assign(bigquerySchema, { service_config: service }),
+      Object.assign(bigquerySchema, { service_config: str(service) }),
       googleKeys.email,
       project,
       dataSet.id,
