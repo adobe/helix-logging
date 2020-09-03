@@ -39,7 +39,7 @@ const schema = {
   req_http_X_Host: str(vcl`if(req.http.X-Orig-Host, req.http.X-Orig-Host, req.http.Host)`),
   req_url: str(concat(
     'https://',
-    vcl`if(req.http.X-Orig-Host, req.http.X-Orig-Host, req.http.Host)}`,
+    vcl`if(req.http.X-Orig-Host, req.http.X-Orig-Host, req.http.Host)`,
     vcl`if(req.http.X-Orig-URL, req.http.X-Orig-URL, req.url)`,
   )),
   req_http_X_URL: str(vcl`if(req.http.X-Orig-URL, req.http.X-Orig-URL, req.url)`),
