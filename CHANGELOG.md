@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/adobe/helix-logging/compare/v1.6.0...v1.6.1) (2020-09-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/openwhisk-action-utils to v4.3.0 ([#350](https://github.com/adobe/helix-logging/issues/350)) ([9c2cbd7](https://github.com/adobe/helix-logging/commit/9c2cbd75c9643810b756235425e2e1124247155d))
+
 # [1.6.0](https://github.com/adobe/helix-logging/compare/v1.5.2...v1.6.0) (2020-09-03)
 
 
