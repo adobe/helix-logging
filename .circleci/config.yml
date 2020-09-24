@@ -63,7 +63,11 @@ jobs:
       - run:
           name: Post-Deployment Integration Test
           command: npm run test-postdeploy
+          environment:
+            MOCHA_FILE: junit/test-results.xml
       - store_test_results:
+          path: junit
+      - store_artifacts:
           path: junit
       - run:
           name: Link Sequences
