@@ -1,3 +1,10 @@
+## [1.6.9](https://github.com/adobe/helix-logging/compare/v1.6.8...v1.6.9) (2020-10-05)
+
+
+### Bug Fixes
+
+* **coralogix:** log complete request uri ([42ad2fc](https://github.com/adobe/helix-logging/commit/42ad2fc15fa08b64c5dc3129a804a1f30ab7d3eb))
+
 ## [1.6.8](https://github.com/adobe/helix-logging/compare/v1.6.7...v1.6.8) (2020-10-03)
 
 
