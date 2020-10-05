@@ -29,7 +29,7 @@ const schema = {
     },
     cdn: {
       url: str(
-        concat('https://', vcl`req.http.host`, vcl`cstr_escape(req.url)`),
+        concat('https://', vcl`req.http.host`, vcl`cstr_escape(if(req.http.X-Orig-Url, req.http.X-Orig-Url, req.url))`),
       ),
       service_id: str(vcl`req.service_id`),
       version: str(vcl`if(req.http.X-Version, req.http.X-Version, regsub(req.vcl, "([^.]+)\\.(\\d+)_(\\d+)-(.*)", "\\2"))`),
@@ -75,7 +75,7 @@ const schema = {
         h2: vcl`if(fastly_info.is_h2, "true", "false")`,
         h2_push: vcl`if(fastly_info.h2.is_push, "true", "false")`,
         is_ipv6: vcl`if(req.is_ipv6, "true", "false")`,
-        url: str(vcl`cstr_escape(req.url)`),
+        url: str(vcl`cstr_escape(if(req.http.X-Orig-Url, req.http.X-Orig-Url, req.url))`),
         referer: req`Referer`,
         user_agent: req`User-Agent`,
         accept_content: req`Accept`,
