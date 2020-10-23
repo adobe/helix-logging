@@ -91,6 +91,15 @@ describe('Test google.bigquery', () => {
     }
   });
 
+  condit('Testing unsuccessful table creation using invalid name', condit.hasenvs(['GOOGLE_CLIENT_EMAIL', 'GOOGLE_PRIVATE_KEY', 'GOOGLE_PROJECT_ID']), async () => {
+    try {
+      const table = await createTable(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), process.env.GOOGLE_PROJECT_ID, 'test_dataset', '');
+      assert.fail(table);
+    } catch (e) {
+      assert.ok(e);
+    }
+  });
+
   it('Testing makeFields', () => {
     assert.deepEqual(makeFields(['foo', 'bar', 'baz']), [
       { name: 'foo', type: 'string' },
