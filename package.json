@@ -34,7 +34,7 @@
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
     "@adobe/fastly-native-promises": "1.17.3",
-    "@adobe/helix-epsagon": "1.5.3",
+    "@adobe/helix-epsagon": "1.5.4",
     "@adobe/helix-log": "4.5.2",
     "@adobe/helix-status": "8.2.1",
     "@adobe/openwhisk-action-logger": "2.2.1",
