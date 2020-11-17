@@ -1,3 +1,12 @@
+## [1.6.14](https://github.com/adobe/helix-logging/compare/v1.6.13...v1.6.14) (2020-11-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-epsagon to v1.5.4 ([#380](https://github.com/adobe/helix-logging/issues/380)) ([6a48c44](https://github.com/adobe/helix-logging/commit/6a48c4497d59552a58b8cfdb3adef82c8c861279))
+* **deps:** update dependency googleapis to v65 ([#382](https://github.com/adobe/helix-logging/issues/382)) ([1a55ce6](https://github.com/adobe/helix-logging/commit/1a55ce66370b2ad788524f965a10730a9435ab2c))
+* **deps:** update external fixes ([cd37c60](https://github.com/adobe/helix-logging/commit/cd37c60391b7b18d58027594d9d77b47018e0fce))
+
 ## [1.6.13](https://github.com/adobe/helix-logging/compare/v1.6.12...v1.6.13) (2020-11-13)
 
 
