@@ -1,3 +1,10 @@
+## [1.6.15](https://github.com/adobe/helix-logging/compare/v1.6.14...v1.6.15) (2020-11-19)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([#383](https://github.com/adobe/helix-logging/issues/383)) ([edc440c](https://github.com/adobe/helix-logging/commit/edc440c621854250ef3d03dac0264f4c69a76c4b))
+
 ## [1.6.14](https://github.com/adobe/helix-logging/compare/v1.6.13...v1.6.14) (2020-11-17)
 
 
