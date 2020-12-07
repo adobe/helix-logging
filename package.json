@@ -34,11 +34,11 @@
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
     "@adobe/fastly-native-promises": "1.17.3",
-    "@adobe/helix-epsagon": "1.5.4",
+    "@adobe/helix-epsagon": "1.5.5",
     "@adobe/helix-log": "4.5.3",
     "@adobe/helix-status": "8.2.2",
     "@adobe/openwhisk-action-logger": "2.2.2",
-    "@adobe/openwhisk-action-utils": "4.3.3",
+    "@adobe/openwhisk-action-utils": "4.4.0",
     "@google-cloud/bigquery": "5.5.0",
     "googleapis": "65.0.0",
     "request": "2.88.2",
