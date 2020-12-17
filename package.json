@@ -36,7 +36,7 @@
     "@adobe/fastly-native-promises": "1.17.3",
     "@adobe/helix-epsagon": "1.5.5",
     "@adobe/helix-log": "4.5.3",
-    "@adobe/helix-status": "8.2.3",
+    "@adobe/helix-status": "9.0.0",
     "@adobe/openwhisk-action-logger": "2.3.0",
     "@adobe/openwhisk-action-utils": "4.4.0",
     "@google-cloud/bigquery": "5.5.0",
