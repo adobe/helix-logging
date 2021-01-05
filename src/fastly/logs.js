@@ -129,5 +129,10 @@ async function updateFastlyConfig(
 }
 
 module.exports = {
-  makeConfig, makeFormat, updateFastlyConfig, updateFastlyVersion, updateFastlyVersionWithCoralogix,
+  makeConfig,
+  makeFormat,
+  updateFastlyConfig,
+  /* istanbul ignore next */
+  updateFastlyVersion,
+  updateFastlyVersionWithCoralogix,
 };
