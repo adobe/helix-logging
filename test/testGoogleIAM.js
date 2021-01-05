@@ -64,9 +64,10 @@ describe('Test google.iam', () => {
     // there is a limit of ten keys per account. Creating 12 will exceed the limit.
     for (let i = 0; i < 12; i += 1) {
       /* eslint-disable-next-line no-await-in-loop */
-      const key = await createServiceAccountKey(process.env.GOOGLE_PROJECT_ID, 'new-bar', authclient);
+      const key = await createServiceAccountKey(process.env.GOOGLE_PROJECT_ID, 'new-bar-exhausted', authclient);
+      // console.log(i);
       assert.ok(key);
-      assert.equal(key.client_email, `new-bar@${process.env.GOOGLE_PROJECT_ID}.iam.gserviceaccount.com`);
+      assert.equal(key.client_email, `new-bar-exhausted@${process.env.GOOGLE_PROJECT_ID}.iam.gserviceaccount.com`);
       assert.equal(key.private_key.split('\n')[0], '-----BEGIN PRIVATE KEY-----');
     }
   }).timeout(100000);
