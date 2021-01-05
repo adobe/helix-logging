@@ -58,7 +58,15 @@ describe('Test google.iam', () => {
     assert.equal(key.private_key.split('\n')[0], '-----BEGIN PRIVATE KEY-----');
   }).timeout(100000);
 
-  condit('Test successful service account key creation with resource exhaustion', condit.hasenvs(GOOGLE_CI_ENV_NAMES), async () => {
+  condit('Test successful service account key creation (again)', condit.hasenvs(GOOGLE_CI_ENV_NAMES), async () => {
+    const authclient = await googleauth(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'));
+    const key = await createServiceAccountKey(process.env.GOOGLE_PROJECT_ID, 'new-bar', authclient);
+    assert.ok(key);
+    assert.equal(key.client_email, `new-bar@${process.env.GOOGLE_PROJECT_ID}.iam.gserviceaccount.com`);
+    assert.equal(key.private_key.split('\n')[0], '-----BEGIN PRIVATE KEY-----');
+  }).timeout(100000);
+
+  condit('Test successful service account key creation with resource exhaustion', condit.hasenvs([...GOOGLE_CI_ENV_NAMES, 'ALL_TESTS']), async () => {
     const authclient = await googleauth(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'));
 
     // there is a limit of ten keys per account. Creating 12 will exceed the limit.
