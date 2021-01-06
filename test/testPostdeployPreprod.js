@@ -37,7 +37,7 @@ const CI_ENVVAR_NAMES = [
   'HLX_FASTLY_AUTH',
   'VERSION_NUM'];
 
-describe('Running Post-Deployment Integration Tests (Preprod)', () => {
+describe.skip('Running Post-Deployment Integration Tests (Preprod)', () => {
   condit('Test successful logger setup', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
     await chai
       .request('https://preprod.adobeioruntime.net/')
