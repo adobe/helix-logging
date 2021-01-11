@@ -16,6 +16,18 @@ const { fetch } = process.env.HELIX_FETCH_FORCE_HTTP1
   ? fetchAPI.context({ httpsProtocols: ['http1'] })
   : fetchAPI;
 
+async function http(options) {
+  const res = await fetch(options.uri, options);
+
+  if (!res.ok) {
+    const e = new Error((await res.json()).error.message);
+    e.statusCode = res.status;
+    throw e;
+  }
+
+  return res.json();
+}
+
 /**
  * Gets a service account for a given project
  * @param {String} project project ID
@@ -30,15 +42,7 @@ async function getServiceAccount(project, name, auth) {
       timeout: 2000,
     });
 
-    const res = await fetch(options.uri, options);
-
-    if (!res.ok) {
-      const e = new Error((await res.json()).error.message);
-      e.statusCode = res.status;
-      throw e;
-    }
-
-    return res.json();
+    return await http(options);
   } catch (e) {
     throw new Error(`Service account ${name} does not exist in project ${project}: ${e}`);
   }
@@ -55,6 +59,7 @@ async function createServiceAccount(project, name, auth) {
     const options = await auth.authorizeRequest({
       uri: `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts`,
       timeout: 2000,
+      method: 'post',
       body: JSON.stringify({
         accountId: name,
         serviceAccount: {
@@ -63,17 +68,7 @@ async function createServiceAccount(project, name, auth) {
       }),
     });
 
-    options.method = 'post';
-
-    const res = await fetch(options.uri, options);
-
-    if (!res.ok) {
-      const e = new Error((await res.json()).error.message);
-      e.statusCode = res.status;
-      throw e;
-    }
-
-    return res.json();
+    return await http(options);
   } catch (e) {
     if (e.statusCode === 409) {
       // account ID already exists
@@ -93,15 +88,7 @@ async function listServiceAccountKeys(project, name, auth) {
       timeout: 2000,
     });
 
-    const res = await fetch(options.uri, options);
-
-    if (!res.ok) {
-      const e = new Error((await res.json()).error.message);
-      e.statusCode = res.status;
-      throw e;
-    }
-
-    const { keys } = await res.json();
+    const { keys } = await http(options);
     return keys;
   } catch (e) {
     throw new Error(`Unable to list keys for service account ${name} in project ${project}: ${e}`);
@@ -123,15 +110,7 @@ async function deleteServiceAccountKey(name, auth) {
       timeout: 2000,
     });
 
-    const res = await fetch(options.uri, options);
-
-    if (!res.ok) {
-      const e = new Error((await res.json()).error.message);
-      e.statusCode = res.status;
-      throw e;
-    }
-
-    return !!(await res.json());
+    return !!(await http(options));
   } catch (e) {
     throw new Error(`Unable to delete key ${name}: ${e}`);
   }
@@ -169,15 +148,7 @@ async function createServiceAccountKey(project, name, auth) {
       await Promise.all(deletekeys);
     }
 
-    const res = await fetch(options.uri, options);
-
-    if (!res.ok) {
-      const e = new Error((await res.json()).error.message);
-      e.statusCode = res.status;
-      throw e;
-    }
-
-    const key = await res.json();
+    const key = await http(options);
     const data = JSON.parse(Buffer.from(key.privateKeyData, 'base64').toString('ascii'));
 
     return data;
@@ -200,15 +171,7 @@ async function getIamPolicy(project, dataset, auth) {
       timeout: 10000, // note the raised timeout
     });
 
-    const res = await fetch(options.uri, options);
-
-    if (!res.ok) {
-      const e = new Error((await res.json()).error.message);
-      e.statusCode = res.status;
-      throw e;
-    }
-
-    return res.json();
+    return await http(options);
   } catch (e) {
     throw new Error(`Cannot get IAM policy for dataset ${dataset} in project ${project}: ${e}`);
   }
@@ -243,15 +206,7 @@ async function addIamPolicy(project, dataset, role, email, auth) {
       }),
     });
 
-    const res = await fetch(options.uri, options);
-
-    if (!res.ok) {
-      const e = new Error((await res.json()).error.message);
-      e.statusCode = res.status;
-      throw e;
-    }
-
-    return res.json();
+    return await http(options);
   } catch (e) {
     throw new Error(`Cannot update IAM policy for dataset ${dataset} in project ${project}: ${e}`);
   }
