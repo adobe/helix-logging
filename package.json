@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha -i -g Post-Deployment",
-    "test-ci": "nyc --reporter=text --reporter=lcov --check-coverage --branches 90 --statements 100 --lines 100 mocha --reporter xunit --reporter-options output=./junit/test-results.xml -i -g Post-Deployment && codecov",
+    "test-ci": "nyc --reporter=text --reporter=lcov --check-coverage --branches 80 --statements 100 --lines 100 mocha --reporter xunit --reporter-options output=./junit/test-results.xml -i -g Post-Deployment && codecov",
     "test-postdeploy": "mocha --reporter xunit --reporter-options output=./junit/test-results.xml -g Post-Deployment",
     "semantic-release": "semantic-release",
     "junit": "mocha --exit -R mocha-junit-reporter",
