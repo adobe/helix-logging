@@ -1,3 +1,17 @@
+## [1.6.18](https://github.com/adobe/helix-logging/compare/v1.6.17...v1.6.18) (2021-01-11)
+
+
+### Bug Fixes
+
+* **deps:** bump fastly client version ([7f703f5](https://github.com/adobe/helix-logging/commit/7f703f5e71283852444ccb7c1a653885cbd053a0))
+* **deps:** bump fastly client version ([0c3813c](https://github.com/adobe/helix-logging/commit/0c3813cc7d5ead87935eb2b3379d507f54e83a82))
+* **deps:** update adobe fixes ([bfef4a8](https://github.com/adobe/helix-logging/commit/bfef4a8fc90eedc2bc726dd51965bbb29249637f))
+* **deps:** update dependency @adobe/helix-status to v8.2.3 ([#391](https://github.com/adobe/helix-logging/issues/391)) ([fb5e3ca](https://github.com/adobe/helix-logging/commit/fb5e3ca2292ec2425c638de79aa4c76847b06c9b))
+* **deps:** update dependency @adobe/helix-status to v9 ([95418a2](https://github.com/adobe/helix-logging/commit/95418a29d91686031b4716476722c88dbe40beda))
+* **deps:** update dependency @adobe/openwhisk-action-logger to v2.3.0 ([0360a23](https://github.com/adobe/helix-logging/commit/0360a238b261b7088872b6dcf84b246a516ea42a))
+* **deps:** update dependency googleapis to v66 ([#390](https://github.com/adobe/helix-logging/issues/390)) ([eb08865](https://github.com/adobe/helix-logging/commit/eb088651eb34090f37314f4c32f691314a2f3781))
+* **google:** ignore key deletion errors ([f945b88](https://github.com/adobe/helix-logging/commit/f945b88cec29785a004ad8499c1d4fe1e3eb79a3))
+
 ## [1.6.17](https://github.com/adobe/helix-logging/compare/v1.6.16...v1.6.17) (2020-12-07)
 
 
