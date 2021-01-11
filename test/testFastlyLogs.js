@@ -70,5 +70,5 @@ describe('Test fastly.logs', () => {
     } catch (e) {
       assert.fail(e);
     }
-  }).timeout(10000);
+  }).timeout(100000);
 });

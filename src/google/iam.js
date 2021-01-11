@@ -107,11 +107,7 @@ async function deleteServiceAccountKey(name, auth) {
  * @param {String} project project ID
  * @param {String} name name of the new service account
  */
-async function createServiceAccountKey(project, name, auth, retry = true) {
-  function again() {
-    return createServiceAccountKey(project, name, auth, false);
-  }
-
+async function createServiceAccountKey(project, name, auth) {
   try {
     const account = await createServiceAccount(project, name, auth);
     const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
@@ -122,23 +118,25 @@ async function createServiceAccountKey(project, name, auth, retry = true) {
       timeout: 10000, // note the raised timeout
     });
 
+    // preemptively delete keys, as key deletion takes a long
+    // time and we do not want to get in a state where the
+    // key creation can fail.
+    const keys = await listServiceAccountKeys(project, name, auth);
+    if (keys.length > 6) {
+      const deletekeys = keys
+        .slice(0, 4)
+        .map((key) => key.name)
+        .map((sname) => deleteServiceAccountKey(sname, auth).catch(() => undefined));
+
+      // wait for deletion to complete
+      await Promise.all(deletekeys);
+    }
+
     const key = await request.post(options);
     const data = JSON.parse(Buffer.from(key.privateKeyData, 'base64').toString('ascii'));
 
     return data;
   } catch (e) {
-    if (e.statusCode && e.statusCode === 429 && e.error && e.error.error && e.error.error.status && e.error.error.status === 'RESOURCE_EXHAUSTED' && retry) {
-      const keys = await listServiceAccountKeys(project, name, auth);
-
-      // only delete the two oldest keys
-      const deletekeys = keys
-        .slice(0, 4)
-        .map((key) => key.name)
-        .map((sname) => deleteServiceAccountKey(sname, auth));
-
-      // wait for deletion to complete
-      return Promise.all(deletekeys).then(again).catch(again);
-    }
     throw new Error(`Unable to create key for service account ${name} in project ${project}: ${e}`);
   }
 }

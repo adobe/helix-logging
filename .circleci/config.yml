@@ -87,10 +87,14 @@ jobs:
       - helix-post-deploy/config-wsk
       - run:
           name: Branch Deployment
-          command: npm run deploy-ci
+          command: npm run deploy-ci && sleep 30
       - run:
           name: Post-Deployment Integration Test
           command: npm run test-postdeploy
+      - store_test_results:
+          path: junit
+      - store_artifacts:
+          path: junit
 
 workflows:
   version: 2
