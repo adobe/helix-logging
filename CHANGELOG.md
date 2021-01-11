@@ -1,3 +1,10 @@
+## [1.6.20](https://github.com/adobe/helix-logging/compare/v1.6.19...v1.6.20) (2021-01-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v67 ([13191f4](https://github.com/adobe/helix-logging/commit/13191f4732863d795ae3fec104f2d772c4954085))
+
 ## [1.6.19](https://github.com/adobe/helix-logging/compare/v1.6.18...v1.6.19) (2021-01-11)
 
 
