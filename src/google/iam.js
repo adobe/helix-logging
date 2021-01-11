@@ -126,7 +126,7 @@ async function createServiceAccountKey(project, name, auth) {
       const deletekeys = keys
         .slice(0, 4)
         .map((key) => key.name)
-        .map((sname) => deleteServiceAccountKey(sname, auth));
+        .map((sname) => deleteServiceAccountKey(sname, auth).catch(() => undefined));
 
       // wait for deletion to complete
       await Promise.all(deletekeys);
