@@ -10,7 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-const request = require('request-promise-native');
+const fetchAPI = require('@adobe/helix-fetch');
+
+const { fetch } = process.env.HELIX_FETCH_FORCE_HTTP1
+  ? fetchAPI.context({ httpsProtocols: ['http1'] })
+  : fetchAPI;
+
 /**
  * Gets a service account for a given project
  * @param {String} project project ID
@@ -25,7 +30,15 @@ async function getServiceAccount(project, name, auth) {
       timeout: 2000,
     });
 
-    return await request.get(options);
+    const res = await fetch(options.uri, options);
+
+    if (!res.ok) {
+      const e = new Error((await res.json()).error.message);
+      e.statusCode = res.status;
+      throw e;
+    }
+
+    return res.json();
   } catch (e) {
     throw new Error(`Service account ${name} does not exist in project ${project}: ${e}`);
   }
@@ -41,17 +54,26 @@ async function createServiceAccount(project, name, auth) {
   try {
     const options = await auth.authorizeRequest({
       uri: `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts`,
-      json: true,
       timeout: 2000,
-      body: {
+      body: JSON.stringify({
         accountId: name,
         serviceAccount: {
           displayName: `${name} Account created by Helix-Logger`,
         },
-      },
+      }),
     });
 
-    return await request.post(options);
+    options.method = 'post';
+
+    const res = await fetch(options.uri, options);
+
+    if (!res.ok) {
+      const e = new Error((await res.json()).error.message);
+      e.statusCode = res.status;
+      throw e;
+    }
+
+    return res.json();
   } catch (e) {
     if (e.statusCode === 409) {
       // account ID already exists
@@ -68,11 +90,18 @@ async function listServiceAccountKeys(project, name, auth) {
 
     const options = await auth.authorizeRequest({
       uri,
-      json: true,
       timeout: 2000,
     });
 
-    const { keys } = await request.get(options);
+    const res = await fetch(options.uri, options);
+
+    if (!res.ok) {
+      const e = new Error((await res.json()).error.message);
+      e.statusCode = res.status;
+      throw e;
+    }
+
+    const { keys } = await res.json();
     return keys;
   } catch (e) {
     throw new Error(`Unable to list keys for service account ${name} in project ${project}: ${e}`);
@@ -89,12 +118,20 @@ async function deleteServiceAccountKey(name, auth) {
     const uri = `https://iam.googleapis.com/v1/${name}`;
 
     const options = await auth.authorizeRequest({
+      method: 'delete',
       uri,
-      json: true,
       timeout: 2000,
     });
-    const result = await request.delete(options);
-    return !!(result);
+
+    const res = await fetch(options.uri, options);
+
+    if (!res.ok) {
+      const e = new Error((await res.json()).error.message);
+      e.statusCode = res.status;
+      throw e;
+    }
+
+    return !!(await res.json());
   } catch (e) {
     throw new Error(`Unable to delete key ${name}: ${e}`);
   }
@@ -114,7 +151,7 @@ async function createServiceAccountKey(project, name, auth) {
 
     const options = await auth.authorizeRequest({
       uri,
-      json: true,
+      method: 'post',
       timeout: 10000, // note the raised timeout
     });
 
@@ -132,7 +169,15 @@ async function createServiceAccountKey(project, name, auth) {
       await Promise.all(deletekeys);
     }
 
-    const key = await request.post(options);
+    const res = await fetch(options.uri, options);
+
+    if (!res.ok) {
+      const e = new Error((await res.json()).error.message);
+      e.statusCode = res.status;
+      throw e;
+    }
+
+    const key = await res.json();
     const data = JSON.parse(Buffer.from(key.privateKeyData, 'base64').toString('ascii'));
 
     return data;
@@ -152,11 +197,18 @@ async function getIamPolicy(project, dataset, auth) {
 
     const options = await auth.authorizeRequest({
       uri,
-      json: true,
       timeout: 10000, // note the raised timeout
     });
 
-    return await request.get(options);
+    const res = await fetch(options.uri, options);
+
+    if (!res.ok) {
+      const e = new Error((await res.json()).error.message);
+      e.statusCode = res.status;
+      throw e;
+    }
+
+    return res.json();
   } catch (e) {
     throw new Error(`Cannot get IAM policy for dataset ${dataset} in project ${project}: ${e}`);
   }
@@ -178,9 +230,9 @@ async function addIamPolicy(project, dataset, role, email, auth) {
 
     const options = await auth.authorizeRequest({
       uri,
-      json: true,
       timeout: 2000,
-      body: {
+      method: 'patch',
+      body: JSON.stringify({
         access: [
           ...oldaccess,
           {
@@ -188,10 +240,18 @@ async function addIamPolicy(project, dataset, role, email, auth) {
             userByEmail: email,
           },
         ],
-      },
+      }),
     });
 
-    return await request.patch(options);
+    const res = await fetch(options.uri, options);
+
+    if (!res.ok) {
+      const e = new Error((await res.json()).error.message);
+      e.statusCode = res.status;
+      throw e;
+    }
+
+    return res.json();
   } catch (e) {
     throw new Error(`Cannot update IAM policy for dataset ${dataset} in project ${project}: ${e}`);
   }
