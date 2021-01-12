@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha -i -g Post-Deployment",
-    "test-ci": "nyc --reporter=text --reporter=lcov --check-coverage --branches 80 --statements 100 --lines 100 mocha --reporter xunit --reporter-options output=./junit/test-results.xml -i -g Post-Deployment && codecov",
+    "test-ci": "nyc --reporter=text --reporter=lcov --check-coverage --branches 80 --statements 94 --lines 100 mocha --reporter xunit --reporter-options output=./junit/test-results.xml -i -g Post-Deployment && codecov",
     "test-postdeploy": "mocha --reporter xunit --reporter-options output=./junit/test-results.xml -g Post-Deployment",
     "semantic-release": "semantic-release",
     "junit": "mocha --exit -R mocha-junit-reporter",
@@ -35,14 +35,13 @@
   "dependencies": {
     "@adobe/fastly-native-promises": "1.19.4",
     "@adobe/helix-epsagon": "1.5.5",
+    "@adobe/helix-fetch": "1.9.2",
     "@adobe/helix-log": "4.5.3",
     "@adobe/helix-status": "9.0.0",
     "@adobe/openwhisk-action-logger": "2.3.1",
     "@adobe/openwhisk-action-utils": "4.4.0",
     "@google-cloud/bigquery": "5.5.0",
-    "googleapis": "67.0.0",
-    "request": "2.88.2",
-    "request-promise-native": "1.0.9"
+    "googleapis": "67.0.0"
   },
   "devDependencies": {
     "@adobe/eslint-config-helix": "1.1.3",
