@@ -17,15 +17,22 @@ const { fetch } = process.env.HELIX_FETCH_FORCE_HTTP1
   : fetchAPI;
 
 async function http(options) {
-  const res = await fetch(options.uri, options);
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const res = await fetch(options.uri, options);
 
-  if (!res.ok) {
-    const e = new Error((await res.json()).error.message);
-    e.statusCode = res.status;
+    if (!res.ok) {
+      const e = new Error((await res.json()).error.message);
+      e.statusCode = res.status;
+      throw e;
+    }
+
+    return res.json();
+  } catch (e) {
+    // could be HTTP error, syntax error, abort error
+    // the only one that gets a retry is the 429 error
     throw e;
   }
-
-  return res.json();
 }
 
 /**
