@@ -16,7 +16,7 @@ const { fetch, timeoutSignal } = process.env.HELIX_FETCH_FORCE_HTTP1
   ? fetchAPI.context({ httpsProtocols: ['http1'] })
   : fetchAPI;
 
-async function makeGoogleHTTPRequest({ options }, auth) {
+async function makeGoogleHTTPRequest(options, auth) {
   const { timeout } = options;
   // eslint-disable-next-line no-param-reassign
   delete options.timeout;
