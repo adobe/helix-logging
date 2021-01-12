@@ -16,13 +16,21 @@ const { fetch, timeoutSignal } = process.env.HELIX_FETCH_FORCE_HTTP1
   ? fetchAPI.context({ httpsProtocols: ['http1'] })
   : fetchAPI;
 
-async function makeGoogleHTTPRequest(options, auth) {
+async function makeGoogleHTTPRequest({ options }, auth) {
+  const { timeout } = options;
+  // eslint-disable-next-line no-param-reassign
+  delete options.timeout;
+
   // eslint-disable-next-line no-useless-catch
   try {
     const res = await fetch(options.uri, {
       ...options,
-      headers: await auth.getRequestHeaders(options.uri),
-      signal: timeoutSignal(options.timeout),
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+        ...await auth.getRequestHeaders(options.uri),
+        signal: timeoutSignal(timeout),
+      },
     });
 
     if (!res.ok) {
