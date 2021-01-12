@@ -56,4 +56,18 @@ describe('Test addlogger', () => {
       assert.ok(e);
     }
   }).timeout(60000);
+
+  condit('Test zero logger setup', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
+    try {
+      const logger = await addlogger({
+        service: process.env.HLX_FASTLY_NAMESPACE,
+        token: process.env.HLX_FASTLY_AUTH,
+        project: process.env.GOOGLE_PROJECT_ID,
+        version: Number.parseInt(process.env.VERSION_NUM, 10),
+      });
+      assert.fail(`${logger} should be undefined`);
+    } catch (e) {
+      assert.ok(e);
+    }
+  }).timeout(60000);
 });
