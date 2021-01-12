@@ -16,11 +16,12 @@ const { fetch, timeoutSignal } = process.env.HELIX_FETCH_FORCE_HTTP1
   ? fetchAPI.context({ httpsProtocols: ['http1'] })
   : fetchAPI;
 
-async function http(options) {
+async function makeGoogleHTTPRequest(options, auth) {
   // eslint-disable-next-line no-useless-catch
   try {
     const res = await fetch(options.uri, {
       ...options,
+      headers: await auth.getRequestHeaders(options.uri),
       signal: timeoutSignal(options.timeout),
     });
 
@@ -45,14 +46,13 @@ async function http(options) {
  */
 async function getServiceAccount(project, name, auth) {
   try {
-    const options = await auth.authorizeRequest({
+    const options = {
       uri:
         `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts/${name}@${project}.iam.gserviceaccount.com`,
-      json: true,
       timeout: 2000,
-    });
+    };
 
-    return await http(options);
+    return await makeGoogleHTTPRequest(options, auth);
   } catch (e) {
     throw new Error(`Service account ${name} does not exist in project ${project}: ${e}`);
   }
@@ -66,7 +66,7 @@ async function getServiceAccount(project, name, auth) {
  */
 async function createServiceAccount(project, name, auth) {
   try {
-    const options = await auth.authorizeRequest({
+    const options = {
       uri: `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts`,
       timeout: 2000,
       method: 'POST',
@@ -76,9 +76,9 @@ async function createServiceAccount(project, name, auth) {
           displayName: `${name} Account created by Helix-Logger`,
         },
       }),
-    });
+    };
 
-    return await http(options);
+    return await makeGoogleHTTPRequest(options, auth);
   } catch (e) {
     if (e.statusCode === 409) {
       // account ID already exists
@@ -93,12 +93,12 @@ async function listServiceAccountKeys(project, name, auth) {
     const account = await createServiceAccount(project, name, auth);
     const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
 
-    const options = await auth.authorizeRequest({
+    const options = {
       uri,
       timeout: 2000,
-    });
+    };
 
-    const { keys } = await http(options);
+    const { keys } = await makeGoogleHTTPRequest(options, auth);
     return keys;
   } catch (e) {
     throw new Error(`Unable to list keys for service account ${name} in project ${project}: ${e}`);
@@ -114,13 +114,13 @@ async function deleteServiceAccountKey(name, auth) {
   try {
     const uri = `https://iam.googleapis.com/v1/${name}`;
 
-    const options = await auth.authorizeRequest({
+    const options = {
       method: 'DELETE',
       uri,
       timeout: 2000,
-    });
+    };
 
-    return !!(await http(options));
+    return !!(await makeGoogleHTTPRequest(options, auth));
   } catch (e) {
     throw new Error(`Unable to delete key ${name}: ${e}`);
   }
@@ -138,11 +138,11 @@ async function createServiceAccountKey(project, name, auth) {
     const account = await createServiceAccount(project, name, auth);
     const uri = `https://iam.googleapis.com/v1/${account.name}/keys`;
 
-    const options = await auth.authorizeRequest({
+    const options = {
       uri,
       method: 'POST',
       timeout: 10000, // note the raised timeout
-    });
+    };
 
     // preemptively delete keys, as key deletion takes a long
     // time and we do not want to get in a state where the
@@ -158,7 +158,7 @@ async function createServiceAccountKey(project, name, auth) {
       await Promise.all(deletekeys);
     }
 
-    const key = await http(options);
+    const key = await makeGoogleHTTPRequest(options, auth);
     const data = JSON.parse(Buffer.from(key.privateKeyData, 'base64').toString('ascii'));
 
     return data;
@@ -176,12 +176,12 @@ async function getIamPolicy(project, dataset, auth) {
   try {
     const uri = `https://www.googleapis.com/bigquery/v2/projects/${project}/datasets/${dataset}`;
 
-    const options = await auth.authorizeRequest({
+    const options = {
       uri,
       timeout: 10000, // note the raised timeout
-    });
+    };
 
-    return await http(options);
+    return await makeGoogleHTTPRequest(options, auth);
   } catch (e) {
     throw new Error(`Cannot get IAM policy for dataset ${dataset} in project ${project}: ${e}`);
   }
@@ -201,7 +201,7 @@ async function addIamPolicy(project, dataset, role, email, auth) {
 
     const oldaccess = (await getIamPolicy(project, dataset, auth)).access;
 
-    const options = await auth.authorizeRequest({
+    const options = {
       uri,
       timeout: 2000,
       method: 'PATCH',
@@ -214,9 +214,9 @@ async function addIamPolicy(project, dataset, role, email, auth) {
           },
         ],
       }),
-    });
+    };
 
-    return await http(options);
+    return await makeGoogleHTTPRequest(options, auth);
   } catch (e) {
     throw new Error(`Cannot update IAM policy for dataset ${dataset} in project ${project}: ${e}`);
   }
