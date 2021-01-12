@@ -59,7 +59,7 @@ async function createServiceAccount(project, name, auth) {
     const options = await auth.authorizeRequest({
       uri: `https://iam.googleapis.com/v1/projects/${project}/serviceAccounts`,
       timeout: 2000,
-      method: 'post',
+      method: 'POST',
       body: JSON.stringify({
         accountId: name,
         serviceAccount: {
@@ -105,7 +105,7 @@ async function deleteServiceAccountKey(name, auth) {
     const uri = `https://iam.googleapis.com/v1/${name}`;
 
     const options = await auth.authorizeRequest({
-      method: 'delete',
+      method: 'DELETE',
       uri,
       timeout: 2000,
     });
@@ -130,7 +130,7 @@ async function createServiceAccountKey(project, name, auth) {
 
     const options = await auth.authorizeRequest({
       uri,
-      method: 'post',
+      method: 'POST',
       timeout: 10000, // note the raised timeout
     });
 
@@ -194,7 +194,7 @@ async function addIamPolicy(project, dataset, role, email, auth) {
     const options = await auth.authorizeRequest({
       uri,
       timeout: 2000,
-      method: 'patch',
+      method: 'PATCH',
       body: JSON.stringify({
         access: [
           ...oldaccess,
