@@ -12,14 +12,17 @@
 
 const fetchAPI = require('@adobe/helix-fetch');
 
-const { fetch } = process.env.HELIX_FETCH_FORCE_HTTP1
+const { fetch, timeoutSignal } = process.env.HELIX_FETCH_FORCE_HTTP1
   ? fetchAPI.context({ httpsProtocols: ['http1'] })
   : fetchAPI;
 
 async function http(options) {
   // eslint-disable-next-line no-useless-catch
   try {
-    const res = await fetch(options.uri, options);
+    const res = await fetch(options.uri, {
+      ...options,
+      signal: timeoutSignal(options.timeout),
+    });
 
     if (!res.ok) {
       const e = new Error((await res.json()).error.message);
