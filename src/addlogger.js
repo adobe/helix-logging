@@ -10,7 +10,9 @@
  * governing permissions and limitations under the License.
  */
 const initfastly = require('@adobe/fastly-native-promises');
-const { info, debug, error } = require('@adobe/helix-log');
+const log = require('@adobe/helix-log');
+
+const { info, debug, error } = log;
 const iam = require('./google/iam');
 const auth = require('./google/auth');
 const bigquery = require('./google/bigquery');
@@ -18,10 +20,14 @@ const logs = require('./fastly/logs');
 const bigquerySchema = require('./google/schema');
 const coralogixSchema = require('./coralogix/schema');
 const { str } = require('./util/schemahelper');
+const google = require('./google/logger');
+const coralogix = require('./coralogix/logger');
 
 const tablename = 'requests';
 
 const logconfigname = 'helix-logging';
+
+const loggers = [google, coralogix];
 
 /**
  *
@@ -32,9 +38,32 @@ const logconfigname = 'helix-logging';
  * @param {string} project the Google project ID
  * @param {string} version the Fastly service config version to update
  */
-async function addlogger({
-  email, key, service, token, project, version, coralogixkey, coralogixapp,
-}) {
+async function addlogger(params) {
+  const {
+    email, key, service, token, project, version, coralogixkey, coralogixapp,
+  } = params;
+
+  try {
+    const fastly = await initfastly(token, service);
+
+    const jobs = loggers
+      .filter((logger) => logger.check(params))
+      .map((logger) => logger.add(params, fastly, log));
+
+    if (jobs.length === 0) {
+      throw new Error('No eligable loggers found');
+    }
+
+    await Promise.all(jobs);
+
+    return {
+      message: 'successfully set up logging',
+    };
+  } catch (e) {
+    error(`Unable to add logger to service config ${service}: ${e} (in ${e.stack})`, e);
+    throw e;
+  }
+
   debug(`Adding logger for service config ${service}`);
   try {
     const authclient = await auth.googleauth(email, key);
