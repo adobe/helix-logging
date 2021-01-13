@@ -10,6 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
+const URL = require('url');
+const { toString } = require('../util/schemahelper');
+const schema = require('./schema');
+
 function check({ splunkhost, splunkauth }) {
   return !!splunkhost && !!splunkauth;
 }
@@ -18,7 +22,14 @@ function add(params, fastlyClient) {
   const {
     version, service, splunkhost, splunkauth,
   } = params;
-  // TODO
+
+  return fastlyClient.writeSplunk(version, 'helix-skyline-logs', {
+    name: 'helix-skyline-logs',
+    format: toString(schema),
+    tls_hostname: new URL(splunkhost).hostname,
+    url: splunkhost,
+    token: splunkauth,
+  })
 }
 
 module.exports = { check, add };
