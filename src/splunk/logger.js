@@ -20,7 +20,7 @@ function check({ splunkhost, splunkauth }) {
 
 function add(params, fastlyClient) {
   const {
-    version, service, splunkhost, splunkauth,
+    version, splunkhost, splunkauth,
   } = params;
 
   return fastlyClient.writeSplunk(version, 'helix-skyline-logs', {
@@ -29,7 +29,7 @@ function add(params, fastlyClient) {
     tls_hostname: new URL(splunkhost).hostname,
     url: splunkhost,
     token: splunkauth,
-  })
+  });
 }
 
 module.exports = { check, add };
