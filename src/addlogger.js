@@ -15,8 +15,9 @@ const log = require('@adobe/helix-log');
 const { error } = log;
 const google = require('./google/logger');
 const coralogix = require('./coralogix/logger');
+const splunk = require('./splunk/logger');
 
-const loggers = [google, coralogix];
+const loggers = [google, coralogix, splunk];
 
 /**
  *
