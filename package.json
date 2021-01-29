@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
-    "@adobe/fastly-native-promises": "1.19.7",
+    "@adobe/fastly-native-promises": "1.19.9",
     "@adobe/helix-epsagon": "1.5.6",
     "@adobe/helix-fetch": "1.9.2",
     "@adobe/helix-log": "4.5.3",
