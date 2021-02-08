@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const {
-  vcl, str, time,
+  vcl, str, time, concat,
 } = require('../util/schemahelper');
 
 const schema = {
@@ -20,9 +20,12 @@ const schema = {
   sourcetype: str`cdn`,
   event: {
     // AEM specific props
-    aem_service: str`helix_logging`,
+    aem_service: str(concat(
+      'helix_',
+      vcl`req.service_id`,
+    )),
     aem_tier: str`publish`,
-    aem_cluster: str`*prod*`,
+    aem_cluster: str`*helix-prod*`,
 
     service_id: str(vcl`req.service_id`),
     // we are using the helix request id, if available
