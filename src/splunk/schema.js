@@ -19,6 +19,11 @@ const schema = {
   index: str`dx_aem_engineering`,
   sourcetype: str`cdn`,
   event: {
+    // AEM specific props
+    aem_service: str`helix_logging`,
+    aem_tier: str`publish`,
+    aem_cluster: str`*prod*`,
+
     service_id: str(vcl`req.service_id`),
     // we are using the helix request id, if available
     'x-rid': str(vcl`if(req.http.X-CDN-Request-ID, req.http.X-CDN-Request-ID, randomstr(8, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(1, "89ab") + randomstr(3, "0123456789abcdef") + "-" + randomstr(12, "0123456789abcdef"))`),
