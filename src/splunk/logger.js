@@ -18,10 +18,12 @@ function check({ splunkhost, splunkauth }) {
   return !!splunkhost && !!splunkauth;
 }
 
-function add(params, fastlyClient) {
+function add(params, fastlyClient, log) {
   const {
     version, splunkhost, splunkauth,
   } = params;
+
+  log.info('Setting up Splunk log');
 
   return fastlyClient.writeSplunk(version, 'helix-skyline-logs', {
     name: 'helix-skyline-logs',
