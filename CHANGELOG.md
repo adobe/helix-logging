@@ -1,3 +1,15 @@
+# [1.8.0](https://github.com/adobe/helix-logging/compare/v1.7.0...v1.8.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* **splunk:** pass splunk config to addlogger ([4415319](https://github.com/adobe/helix-logging/commit/4415319aeae78d5614e0c904977a6f18f321b2d1))
+
+
+### Features
+
+* **index:** return the number of loggers added ([86f8f6c](https://github.com/adobe/helix-logging/commit/86f8f6c3a1fe553fb73bab20782482af6e5e9fc8))
+
 # [1.7.0](https://github.com/adobe/helix-logging/compare/v1.6.27...v1.7.0) (2021-02-08)
 
 
