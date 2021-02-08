@@ -29,6 +29,7 @@ function add(params, fastlyClient) {
     tls_hostname: URL.parse(splunkhost).hostname,
     url: splunkhost,
     token: splunkauth,
+    use_tls: 1,
   });
 }
 
