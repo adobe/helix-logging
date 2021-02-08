@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const {
-  vcl, str,
+  vcl, str, time,
 } = require('../util/schemahelper');
 
 const schema = {
@@ -22,8 +22,8 @@ const schema = {
     service_id: str(vcl`req.service_id`),
     // we are using the helix request id, if available
     'x-rid': str(vcl`if(req.http.X-CDN-Request-ID, req.http.X-CDN-Request-ID, randomstr(8, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(1, "89ab") + randomstr(3, "0123456789abcdef") + "-" + randomstr(12, "0123456789abcdef"))`),
-    time_start: str(vcl`strftime({"%Y-%m-%dT%H:%M:%S%Z"}, time.start)`),
-    time_end: str(vcl`strftime({"%Y-%m-%dT%H:%M:%S%Z"}, time.end)`),
+    time_start: time`begin:%Y-%m-%dT%H:%M:%S%Z`, // str(vcl`strftime({"%Y-%m-%dT%H:%M:%S%Z"}, time.start)`),
+    time_end: time`end:%Y-%m-%dT%H:%M:%S%Z`, // str(vcl`strftime({"%Y-%m-%dT%H:%M:%S%Z"}, time.end)`),
     time_elapsed: vcl`time.elapsed.usec`,
     client_ip: str(vcl`req.http.Fastly-Client-IP`),
     client_as_name: str(vcl`client.as.name`),
