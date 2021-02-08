@@ -26,7 +26,7 @@ function add(params, fastlyClient) {
   return fastlyClient.writeSplunk(version, 'helix-skyline-logs', {
     name: 'helix-skyline-logs',
     format: toString(schema),
-    tls_hostname: new URL(splunkhost).hostname,
+    tls_hostname: URL.parse(splunkhost).hostname,
     url: splunkhost,
     token: splunkauth,
   });
