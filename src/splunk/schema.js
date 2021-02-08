@@ -21,11 +21,11 @@ const schema = {
   event: {
     // AEM specific props
     aem_service: str(concat(
-      'helix_',
+      'helix-',
       vcl`req.service_id`,
     )),
     aem_tier: str`publish`,
-    aem_cluster: str`*helix-prod*`,
+    aem_cluster: str`helix-prod`,
 
     service_id: str(vcl`req.service_id`),
     // we are using the helix request id, if available
