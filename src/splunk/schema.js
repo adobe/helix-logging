@@ -59,7 +59,7 @@ const schema = {
     request_x_forwarded_for: str(vcl`cstr_escape(req.http.x-forwarded-for)`),
     status: str(vcl`resp.status`),
     content_type: str(vcl`cstr_escape(resp.http.content-type)`),
-    cache_status: str(vcl`regsub(fastly_info.state, "^(HIT-(SYNTH)|(HITPASS|HIT|MISS|PASS|ERROR|PIPE)).*", "\2\3")`),
+    // cache_status: str(vcl`regsub(fastly_info.state, "^(HIT-(SYNTH)|(HITPASS|HIT|MISS|PASS|ERROR|PIPE)).*", "\2\3")`),
     is_cacheable: str(vcl`if(fastly_info.state ~"^(HIT|MISS)$", "true", "false")`),
     response_age: str(vcl`cstr_escape(resp.http.age)`),
     response_cache_control: str(vcl`cstr_escape(resp.http.cache-control)`),
