@@ -44,10 +44,10 @@ async function addlogger(params) {
       throw new Error('No eligible loggers found');
     }
 
-    await Promise.all(jobs);
+    const done = await Promise.all(jobs);
 
     return {
-      message: 'successfully set up logging',
+      message: `successfully set up logging for ${done.length} loggers`,
     };
   } catch (e) {
     error(`Unable to add logger to service config ${service}: ${e} (in ${e.stack})`, e);
