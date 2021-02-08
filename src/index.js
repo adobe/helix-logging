@@ -28,6 +28,8 @@ async function setupLogger(params) {
       version: params.version,
       coralogixkey: params.coralogixkey,
       coralogixapp: params.coralogixapp,
+      splunkhost: params.splunkhost,
+      splunkauth: params.splunkauth,
     }),
   };
 }
