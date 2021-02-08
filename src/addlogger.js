@@ -41,7 +41,7 @@ async function addlogger(params) {
       .map((logger) => logger.add(params, fastly, log));
 
     if (jobs.length === 0) {
-      throw new Error('No eligable loggers found');
+      throw new Error('No eligible loggers found');
     }
 
     await Promise.all(jobs);
