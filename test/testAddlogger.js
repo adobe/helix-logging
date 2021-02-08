@@ -38,7 +38,6 @@ describe('Test addlogger', () => {
 
     );
     assert.ok(res);
-    assert.equal();
   }).timeout(60000);
 
   condit('Test unsuccessful logger setup', condit.hasenvs(CI_ENVVAR_NAMES), async () => {

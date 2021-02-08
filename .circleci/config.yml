@@ -1,14 +1,14 @@
 version: 2.1
 executors:
-  node10:
+  node12:
     docker:
-      - image: trieloff/githop:node
+      - image: circleci/node:12
         environment:
           NPM_CONFIG_PREFIX: "~/.npm-global"
     working_directory: ~/repo
 
 orbs:
-  helix-post-deploy: adobe/helix-post-deploy@1.10.0
+  helix-post-deploy: adobe/helix-post-deploy@2.0.10
 
 commands:
   setup:
@@ -16,21 +16,21 @@ commands:
       - checkout
       - restore_cache:
           keys:
-            - v5-dependencies-{{ arch }}-{{ checksum "package-lock.json" }}
+            - v6-dependencies-{{ arch }}-{{ checksum "package-lock.json" }}
       - run:
           name: Installing Dependencies
           command: npm install
       - save_cache:
           paths:
             - node_modules
-          key: v5-dependencies-{{ arch }}-{{ checksum "package-lock.json" }}
+          key: v6-dependencies-{{ arch }}-{{ checksum "package-lock.json" }}
       - run:
           name: prepare test git user
           command: git config --global user.email "circleci@example.com" && git config --global user.name "CircleCi Build"
 
 jobs:
   build:
-    executor: node10
+    executor: node12
     steps:
       - setup
       - run: mkdir junit
@@ -49,7 +49,7 @@ jobs:
           path: junit
 
   semantic-release:
-    executor: node10
+    executor: node12
     steps:
       - setup
       - run:
@@ -78,7 +78,7 @@ jobs:
           newrelic_group_policy: Development Repeated Failure
 
   branch-deploy:
-    executor: node10
+    executor: node12
     steps:
       - setup
       - run:

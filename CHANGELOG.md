@@ -1,3 +1,53 @@
+## [1.6.27](https://github.com/adobe/helix-logging/compare/v1.6.26...v1.6.27) (2021-02-04)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([ef4eb63](https://github.com/adobe/helix-logging/commit/ef4eb63f3e382359b04e40a31717a14f586b4424))
+
+## [1.6.26](https://github.com/adobe/helix-logging/compare/v1.6.25...v1.6.26) (2021-02-04)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([e662dd0](https://github.com/adobe/helix-logging/commit/e662dd0561b142595672f1b0105e9d8abd18d292))
+
+## [1.6.25](https://github.com/adobe/helix-logging/compare/v1.6.24...v1.6.25) (2021-02-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-status to v9.0.1 ([#415](https://github.com/adobe/helix-logging/issues/415)) ([9445f65](https://github.com/adobe/helix-logging/commit/9445f6588371f9e00f0d6ad612f13757de36693d))
+
+## [1.6.24](https://github.com/adobe/helix-logging/compare/v1.6.23...v1.6.24) (2021-02-01)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([#414](https://github.com/adobe/helix-logging/issues/414)) ([0fa8b2c](https://github.com/adobe/helix-logging/commit/0fa8b2c03cb326244f31de25e346c8924fa24ccd))
+
+## [1.6.23](https://github.com/adobe/helix-logging/compare/v1.6.22...v1.6.23) (2021-01-29)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/fastly-native-promises to v1.19.9 ([#411](https://github.com/adobe/helix-logging/issues/411)) ([1d47bba](https://github.com/adobe/helix-logging/commit/1d47bbafb8f3a495790204679b95b535a8362ee1))
+
+## [1.6.22](https://github.com/adobe/helix-logging/compare/v1.6.21...v1.6.22) (2021-01-28)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([b37b6a1](https://github.com/adobe/helix-logging/commit/b37b6a1b2eb5947dc2e4f817df698a6d2381768a))
+
+## [1.6.21](https://github.com/adobe/helix-logging/compare/v1.6.20...v1.6.21) (2021-01-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/fastly-native-promises to v1.19.5 ([b0cb7db](https://github.com/adobe/helix-logging/commit/b0cb7dbe219d4c7bac1eaf8d69714bbcb162c58b))
+* **deps:** update dependency @adobe/helix-epsagon to v1.5.6 ([6837083](https://github.com/adobe/helix-logging/commit/6837083c7ebe639bef7447c0504a58c97b240aac))
+
 ## [1.6.20](https://github.com/adobe/helix-logging/compare/v1.6.19...v1.6.20) (2021-01-11)
 
 

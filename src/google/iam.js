@@ -13,7 +13,7 @@
 const fetchAPI = require('@adobe/helix-fetch');
 
 const { fetch, timeoutSignal } = process.env.HELIX_FETCH_FORCE_HTTP1
-  ? fetchAPI.context({ httpsProtocols: ['http1'] })
+  ? fetchAPI.context({ alpnProtocols: [fetchAPI.ALPN_HTTP1_1] })
   : fetchAPI;
 
 async function makeGoogleHTTPRequest(options, auth) {
