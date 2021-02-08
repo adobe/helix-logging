@@ -1,3 +1,27 @@
+# [1.7.0](https://github.com/adobe/helix-logging/compare/v1.6.27...v1.7.0) (2021-02-08)
+
+
+### Bug Fixes
+
+* **addlogger:** fix typo ([645971d](https://github.com/adobe/helix-logging/commit/645971dec603654896e74fdaa3094a1347484ac8))
+* **splunk:** escape strings in splunk logs ([e46d97e](https://github.com/adobe/helix-logging/commit/e46d97e3016eeba081e06cb4fea73db28bcc725d))
+* **splunk:** fix time stamps ([52ea5b3](https://github.com/adobe/helix-logging/commit/52ea5b339d61333b54c9ea10fd8f9bdc5fab7bdb))
+* **splunk:** remove undefined expression from splunk ([1ac8b52](https://github.com/adobe/helix-logging/commit/1ac8b522de1efacae2f01fffeb083af197d1618b))
+* **splunk:** use correct escaping for backslash ([2010e82](https://github.com/adobe/helix-logging/commit/2010e824324eeab6dbc7a3e5eab68a4bbd83c5f3))
+* **splunk:** use correct way of parsing URLs ([8c6b352](https://github.com/adobe/helix-logging/commit/8c6b352612c38c2dec0f06244c82fc56cfa17ba8))
+* **splunk:** use proper dashes, do not wrap with * ([5f6810c](https://github.com/adobe/helix-logging/commit/5f6810c733c3e4ed6de588cb0788c7527078c5fe))
+* **splunk:** use tls ([47a46c1](https://github.com/adobe/helix-logging/commit/47a46c1b198b0dbf2fcc5d3f8f49b3283d6ec3df))
+* **splunk:** use unique id and helix-prod ([6042393](https://github.com/adobe/helix-logging/commit/6042393b81854fe0b98114a8f7553caca3c189c4))
+
+
+### Features
+
+* **splunk:** add aem logging properties ([d071538](https://github.com/adobe/helix-logging/commit/d0715387e46f0dce0c0cb174132e325f0f58aef8))
+* **splunk:** add splunk logging support ([180b355](https://github.com/adobe/helix-logging/commit/180b3553e86c422963b05e08f247688b763ca54b))
+* **splunk:** add splunk schema ([dd55d78](https://github.com/adobe/helix-logging/commit/dd55d78c5c71bb16c1e4fca12990711e8777c7af))
+* **splunk:** add support for logging to splunk ([e3e1892](https://github.com/adobe/helix-logging/commit/e3e1892848c4d6729ce5332315fffd4b830e9131))
+* **splunk:** create splunk config in Fastly ([84fab78](https://github.com/adobe/helix-logging/commit/84fab78c57c55c133d60e74a8872b884207732c1))
+
 ## [1.6.27](https://github.com/adobe/helix-logging/compare/v1.6.26...v1.6.27) (2021-02-04)
 
 
