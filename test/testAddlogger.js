@@ -20,10 +20,12 @@ const CI_ENVVAR_NAMES = [
   'GOOGLE_PROJECT_ID',
   'HLX_FASTLY_NAMESPACE',
   'HLX_FASTLY_AUTH',
+  'SPLUNK_HOST',
+  'SPLUNK_AUTH',
   'VERSION_NUM'];
 
 describe('Test addlogger', () => {
-  condit('Test successful logger setup with Coralogix', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
+  condit('Test successful logger setup with Coralogix and Splunk', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
     const res = await addlogger(
       {
         email: process.env.GOOGLE_CLIENT_EMAIL,
@@ -31,6 +33,8 @@ describe('Test addlogger', () => {
         service: process.env.HLX_FASTLY_NAMESPACE,
         token: process.env.HLX_FASTLY_AUTH,
         project: process.env.GOOGLE_PROJECT_ID,
+        splunkhost: process.env.SPLUNK_HOST,
+        splunkauth: process.env.SPLUNK_AUTH,
         version: Number.parseInt(process.env.VERSION_NUM, 10),
         coralogixkey: 'fake',
         coralogixapp: 'testing-helix-logging',

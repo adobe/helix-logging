@@ -27,6 +27,13 @@ describe('Schema Helper Integration Tests', () => {
     }), '{ "foo": %D }');
   });
 
+  it('toString works with VCL expressions', () => {
+    assert.equal(toString({
+      foo: '%D',
+      cache_status: str(vcl`regsub(fastly_info.state, "^(HIT-(SYNTH)|(HITPASS|HIT|MISS|PASS|ERROR|PIPE)).*", "\\2\\3")`),
+    }), '{ "foo": %D,  "cache_status": "%{json.escape(regsub(fastly_info.state, "^(HIT-(SYNTH)|(HITPASS|HIT|MISS|PASS|ERROR|PIPE)).*", "\\2\\3"))}V" }');
+  });
+
   it('toString works with nested schemas and VCL encoding', () => {
     assert.equal(toString({
       foo: {
