@@ -1,3 +1,10 @@
+## [1.8.3](https://github.com/adobe/helix-logging/compare/v1.8.2...v1.8.3) (2021-02-12)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([c8ee53d](https://github.com/adobe/helix-logging/commit/c8ee53d20da4bcd5a7fc44ac8e5c92a0df63858d))
+
 ## [1.8.2](https://github.com/adobe/helix-logging/compare/v1.8.1...v1.8.2) (2021-02-10)
 
 
