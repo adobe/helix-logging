@@ -1,3 +1,10 @@
+## [1.8.5](https://github.com/adobe/helix-logging/compare/v1.8.4...v1.8.5) (2021-02-15)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/fastly-native-promises to v1.19.12 ([3eec3fd](https://github.com/adobe/helix-logging/commit/3eec3fd0cf87eaeb86eb7d668da1a69176b85565))
+
 ## [1.8.4](https://github.com/adobe/helix-logging/compare/v1.8.3...v1.8.4) (2021-02-15)
 
 
