@@ -39,13 +39,13 @@
     "@adobe/helix-log": "5.0.0",
     "@adobe/helix-status": "9.0.4",
     "@adobe/openwhisk-action-logger": "2.4.0",
-    "@adobe/openwhisk-action-utils": "4.4.0",
+    "@adobe/openwhisk-action-utils": "4.4.1",
     "@google-cloud/bigquery": "5.5.0",
     "googleapis": "67.1.0"
   },
   "devDependencies": {
     "@adobe/eslint-config-helix": "1.1.4",
-    "@adobe/helix-testutils": "0.4.2",
+    "@adobe/helix-testutils": "0.4.3",
     "@adobe/openwhisk-action-builder": "3.0.11",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/exec": "5.0.0",
