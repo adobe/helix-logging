@@ -35,7 +35,7 @@
   "dependencies": {
     "@adobe/fastly-native-promises": "1.22.1",
     "@adobe/helix-epsagon": "1.5.8",
-    "@adobe/helix-fetch": "2.1.6",
+    "@adobe/helix-fetch": "2.1.7",
     "@adobe/helix-log": "5.0.0",
     "@adobe/helix-status": "9.0.6",
     "@adobe/openwhisk-action-logger": "2.4.1",
