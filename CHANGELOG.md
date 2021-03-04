@@ -1,3 +1,11 @@
+## [1.8.17](https://github.com/adobe/helix-logging/compare/v1.8.16...v1.8.17) (2021-03-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/fastly-native-promises to v1.22.1 ([b0ab52c](https://github.com/adobe/helix-logging/commit/b0ab52cac26fe28a65bfbe0bdd29f2269312b875))
+* **deps:** update dependency @adobe/helix-fetch to v2.1.7 ([3452627](https://github.com/adobe/helix-logging/commit/34526272081241acd0537357ff0b4163289c659a))
+
 ## [1.8.16](https://github.com/adobe/helix-logging/compare/v1.8.15...v1.8.16) (2021-03-01)
 
 
