@@ -22,9 +22,9 @@ async function setupLogger(request, context) {
 
   try {
     let res;
-    if (/^multipart\/formdata|application\/x-www-form-urlencoded/.test(request.headers.get('content-type'))) {
+    if (/^application\/x-www-form-urlencoded/.test(request.headers.get('content-type'))) {
       context.log.info('Getting parameters from formdata');
-      const data = await request.formData();
+      const data = new URLSearchParams(await request.text());
       res = await addlogger({
         email: context.env.GOOGLE_CLIENT_EMAIL,
         key: context.env.GOOGLE_PRIVATE_KEY,
