@@ -18,11 +18,11 @@ const { Response } = require('@adobe/helix-fetch');
 const addlogger = require('./addlogger');
 
 async function setupLogger(request, context) {
-  context.log.info('Setting up logging');
+  context.log.info(`Setting up logging: ${request.headers.get('content-type')}`);
 
   try {
     let res;
-    if (request.headers.get('content-type').match(/multipart\/formdata/)) {
+    if (/^multipart\/formdata|application\/x-www-form-urlencoded/.test(request.headers.get('content-type'))) {
       context.log.info('Getting parameters from formdata');
       const data = await request.formData();
       res = await addlogger({
