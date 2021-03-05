@@ -58,6 +58,7 @@ async function setupLogger(request, context) {
 
     return new Response(res);
   } catch (err) {
+    context.log.error('Something went wrong', err);
     return new Response(err.message, {
       status: 500,
     });
