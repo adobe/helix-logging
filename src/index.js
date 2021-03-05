@@ -13,13 +13,16 @@
 const { wrap: status } = require('@adobe/helix-status');
 const { wrap } = require('@adobe/openwhisk-action-utils');
 const { logger } = require('@adobe/openwhisk-action-logger');
-const { epsagon } = require('@adobe/helix-epsagon');
+const { Response } = require('@adobe/helix-fetch');
 
 const addlogger = require('./addlogger');
 
-async function setupLogger(params) {
-  return {
-    body: await addlogger({
+async function setupLogger(request, context) {
+  context.log.info('Setting up logging');
+  const params = await request.json();
+
+  try {
+    const res = await addlogger({
       email: params.GOOGLE_CLIENT_EMAIL,
       key: params.GOOGLE_PRIVATE_KEY,
       service: params.service,
@@ -30,8 +33,13 @@ async function setupLogger(params) {
       coralogixapp: params.coralogixapp,
       splunkhost: params.splunkhost,
       splunkauth: params.splunkauth,
-    }),
-  };
+    });
+    return new Response(res);
+  } catch (err) {
+    return new Response(err.message, {
+      status: 500,
+    });
+  }
 }
 
 /**
@@ -40,7 +48,6 @@ async function setupLogger(params) {
  * @returns {Promise<*>} The response
  */
 module.exports.main = wrap(setupLogger)
-  .with(epsagon)
   .with(status, {
     fastly: 'https://api.fastly.com/public-ip-list',
     googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
