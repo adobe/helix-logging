@@ -19,21 +19,41 @@ const addlogger = require('./addlogger');
 
 async function setupLogger(request, context) {
   context.log.info('Setting up logging');
-  const params = await request.json();
 
   try {
-    const res = await addlogger({
-      email: params.GOOGLE_CLIENT_EMAIL,
-      key: params.GOOGLE_PRIVATE_KEY,
-      service: params.service,
-      token: params.token,
-      project: params.GOOGLE_PROJECT_ID,
-      version: params.version,
-      coralogixkey: params.coralogixkey,
-      coralogixapp: params.coralogixapp,
-      splunkhost: params.splunkhost,
-      splunkauth: params.splunkauth,
-    });
+    let res;
+    if (request.headers.get('content-type').match(/multipart\/formdata/)) {
+      context.log.info('Getting parameters from formdata');
+      const data = await request.formData();
+      res = await addlogger({
+        email: data.get('GOOGLE_CLIENT_EMAIL'),
+        key: data.get('GOOGLE_PRIVATE_KEY'),
+        service: data.get('service'),
+        token: data.get('token'),
+        project: data.get('GOOGLE_PROJECT_ID'),
+        version: data.get('version'),
+        coralogixkey: data.get('coralogixkey'),
+        coralogixapp: data.get('coralogixapp'),
+        splunkhost: data.get('splunkhost'),
+        splunkauth: data.get('splunkauth'),
+      });
+    } else {
+      context.log.info('Getting parameters from json body');
+      const params = await request.json();
+      res = await addlogger({
+        email: params.GOOGLE_CLIENT_EMAIL,
+        key: params.GOOGLE_PRIVATE_KEY,
+        service: params.service,
+        token: params.token,
+        project: params.GOOGLE_PROJECT_ID,
+        version: params.version,
+        coralogixkey: params.coralogixkey,
+        coralogixapp: params.coralogixapp,
+        splunkhost: params.splunkhost,
+        splunkauth: params.splunkauth,
+      });
+    }
+
     return new Response(res);
   } catch (err) {
     return new Response(err.message, {
