@@ -26,11 +26,12 @@ async function setupLogger(request, context) {
       context.log.info('Getting parameters from formdata');
       const data = await request.formData();
       res = await addlogger({
-        email: data.get('GOOGLE_CLIENT_EMAIL'),
-        key: data.get('GOOGLE_PRIVATE_KEY'),
+        email: context.env.GOOGLE_CLIENT_EMAIL,
+        key: context.env.GOOGLE_PRIVATE_KEY,
+        project: context.env.GOOGLE_PROJECT_ID,
+        // request parameters
         service: data.get('service'),
         token: data.get('token'),
-        project: data.get('GOOGLE_PROJECT_ID'),
         version: data.get('version'),
         coralogixkey: data.get('coralogixkey'),
         coralogixapp: data.get('coralogixapp'),
@@ -41,11 +42,12 @@ async function setupLogger(request, context) {
       context.log.info('Getting parameters from json body');
       const params = await request.json();
       res = await addlogger({
-        email: params.GOOGLE_CLIENT_EMAIL,
-        key: params.GOOGLE_PRIVATE_KEY,
+        email: context.env.GOOGLE_CLIENT_EMAIL,
+        key: context.env.GOOGLE_PRIVATE_KEY,
+        project: context.env.GOOGLE_PROJECT_ID,
+        // request parameters
         service: params.service,
         token: params.token,
-        project: params.GOOGLE_PROJECT_ID,
         version: params.version,
         coralogixkey: params.coralogixkey,
         coralogixapp: params.coralogixapp,
