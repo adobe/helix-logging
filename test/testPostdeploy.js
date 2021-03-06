@@ -13,21 +13,10 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { condit } = require('@adobe/helix-testutils');
-const packjson = require('../package.json');
+const { createTargets } = require('./post-deploy-utils');
 
 chai.use(chaiHttp);
 const { expect } = chai;
-
-function getbaseurl() {
-  const namespace = 'helix';
-  const package = 'helix-services';
-  const name = packjson.name.replace('@adobe/helix-', '');
-  let version = `${packjson.version}`;
-  if (process.env.CI && process.env.CIRCLE_BUILD_NUM && process.env.CIRCLE_BRANCH !== 'master') {
-    version = `ci${process.env.CIRCLE_BUILD_NUM}`;
-  }
-  return `api/v1/web/${namespace}/${package}/${name}@${version}`;
-}
 
 const CI_ENVVAR_NAMES = [
   'GOOGLE_CLIENT_EMAIL',
@@ -37,22 +26,24 @@ const CI_ENVVAR_NAMES = [
   'HLX_FASTLY_AUTH',
   'VERSION_NUM'];
 
-describe('Running Post-Deployment Integration Tests', () => {
-  condit('Test successful logger setup', condit.hasenvs(CI_ENVVAR_NAMES), async () => {
-    await chai
-      .request('https://adobeioruntime.net/')
-      .post(getbaseurl())
-      .type('form')
-      .send({
-        service: process.env.HLX_FASTLY_NAMESPACE,
-        token: process.env.HLX_FASTLY_AUTH,
-        version: Number.parseInt(process.env.VERSION_NUM, 10),
-      })
-      .then((response) => {
-        expect(response).to.have.status(200);
-      })
-      .catch((e) => {
-        throw e;
-      });
-  }).timeout(60000);
+createTargets().forEach((target) => {
+  describe(`Post-Deploy Tests (${target.title()})`, () => {
+    condit(`Test successful logger setup: ${target.host()}${target.urlPath()}`, condit.hasenvs(CI_ENVVAR_NAMES), async () => {
+      await chai
+        .request(target.host())
+        .post(target.urlPath())
+        .type('form')
+        .send({
+          service: process.env.HLX_FASTLY_NAMESPACE,
+          token: process.env.HLX_FASTLY_AUTH,
+          version: Number.parseInt(process.env.VERSION_NUM, 10),
+        })
+        .then((response) => {
+          expect(response).to.have.status(200);
+        })
+        .catch((e) => {
+          throw e;
+        });
+    }).timeout(60000);
+  });
 });

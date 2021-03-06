@@ -6,15 +6,15 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha -i -g Post-Deployment",
-    "test-ci": "nyc --reporter=text --reporter=lcov --check-coverage --branches 80 --statements 94 --lines 100 mocha --reporter xunit --reporter-options output=./junit/test-results.xml -i -g Post-Deployment && codecov",
-    "test-postdeploy": "mocha --reporter xunit --reporter-options output=./junit/test-results.xml -g Post-Deployment",
+    "test-ci": "nyc --reporter=text --reporter=lcov --check-coverage --branches 80 --statements 94 --lines 100 mocha --reporter xunit --reporter-options output=./junit/test-results.xml -i -g Post-Deploy && codecov",
+    "test-postdeploy": "mocha --reporter xunit --reporter-options output=./junit/test-results.xml -g Post-Deploy",
     "semantic-release": "semantic-release",
     "junit": "mocha --exit -R mocha-junit-reporter",
     "lint": "./node_modules/.bin/eslint .",
-    "build": "wsk-builder -v --entryFile index.js",
-    "deploy": "wsk-builder -v --deploy --test=/_status_check/healthcheck.json",
-    "deploy-sequences": "wsk-builder --no-build -no-hints -l latest -l major -l minor",
-    "deploy-ci": "wsk-builder -v --deploy --test=/_status_check/healthcheck.json --pkgVersion=ci$CIRCLE_BUILD_NUM -l ci"
+    "build": "hedy -v --entryFile index.js",
+    "deploy": "hedy -v --deploy --test=/_status_check/healthcheck.json",
+    "deploy-sequences": "hedy --no-build -no-hints -l latest -l major -l minor",
+    "deploy-ci": "hedy -v --deploy --test=/_status_check/healthcheck.json --pkgVersion=ci$CIRCLE_BUILD_NUM -l ci"
   },
   "wsk": {
     "name": "helix-services/logging@${version}"
@@ -34,7 +34,6 @@
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
     "@adobe/fastly-native-promises": "1.22.2",
-    "@adobe/helix-epsagon": "1.5.8",
     "@adobe/helix-fetch": "2.1.7",
     "@adobe/helix-log": "5.0.0",
     "@adobe/helix-status": "9.0.6",
@@ -45,8 +44,8 @@
   },
   "devDependencies": {
     "@adobe/eslint-config-helix": "1.1.4",
+    "@adobe/helix-deploy": "^3.7.0",
     "@adobe/helix-testutils": "0.4.3",
-    "@adobe/openwhisk-action-builder": "3.0.13",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/exec": "5.0.0",
     "@semantic-release/git": "9.0.0",
@@ -54,6 +53,7 @@
     "chai": "4.3.0",
     "chai-http": "4.3.0",
     "codecov": "3.8.1",
+    "dotenv": "^8.2.0",
     "eslint": "7.21.0",
     "eslint-plugin-header": "3.1.1",
     "eslint-plugin-import": "2.22.1",
