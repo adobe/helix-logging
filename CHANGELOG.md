@@ -1,3 +1,13 @@
+## [1.8.19](https://github.com/adobe/helix-logging/compare/v1.8.18...v1.8.19) (2021-03-06)
+
+
+### Bug Fixes
+
+* url encoded form data ([23ce8f0](https://github.com/adobe/helix-logging/commit/23ce8f069a7582115b822ef1748b2057d7c437cd))
+* **index:** allow form/urlencoded post data ([5512b3b](https://github.com/adobe/helix-logging/commit/5512b3b1fb38277719cf91976b1a2e0860d0c701))
+* **index:** parse formdata and json ([fe21176](https://github.com/adobe/helix-logging/commit/fe21176aea5c6f12c25a91ff77478442bb114e28))
+* **index:** take constants from context ([d89253e](https://github.com/adobe/helix-logging/commit/d89253e63b57072d2ba646a8d35d4c4140f943f2))
+
 ## [1.8.18](https://github.com/adobe/helix-logging/compare/v1.8.17...v1.8.18) (2021-03-04)
 
 
