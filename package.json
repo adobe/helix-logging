@@ -17,7 +17,8 @@
     "deploy-ci": "hedy -v --deploy --test=/_status_check/healthcheck.json --pkgVersion=ci$CIRCLE_BUILD_NUM -l ci"
   },
   "wsk": {
-    "name": "helix-services/logging@${version}"
+    "name": "helix-services/logging@${version}",
+    "memory": 512
   },
   "directories": {
     "test": "tests"
