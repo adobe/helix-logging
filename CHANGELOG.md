@@ -1,3 +1,10 @@
+## [1.8.20](https://github.com/adobe/helix-logging/compare/v1.8.19...v1.8.20) (2021-03-08)
+
+
+### Bug Fixes
+
+* bump memory to 512mb ([2ca1ad6](https://github.com/adobe/helix-logging/commit/2ca1ad61d5796eb2815f87fd6cce3d7555b4bc1a))
+
 ## [1.8.19](https://github.com/adobe/helix-logging/compare/v1.8.18...v1.8.19) (2021-03-06)
 
 
