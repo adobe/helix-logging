@@ -22,7 +22,7 @@ class OpenwhiskTarget {
       name: packjson.name.replace('@adobe/helix-', ''),
       version: String(packjson.version),
     }, opts);
-    if (process.env.CI && process.env.CIRCLE_BUILD_NUM && process.env.CIRCLE_BRANCH !== 'main' && !opts.version) {
+    if (process.env.CI && process.env.CIRCLE_BUILD_NUM && process.env.CIRCLE_BRANCH !== 'master' && !opts.version) {
       this.version = `ci${process.env.CIRCLE_BUILD_NUM}`;
     }
   }
