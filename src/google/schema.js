@@ -11,7 +11,7 @@
  */
 const {
   vcl, str, concat,
-} = require('../util/schemahelper');
+} = require('@adobe/fastly-native-promises').loghelpers;
 
 const schema = {
   client_geo_city: str(vcl`client.geo.city.utf8`),

@@ -11,7 +11,7 @@
  */
 const {
   vcl, str, time, concat,
-} = require('../util/schemahelper');
+} = require('@adobe/fastly-native-promises').loghelpers;
 
 const schema = {
   time: vcl`time.start.msec`,

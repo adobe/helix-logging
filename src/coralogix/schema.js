@@ -12,7 +12,7 @@
 
 const {
   vcl, time, req, res, str, concat,
-} = require('../util/schemahelper');
+} = require('@adobe/fastly-native-promises').loghelpers;
 
 const schema = {
   timestamp: vcl`time.start.msec`,
