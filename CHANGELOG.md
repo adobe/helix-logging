@@ -1,3 +1,11 @@
+# [1.9.0](https://github.com/adobe/helix-logging/compare/v1.8.22...v1.9.0) (2021-03-10)
+
+
+### Features
+
+* **coralogix:** log x-error header to coralogix ([62327a9](https://github.com/adobe/helix-logging/commit/62327a94c9a4751a839d99c7b30d776756a1ee52)), closes [#461](https://github.com/adobe/helix-logging/issues/461)
+* **logging:** report errors in x-error header ([f7bbeb8](https://github.com/adobe/helix-logging/commit/f7bbeb88374f4108c637b2bcc0fa0d880d61af76)), closes [#461](https://github.com/adobe/helix-logging/issues/461)
+
 ## [1.8.22](https://github.com/adobe/helix-logging/compare/v1.8.21...v1.8.22) (2021-03-10)
 
 
