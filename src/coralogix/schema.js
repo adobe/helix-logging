@@ -99,6 +99,7 @@ const schema = {
       },
       response: {
         status: str('%s'),
+        error: res`X-Error`,
         content_type: res`Content-Type`,
         age: res`Age`,
         cache_control: res`Cache-Control`,
