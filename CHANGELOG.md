@@ -1,3 +1,10 @@
+## [1.8.22](https://github.com/adobe/helix-logging/compare/v1.8.21...v1.8.22) (2021-03-10)
+
+
+### Bug Fixes
+
+* **splunk:** fix log format ([e94de85](https://github.com/adobe/helix-logging/commit/e94de85d982aa85e6b2cd2ffef98eeacbe310822))
+
 ## [1.8.21](https://github.com/adobe/helix-logging/compare/v1.8.20...v1.8.21) (2021-03-09)
 
 
