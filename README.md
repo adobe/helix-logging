@@ -1,9 +1,8 @@
 # Helix Logging Setup Microservice
 
-[![Known Vulnerabilities](https://snyk.io/test/github/adobe/helix-logging/badge.svg?targetFile=package.json)](https://snyk.io/test/github/adobe/helix-logging?targetFile=package.json)
 [![codecov](https://img.shields.io/codecov/c/github/adobe/helix-logging.svg)](https://codecov.io/gh/adobe/helix-logging)
 [![CircleCI](https://img.shields.io/circleci/project/github/adobe/helix-logging.svg)](https://circleci.com/gh/adobe/helix-logging)
-[![GitHub license](https://img.shields.io/github/license/adobe/helix-logging.svg)](https://github.com/adobe/helix-logging/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/adobe/helix-logging.svg)](https://github.com/adobe/helix-logging/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/adobe/helix-logging.svg)](https://github.com/adobe/helix-logging/issues) 
 
 
@@ -173,4 +172,4 @@ You need `node>=8.0.0` and `npm>=5.4.0`. Follow the typical `npm install`, `npm 
 
 Deploying Helix Logging requires the `wsk` command-line client, authenticated to a namespace of your choice. For Project Helix, we use the `helix` namespace.
 
-Run `npm run deploy` to do a one-shot deploment of Helix Logging. All commits to `master` that pass the testing will be deployed automatically.
+Run `npm run deploy` to do a one-shot deploment of Helix Logging. All commits to `main` that pass the testing will be deployed automatically.
