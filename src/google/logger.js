@@ -9,12 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const { str } = require('@adobe/fastly-native-promises').loghelpers;
 const auth = require('./auth');
 const bigquery = require('./bigquery');
 const iam = require('./iam');
 const logs = require('../fastly/logs');
 const bigquerySchema = require('./schema');
-const { str } = require('../util/schemahelper');
 
 const tablename = 'requests';
 const logconfigname = 'helix-logging';

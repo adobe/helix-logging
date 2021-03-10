@@ -11,7 +11,7 @@
  */
 
 const URL = require('url');
-const { toString } = require('../util/schemahelper');
+const { toString } = require('@adobe/fastly-native-promises').loghelpers;
 const schema = require('./schema');
 
 function check({ splunkhost, splunkauth }) {

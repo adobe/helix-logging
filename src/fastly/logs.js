@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const f = require('@adobe/fastly-native-promises');
-const { toString } = require('../util/schemahelper');
+const { toString } = require('@adobe/fastly-native-promises').loghelpers;
 
 function makeFormat(patterns) {
   return toString(patterns);
