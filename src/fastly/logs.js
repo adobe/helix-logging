@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const f = require('@adobe/fastly-native-promises');
-const { toString } = require('@adobe/fastly-native-promises').loghelpers;
+const { toString, str } = require('@adobe/fastly-native-promises').loghelpers;
 
 function makeFormat(patterns) {
   return toString(patterns);
@@ -32,7 +32,7 @@ function makeConfig(name, patterns, user, project, dataset, table, suffix, key) 
 function makeCoralogixConfig(name, service, pattern, key, application) {
   return {
     name,
-    format: toString(Object.assign(pattern, { applicationName: application })),
+    format: toString(Object.assign(pattern, { applicationName: str(application) })),
     url: 'https://api.coralogix.com/logs/rest/singles',
     request_max_bytes: 2000000,
     content_type: 'application/json',
