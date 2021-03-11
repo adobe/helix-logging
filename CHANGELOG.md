@@ -1,3 +1,11 @@
+## [1.9.1](https://github.com/adobe/helix-logging/compare/v1.9.0...v1.9.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* **coralogix:** escape error header ([9dd58ea](https://github.com/adobe/helix-logging/commit/9dd58eadd6627fbcbbaf65daf009be41972bad2c))
+* **coralogix:** make sure application name is always a string ([c0dd2ca](https://github.com/adobe/helix-logging/commit/c0dd2cab0394408e2a6109e330d0f0d038560174))
+
 # [1.9.0](https://github.com/adobe/helix-logging/compare/v1.8.22...v1.9.0) (2021-03-10)
 
 
