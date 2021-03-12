@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/adobe/helix-logging/compare/v1.9.1...v1.9.2) (2021-03-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-deploy to v3.14.0 ([#466](https://github.com/adobe/helix-logging/issues/466)) ([f6fb8fe](https://github.com/adobe/helix-logging/commit/f6fb8fe69d4bb618b85ad639db0ed310fdd86c40))
+
 ## [1.9.1](https://github.com/adobe/helix-logging/compare/v1.9.0...v1.9.1) (2021-03-11)
 
 
