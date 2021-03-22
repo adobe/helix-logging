@@ -41,7 +41,7 @@
     "@adobe/openwhisk-action-logger": "2.4.1",
     "@adobe/openwhisk-action-utils": "4.4.1",
     "@google-cloud/bigquery": "5.5.0",
-    "googleapis": "67.1.1"
+    "googleapis": "68.0.0"
   },
   "devDependencies": {
     "@adobe/eslint-config-helix": "1.1.4",
