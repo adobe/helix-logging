@@ -35,7 +35,7 @@
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
     "@adobe/fastly-native-promises": "1.22.3",
-    "@adobe/helix-fetch": "2.1.9",
+    "@adobe/helix-fetch": "2.2.0",
     "@adobe/helix-log": "5.0.0",
     "@adobe/helix-status": "9.1.2",
     "@adobe/openwhisk-action-logger": "2.4.1",
