@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/adobe/helix-logging/compare/v1.9.10...v1.10.0) (2021-03-30)
+
+
+### Features
+
+* **google:** deploy to google ([ce0b52a](https://github.com/adobe/helix-logging/commit/ce0b52a92639b8545666fe277bfb9fc51615628f))
+
 ## [1.9.10](https://github.com/adobe/helix-logging/compare/v1.9.9...v1.9.10) (2021-03-26)
 
 
