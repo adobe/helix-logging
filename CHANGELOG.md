@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/adobe/helix-logging/compare/v1.10.0...v1.11.0) (2021-03-31)
+
+
+### Features
+
+* log x-forwarded-host and vary headers in coralogix ([40a2fb6](https://github.com/adobe/helix-logging/commit/40a2fb62975d4fba4a885358ac9fd1c0d788aea0))
+
 # [1.10.0](https://github.com/adobe/helix-logging/compare/v1.9.10...v1.10.0) (2021-03-30)
 
 
