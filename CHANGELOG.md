@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/adobe/helix-logging/compare/v1.11.0...v1.12.0) (2021-03-31)
+
+
+### Features
+
+* log workspace.bytes_free ([96b0624](https://github.com/adobe/helix-logging/commit/96b06240f99fe06dfefdd7555a20cfe752931953))
+
 # [1.11.0](https://github.com/adobe/helix-logging/compare/v1.10.0...v1.11.0) (2021-03-31)
 
 
