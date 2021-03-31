@@ -85,7 +85,7 @@ const schema = {
         connection: req`Connection`,
         forwarded: req`forwarded`,
         via: req`Via`,
-        forwarded_host: req`X-Forwarded-Host`,
+        xfh: req`X-Forwarded-Host`,
         cache_control: req`Cache-Control`,
         header_size: vcl`req.header_bytes_read`,
         body_size: vcl`req.body_bytes_read`,
@@ -112,6 +112,7 @@ const schema = {
       },
       edge: {
         cache_status: str(vcl`fastly_info.state`),
+        workspace_free: vcl`workspace.bytes_free`,
         datacenter: str(vcl`server.datacenter`),
         ip: str('%A'),
       },
