@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/adobe/helix-logging/compare/v1.12.0...v1.13.0) (2021-04-02)
+
+
+### Features
+
+* log fastly.error ([4db5e75](https://github.com/adobe/helix-logging/commit/4db5e751535e910ca637133fa722810b6c8e1bb5))
+
 # [1.12.0](https://github.com/adobe/helix-logging/compare/v1.11.0...v1.12.0) (2021-03-31)
 
 
