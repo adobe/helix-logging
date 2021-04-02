@@ -113,6 +113,7 @@ const schema = {
       edge: {
         cache_status: str(vcl`fastly_info.state`),
         workspace_free: vcl`workspace.bytes_free`,
+        fastly_error: str(vcl`fastly.error`),
         datacenter: str(vcl`server.datacenter`),
         ip: str('%A'),
       },
