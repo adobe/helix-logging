@@ -76,8 +76,8 @@ async function setupLogger(request, context) {
 module.exports.main = wrap(setupLogger)
   .with(status, {
     fastly: 'https://api.fastly.com/public-ip-list',
-    googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
-    googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
+    // googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
+    // googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
   })
   .with(logger.trace)
   .with(logger);

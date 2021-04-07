@@ -1,3 +1,109 @@
+## [1.13.3](https://github.com/adobe/helix-logging/compare/v1.13.2...v1.13.3) (2021-04-06)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v70 ([#504](https://github.com/adobe/helix-logging/issues/504)) ([adccab1](https://github.com/adobe/helix-logging/commit/adccab1c45a186ea306b7b9f28e649fd3aa545a2))
+
+## [1.13.2](https://github.com/adobe/helix-logging/compare/v1.13.1...v1.13.2) (2021-04-05)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([#501](https://github.com/adobe/helix-logging/issues/501)) ([9a044ef](https://github.com/adobe/helix-logging/commit/9a044ef6d008aa7d3ffd387aa4b8c406cd336898))
+
+## [1.13.1](https://github.com/adobe/helix-logging/compare/v1.13.0...v1.13.1) (2021-04-03)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([0b727c8](https://github.com/adobe/helix-logging/commit/0b727c85ef97737f9f6a02ec6cbc8861fe9165ee))
+* **deps:** update dependency @adobe/helix-status to v9.1.4 ([#500](https://github.com/adobe/helix-logging/issues/500)) ([f93ac30](https://github.com/adobe/helix-logging/commit/f93ac308626118a2004d8282d9b3842a27f1c3c4))
+
+# [1.13.0](https://github.com/adobe/helix-logging/compare/v1.12.0...v1.13.0) (2021-04-02)
+
+
+### Features
+
+* log fastly.error ([4db5e75](https://github.com/adobe/helix-logging/commit/4db5e751535e910ca637133fa722810b6c8e1bb5))
+
+# [1.12.0](https://github.com/adobe/helix-logging/compare/v1.11.0...v1.12.0) (2021-03-31)
+
+
+### Features
+
+* log workspace.bytes_free ([96b0624](https://github.com/adobe/helix-logging/commit/96b06240f99fe06dfefdd7555a20cfe752931953))
+
+# [1.11.0](https://github.com/adobe/helix-logging/compare/v1.10.0...v1.11.0) (2021-03-31)
+
+
+### Features
+
+* log x-forwarded-host and vary headers in coralogix ([40a2fb6](https://github.com/adobe/helix-logging/commit/40a2fb62975d4fba4a885358ac9fd1c0d788aea0))
+
+# [1.10.0](https://github.com/adobe/helix-logging/compare/v1.9.10...v1.10.0) (2021-03-30)
+
+
+### Features
+
+* **google:** deploy to google ([ce0b52a](https://github.com/adobe/helix-logging/commit/ce0b52a92639b8545666fe277bfb9fc51615628f))
+
+## [1.9.10](https://github.com/adobe/helix-logging/compare/v1.9.9...v1.9.10) (2021-03-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-status to v9.1.3 ([#483](https://github.com/adobe/helix-logging/issues/483)) ([acc91fa](https://github.com/adobe/helix-logging/commit/acc91fa81e9f145f9a8334786b558cced10d3e0d))
+
+## [1.9.9](https://github.com/adobe/helix-logging/compare/v1.9.8...v1.9.9) (2021-03-26)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([3079ec2](https://github.com/adobe/helix-logging/commit/3079ec2cc0e8d1abca932eec48709e57e45c78aa))
+
+## [1.9.8](https://github.com/adobe/helix-logging/compare/v1.9.7...v1.9.8) (2021-03-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-fetch to v2.2.0 ([429e076](https://github.com/adobe/helix-logging/commit/429e076aec0dbaf003f8e58d896bb0062e8a01d7))
+
+## [1.9.7](https://github.com/adobe/helix-logging/compare/v1.9.6...v1.9.7) (2021-03-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-status to v9.1.2 ([#480](https://github.com/adobe/helix-logging/issues/480)) ([75d9474](https://github.com/adobe/helix-logging/commit/75d947432da96059a24b2f2d2f6171e3e102e719))
+
+## [1.9.6](https://github.com/adobe/helix-logging/compare/v1.9.5...v1.9.6) (2021-03-26)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([#479](https://github.com/adobe/helix-logging/issues/479)) ([dd941d2](https://github.com/adobe/helix-logging/commit/dd941d2711f7d4295aa9a0f4ca88579e7181134f))
+
+## [1.9.5](https://github.com/adobe/helix-logging/compare/v1.9.4...v1.9.5) (2021-03-26)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-fetch to v2.1.9 ([#478](https://github.com/adobe/helix-logging/issues/478)) ([7de4cbe](https://github.com/adobe/helix-logging/commit/7de4cbee33aca022e7eb627ba47174e6382c7743))
+
+## [1.9.4](https://github.com/adobe/helix-logging/compare/v1.9.3...v1.9.4) (2021-03-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-status to v9.1.1 ([#474](https://github.com/adobe/helix-logging/issues/474)) ([8b56e7a](https://github.com/adobe/helix-logging/commit/8b56e7a04032497d1737076a69bd61e7f0595067))
+
+## [1.9.3](https://github.com/adobe/helix-logging/compare/v1.9.2...v1.9.3) (2021-03-22)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v68 ([b7caa27](https://github.com/adobe/helix-logging/commit/b7caa27d74b321318901cd02f279a337061cbd9c))
+
 ## [1.9.2](https://github.com/adobe/helix-logging/compare/v1.9.1...v1.9.2) (2021-03-12)
 
 
