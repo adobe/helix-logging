@@ -37,7 +37,7 @@ jobs:
   skyline:
     executor: base
     steps:
-      - setup
+      - checkout
       - fastly-cli/install
       - run:
           name: Automate Skyline Logs
