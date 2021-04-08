@@ -40,8 +40,11 @@ jobs:
       - checkout
       - fastly-cli/install
       - run:
+          name: Authenticate Fastly Client
+          command: fastly configure -t $HLX_FASTLY_AUTH
+      - run:
           name: Automate Skyline Logs
-          command: sh ./tools/bulk-logger.sh
+          command: ./tools/bulk-logger.sh
   build:
     executor: node12
     steps:
