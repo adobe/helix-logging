@@ -9,7 +9,7 @@ fastly service list | grep skyline | while read line ; do
      -H 'Content-Type: application/x-www-form-urlencoded; charset=utf-8' \
      --data-urlencode "service=$ID" \
      --data-urlencode "version=$NEWVERSION" \
-     --data-urlencode "token=$FASTLY_AUTH" \
+     --data-urlencode "token=$HLX_FASTLY_AUTH" \
      --data-urlencode "coralogixapp=fastly" \
      --data-urlencode "coralogixkey=$CORALOGIX_TOKEN" \
      --data-urlencode "splunkhost=https://splunk-hec-ext.adobe.net/services/collector" \
