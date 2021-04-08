@@ -1,5 +1,8 @@
 version: 2.1
 executors:
+  base:
+    docker:
+      - image: cimg/base:stable
   node12:
     docker:
       - image: circleci/node:12
@@ -10,6 +13,7 @@ executors:
 orbs:
   helix-post-deploy: adobe/helix-post-deploy@2.0.10
   helix-gcloud-setup: adobe/helix-gcloud-setup@1.0.0
+  fastly-cli: adobe/fastly-cli@1.0.0
 
 commands:
   setup:
@@ -30,6 +34,14 @@ commands:
           command: git config --global user.email "circleci@example.com" && git config --global user.name "CircleCi Build"
 
 jobs:
+  skyline:
+    executor: base
+    steps:
+      - setup
+      - fastly-cli/install
+      - run:
+          name: Automate Skyline Logs
+          command: sh ./tools/bulk-logger.sh
   build:
     executor: node12
     steps:
@@ -118,3 +130,4 @@ workflows:
           filters:
             branches:
               only: main
+      - skyline
