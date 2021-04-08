@@ -44,7 +44,7 @@ jobs:
           command: fastly configure -t $HLX_FASTLY_AUTH
       - run:
           name: Automate Skyline Logs
-          command: ./tools/bulk-logger.sh
+          command: bash ./tools/bulk-logger.sh
   build:
     executor: node12
     steps:
