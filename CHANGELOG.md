@@ -1,3 +1,10 @@
+## [1.13.4](https://github.com/adobe/helix-logging/compare/v1.13.3...v1.13.4) (2021-04-09)
+
+
+### Bug Fixes
+
+* **bulk-logger:** fix bash syntax ([ab84ac7](https://github.com/adobe/helix-logging/commit/ab84ac7e9af289a39a891f5ddfe9f2a33dd2a4ad))
+
 ## [1.13.3](https://github.com/adobe/helix-logging/compare/v1.13.2...v1.13.3) (2021-04-06)
 
 
