@@ -38,6 +38,7 @@
     "@adobe/helix-fetch": "2.2.0",
     "@adobe/helix-log": "5.0.3",
     "@adobe/helix-status": "9.1.6",
+    "@adobe/helix-universal": "1.0.0",
     "@adobe/openwhisk-action-logger": "2.4.4",
     "@adobe/openwhisk-action-utils": "4.4.4",
     "@google-cloud/bigquery": "5.5.0",
