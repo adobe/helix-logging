@@ -1,3 +1,11 @@
+## [1.13.10](https://github.com/adobe/helix-logging/compare/v1.13.9...v1.13.10) (2021-04-13)
+
+
+### Bug Fixes
+
+* use helix-universal ([eb2d4a1](https://github.com/adobe/helix-logging/commit/eb2d4a137d164826ca744b9215a4c9cbb6f047a6))
+* **deps:** add helix-universal ([bb17d6e](https://github.com/adobe/helix-logging/commit/bb17d6eb645ea5656b8e62ebc604d586ecef1de9))
+
 ## [1.13.9](https://github.com/adobe/helix-logging/compare/v1.13.8...v1.13.9) (2021-04-13)
 
 
