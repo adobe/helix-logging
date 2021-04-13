@@ -11,9 +11,9 @@
  */
 
 const { wrap: status } = require('@adobe/helix-status');
-const { wrap } = require('@adobe/openwhisk-action-utils');
-const { logger } = require('@adobe/openwhisk-action-logger');
-const { Response } = require('@adobe/helix-fetch');
+const { wrap } = require('@adobe/helix-shared');
+const { logger } = require('@adobe/helix-universal-logger');
+const { Response } = require('@adobe/helix-universal');
 
 const addlogger = require('./addlogger');
 
