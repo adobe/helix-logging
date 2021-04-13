@@ -1,3 +1,10 @@
+## [1.13.9](https://github.com/adobe/helix-logging/compare/v1.13.8...v1.13.9) (2021-04-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v71 ([#520](https://github.com/adobe/helix-logging/issues/520)) ([7a10c0f](https://github.com/adobe/helix-logging/commit/7a10c0fb8a6ad2e3785b82c9fbc20661f51f013a))
+
 ## [1.13.8](https://github.com/adobe/helix-logging/compare/v1.13.7...v1.13.8) (2021-04-13)
 
 
