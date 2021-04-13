@@ -1,3 +1,17 @@
+## [1.13.9](https://github.com/adobe/helix-logging/compare/v1.13.8...v1.13.9) (2021-04-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v71 ([#520](https://github.com/adobe/helix-logging/issues/520)) ([7a10c0f](https://github.com/adobe/helix-logging/commit/7a10c0fb8a6ad2e3785b82c9fbc20661f51f013a))
+
+## [1.13.8](https://github.com/adobe/helix-logging/compare/v1.13.7...v1.13.8) (2021-04-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/fastly-native-promises to v1.23.0 ([#521](https://github.com/adobe/helix-logging/issues/521)) ([3648343](https://github.com/adobe/helix-logging/commit/364834325b503483e30b9a599ad50e368eed7d1a))
+
 ## [1.13.7](https://github.com/adobe/helix-logging/compare/v1.13.6...v1.13.7) (2021-04-12)
 
 

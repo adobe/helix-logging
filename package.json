@@ -1,6 +1,6 @@
 {
   "name": "@adobe/helix-logging",
-  "version": "1.13.7",
+  "version": "1.13.9",
   "private": true,
   "description": "An OpenWhisk Action that sets up logging to Google BigQuery for a Fastly Service Config",
   "main": "index.js",
@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/adobe/helix-logging#readme",
   "dependencies": {
-    "@adobe/fastly-native-promises": "1.22.4",
+    "@adobe/fastly-native-promises": "1.23.0",
     "@adobe/helix-fetch": "2.2.0",
     "@adobe/helix-log": "5.0.3",
     "@adobe/helix-status": "9.1.6",
@@ -42,11 +42,11 @@
     "@adobe/openwhisk-action-logger": "2.4.4",
     "@adobe/openwhisk-action-utils": "4.4.4",
     "@google-cloud/bigquery": "5.5.0",
-    "googleapis": "70.0.0"
+    "googleapis": "71.0.0"
   },
   "devDependencies": {
     "@adobe/eslint-config-helix": "1.1.4",
-    "@adobe/helix-deploy": "4.0.0",
+    "@adobe/helix-deploy": "4.0.1",
     "@adobe/helix-testutils": "0.4.5",
     "@semantic-release/changelog": "5.0.1",
     "@semantic-release/exec": "5.0.0",
