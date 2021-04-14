@@ -15,5 +15,6 @@ fastly service list | grep skyline | while read line ; do
      --data-urlencode "splunkhost=https://splunk-hec-ext.adobe.net/services/collector" \
      --data-urlencode "splunkauth=$SPLUNK_AUTH"
   echo ""
+  fastly service-version update --comment "Updated logging with helix-logging@v$(jq -r .version package.json)"
   fastly service-version activate -s $ID --version $NEWVERSION
 done
