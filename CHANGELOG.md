@@ -1,3 +1,11 @@
+## [1.13.11](https://github.com/adobe/helix-logging/compare/v1.13.10...v1.13.11) (2021-04-14)
+
+
+### Bug Fixes
+
+* **bulk:** add a version comment to the VCL version ([85b2250](https://github.com/adobe/helix-logging/commit/85b22501499ec150552739fd855e9bd2ac5d0884)), closes [#522](https://github.com/adobe/helix-logging/issues/522)
+* **deps:** update dependency @adobe/helix-shared to v7.25.0 ([f89bd31](https://github.com/adobe/helix-logging/commit/f89bd315e96426bac8be21ed1b2ffa5afc713d55))
+
 ## [1.13.10](https://github.com/adobe/helix-logging/compare/v1.13.9...v1.13.10) (2021-04-13)
 
 
