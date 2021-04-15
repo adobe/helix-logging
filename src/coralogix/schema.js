@@ -67,6 +67,7 @@ const schema = {
         ip: str(
           vcl`regsuball(req.http.x-forwarded-for, ",.*", "")`,
         ),
+        client_ip: str(vcl`client.ip`),
       },
       request: {
         id: str(vcl`if(req.http.X-CDN-Request-ID, req.http.X-CDN-Request-ID, randomstr(8, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(4, "0123456789abcdef") + "-" + randomstr(1, "89ab") + randomstr(3, "0123456789abcdef") + "-" + randomstr(12, "0123456789abcdef"))`),
