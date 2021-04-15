@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/adobe/helix-logging/compare/v1.13.11...v1.14.0) (2021-04-15)
+
+
+### Features
+
+* log client.ip ([280f6e0](https://github.com/adobe/helix-logging/commit/280f6e0ac53b4cfb6c91f1a212b1219a0128344e))
+
 ## [1.13.11](https://github.com/adobe/helix-logging/compare/v1.13.10...v1.13.11) (2021-04-14)
 
 
