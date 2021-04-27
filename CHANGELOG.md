@@ -1,3 +1,11 @@
+## [1.14.6](https://github.com/adobe/helix-logging/compare/v1.14.5...v1.14.6) (2021-04-27)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-shared to v7.28.0 ([#538](https://github.com/adobe/helix-logging/issues/538)) ([b156155](https://github.com/adobe/helix-logging/commit/b1561556f7ebd5e0aa45f3be914b5439e1d3a183))
+* **deps:** update dependency googleapis to v72 ([#539](https://github.com/adobe/helix-logging/issues/539)) ([2ccb964](https://github.com/adobe/helix-logging/commit/2ccb964eadeae22cbce2c45f27b7573db9075282))
+
 ## [1.14.5](https://github.com/adobe/helix-logging/compare/v1.14.4...v1.14.5) (2021-04-25)
 
 
