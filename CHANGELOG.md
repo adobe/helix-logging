@@ -1,3 +1,10 @@
+## [1.14.7](https://github.com/adobe/helix-logging/compare/v1.14.6...v1.14.7) (2021-04-28)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-shared to v7.29.1 ([#540](https://github.com/adobe/helix-logging/issues/540)) ([d8aba5d](https://github.com/adobe/helix-logging/commit/d8aba5da0827c4fd32a0aa5277f04b22be2db356))
+
 ## [1.14.6](https://github.com/adobe/helix-logging/compare/v1.14.5...v1.14.6) (2021-04-27)
 
 
