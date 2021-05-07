@@ -1,3 +1,10 @@
+## [1.14.10](https://github.com/adobe/helix-logging/compare/v1.14.9...v1.14.10) (2021-05-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-universal to v1.5.0 ([eb7e691](https://github.com/adobe/helix-logging/commit/eb7e691a4abfef7393a14cac5b6632f8d6161567))
+
 ## [1.14.9](https://github.com/adobe/helix-logging/compare/v1.14.8...v1.14.9) (2021-05-04)
 
 
