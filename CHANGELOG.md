@@ -1,3 +1,10 @@
+## [1.14.15](https://github.com/adobe/helix-logging/compare/v1.14.14...v1.14.15) (2021-06-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-fetch to v2.3.0 ([#568](https://github.com/adobe/helix-logging/issues/568)) ([529891f](https://github.com/adobe/helix-logging/commit/529891f105d7fae971a67aee9fa6a10ea1ca8e82))
+
 ## [1.14.14](https://github.com/adobe/helix-logging/compare/v1.14.13...v1.14.14) (2021-06-08)
 
 
