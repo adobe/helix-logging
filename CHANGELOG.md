@@ -1,3 +1,10 @@
+## [1.14.25](https://github.com/adobe/helix-logging/compare/v1.14.24...v1.14.25) (2021-08-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency googleapis to v84 ([#595](https://github.com/adobe/helix-logging/issues/595)) ([5ebcdf7](https://github.com/adobe/helix-logging/commit/5ebcdf772050c7053ca734e9e8c10d50ebadcacc))
+
 ## [1.14.24](https://github.com/adobe/helix-logging/compare/v1.14.23...v1.14.24) (2021-08-02)
 
 
