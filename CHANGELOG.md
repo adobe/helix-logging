@@ -1,3 +1,10 @@
+## [1.14.37](https://github.com/adobe/helix-logging/compare/v1.14.36...v1.14.37) (2021-09-17)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-universal to v1.6.12 ([#616](https://github.com/adobe/helix-logging/issues/616)) ([0beb43c](https://github.com/adobe/helix-logging/commit/0beb43c9b70bf1b298e07e045a0ec05d26a6df50))
+
 ## [1.14.36](https://github.com/adobe/helix-logging/compare/v1.14.35...v1.14.36) (2021-09-17)
 
 
