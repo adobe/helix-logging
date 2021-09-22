@@ -3,9 +3,9 @@ executors:
   base:
     docker:
       - image: cimg/base:stable
-  node12:
+  node14:
     docker:
-      - image: circleci/node:12
+      - image: circleci/node:14
         environment:
           NPM_CONFIG_PREFIX: "~/.npm-global"
     working_directory: ~/repo
@@ -46,7 +46,7 @@ jobs:
           name: Automate Skyline Logs
           command: bash ./tools/bulk-logger.sh
   build:
-    executor: node12
+    executor: node14
     steps:
       - setup
       - run: mkdir junit
@@ -65,7 +65,7 @@ jobs:
           path: junit
 
   semantic-release:
-    executor: node12
+    executor: node14
     steps:
       - setup
       - run:
@@ -95,7 +95,7 @@ jobs:
           newrelic_group_policy: Development Repeated Failure
 
   branch-deploy:
-    executor: node12
+    executor: node14
     steps:
       - setup
       - run:
