@@ -1,6 +1,6 @@
 {
   "name": "@adobe/helix-logging",
-  "version": "1.14.38",
+  "version": "1.14.39",
   "private": true,
   "description": "An OpenWhisk Action that sets up logging to Google BigQuery for a Fastly Service Config",
   "main": "index.js",
