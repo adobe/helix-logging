@@ -1,3 +1,10 @@
+## [1.14.40](https://github.com/adobe/helix-logging/compare/v1.14.39...v1.14.40) (2021-09-27)
+
+
+### Bug Fixes
+
+* **deps:** use secrets-manager ([b6fb604](https://github.com/adobe/helix-logging/commit/b6fb604ef2e6f451c4710750463d16e6aee189c3))
+
 ## [1.14.39](https://github.com/adobe/helix-logging/compare/v1.14.38...v1.14.39) (2021-09-22)
 
 
