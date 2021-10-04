@@ -42,7 +42,7 @@
     "@adobe/helix-universal": "1.7.0",
     "@adobe/helix-universal-logger": "1.0.9",
     "@google-cloud/bigquery": "5.9.0",
-    "googleapis": "87.0.0"
+    "googleapis": "88.2.0"
   },
   "devDependencies": {
     "@adobe/eslint-config-helix": "1.2.0",
