@@ -19,6 +19,7 @@ const addlogger = require('./addlogger');
 const { StatusCodeError } = require('./util.js');
 
 async function setupLogger(request, context) {
+  const { log } = context;
   if (!request.body) {
     return new Response('Bad request', {
       status: 400,
@@ -27,12 +28,12 @@ async function setupLogger(request, context) {
       },
     });
   }
-  context.log.info(`Setting up logging: ${request.headers.get('content-type')}`);
+  log.info(`Setting up logging: ${request.headers.get('content-type')}`);
 
   try {
     let res;
     if (/^application\/x-www-form-urlencoded/.test(request.headers.get('content-type'))) {
-      context.log.info('Getting parameters from formdata');
+      log.info('Getting parameters from formdata');
       const data = new URLSearchParams(await request.text());
       res = await addlogger({
         email: context.env.GOOGLE_CLIENT_EMAIL,
@@ -46,9 +47,9 @@ async function setupLogger(request, context) {
         coralogixapp: data.get('coralogixapp'),
         splunkhost: data.get('splunkhost'),
         splunkauth: data.get('splunkauth'),
-      });
+      }, log);
     } else {
-      context.log.info('Getting parameters from json body');
+      log.info('Getting parameters from json body');
       const params = await request.json();
       res = await addlogger({
         email: context.env.GOOGLE_CLIENT_EMAIL,
@@ -62,7 +63,7 @@ async function setupLogger(request, context) {
         coralogixapp: params.coralogixapp,
         splunkhost: params.splunkhost,
         splunkauth: params.splunkauth,
-      });
+      }, log);
     }
 
     return new Response(res);
@@ -83,7 +84,7 @@ async function setupLogger(request, context) {
         },
       });
     }
-    context.log.error('Something went wrong', err);
+    log.error('Something went wrong', err);
     return new Response(err.message, {
       status: 500,
       headers: {
