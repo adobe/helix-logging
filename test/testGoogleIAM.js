@@ -113,18 +113,14 @@ describe('Test google.iam', () => {
     await createServiceAccount(process.env.GOOGLE_PROJECT_ID, 'test-account', authclient);
     await createServiceAccountKey(process.env.GOOGLE_PROJECT_ID, 'test-account', authclient);
     const keys = await listServiceAccountKeys(process.env.GOOGLE_PROJECT_ID, 'test-account', authclient);
-    await Promise.all(keys.map(async (name) => {
-      try {
-        const result = await deleteServiceAccountKey(name, authclient);
-        assert.ok(result === true || result === false);
-      } catch (e) {
-        // ignore
-      }
+
+    // NOTE: there are system managed and there are user managed accounts
+    //       assert we're not getting errors deleting the user managed ones
+    const userManaged = keys.filter(({ keyType }) => keyType === 'USER_MANAGED');
+    await Promise.all(userManaged.map(async ({ name }) => {
+      const result = await deleteServiceAccountKey(name, authclient);
+      assert.ok(result === true || result === false);
     }));
-    const newkeys = await listServiceAccountKeys(process.env.GOOGLE_PROJECT_ID, 'test-account', authclient);
-    assert.ok(newkeys);
-    assert.ok(Array.isArray(newkeys));
-    assert.notEqual(newkeys.length, keys.length);
   }).timeout(20000);
 
   condit('Test unsuccessful service account key deletion', condit.hasenvs(GOOGLE_CI_ENV_NAMES), async () => {
