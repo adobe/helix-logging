@@ -10,9 +10,6 @@
  * governing permissions and limitations under the License.
  */
 const initfastly = require('@adobe/fastly-native-promises');
-const log = require('@adobe/helix-log');
-
-const { error } = log;
 const google = require('./google/logger');
 const coralogix = require('./coralogix/logger');
 const splunk = require('./splunk/logger');
@@ -29,7 +26,7 @@ const loggers = [google, coralogix, splunk];
  * @param {string} project the Google project ID
  * @param {string} version the Fastly service config version to update
  */
-async function addlogger(params) {
+async function addlogger(params, log) {
   const {
     service, token,
   } = params;
@@ -53,7 +50,7 @@ async function addlogger(params) {
       message: `successfully set up logging for ${done.length} loggers`,
     };
   } catch (e) {
-    error(`Unable to add logger to service config ${service}: ${e} (in ${e.stack})`, e);
+    log.error(`Unable to add logger to service config ${service}: ${e} (in ${e.stack})`, e);
     throw wrapError(`Unable to add logger to service config ${service}`, e);
   }
 }

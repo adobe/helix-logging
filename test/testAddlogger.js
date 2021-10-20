@@ -39,7 +39,7 @@ describe('Test addlogger', () => {
         coralogixkey: 'fake',
         coralogixapp: 'testing-helix-logging',
       },
-
+      console,
     );
     assert.ok(res);
   }).timeout(60000);
@@ -53,7 +53,7 @@ describe('Test addlogger', () => {
         token: process.env.HLX_FASTLY_AUTH,
         project: process.env.GOOGLE_PROJECT_ID,
         version: Number.parseInt(process.env.VERSION_NUM, 10),
-      });
+      }, console);
       assert.fail(`${logger} should be undefined`);
     } catch (e) {
       assert.ok(e);
@@ -67,7 +67,7 @@ describe('Test addlogger', () => {
         token: process.env.HLX_FASTLY_AUTH,
         project: process.env.GOOGLE_PROJECT_ID,
         version: Number.parseInt(process.env.VERSION_NUM, 10),
-      });
+      }, console);
       assert.fail(`${logger} should be undefined`);
     } catch (e) {
       assert.ok(e);
