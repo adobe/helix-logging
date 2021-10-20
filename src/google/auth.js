@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const { google } = require('googleapis');
+const { wrapError } = require('../util.js');
 
 async function googleauth(email, key) {
   const credentials = {
@@ -49,10 +50,10 @@ async function auth(email, key) {
 
     return credentials;
   } catch (e) {
-    throw new Error(`Invalid credentials. Make sure email is the Google Service 
+    throw wrapError(`Invalid credentials. Make sure email is the Google Service
 Account email in the format <name>@<project>.iam.gserviceaccount.com and key is
 the private key starting with -----BEGIN PRIVATE KEY-----. You can create a new
-Service Account in the Google Cloud Platform Console under IAM.`);
+Service Account in the Google Cloud Platform Console under IAM.`, e);
   }
 }
 

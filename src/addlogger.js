@@ -16,6 +16,7 @@ const { error } = log;
 const google = require('./google/logger');
 const coralogix = require('./coralogix/logger');
 const splunk = require('./splunk/logger');
+const { wrapError } = require('./util');
 
 const loggers = [google, coralogix, splunk];
 
@@ -41,7 +42,9 @@ async function addlogger(params) {
       .map((logger) => logger.add(params, fastly, log));
 
     if (jobs.length === 0) {
-      throw new Error('No eligible loggers found');
+      const e = new Error('No eligible loggers found');
+      e.code = 400;
+      throw e;
     }
 
     const done = await Promise.all(jobs);
@@ -51,7 +54,7 @@ async function addlogger(params) {
     };
   } catch (e) {
     error(`Unable to add logger to service config ${service}: ${e} (in ${e.stack})`, e);
-    throw e;
+    throw wrapError(`Unable to add logger to service config ${service}`, e);
   }
 }
 

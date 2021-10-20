@@ -11,9 +11,12 @@
  */
 
 const fetchAPI = require('@adobe/helix-fetch');
+const { wrapError } = require('../util.js');
 
+/* istanbul ignore next */
 const { fetch, timeoutSignal } = process.env.HELIX_FETCH_FORCE_HTTP1
   ? fetchAPI.context({ alpnProtocols: [fetchAPI.ALPN_HTTP1_1] })
+  /* istanbul ignore next */
   : fetchAPI;
 
 async function makeGoogleHTTPRequest(options, auth) {
@@ -21,7 +24,8 @@ async function makeGoogleHTTPRequest(options, auth) {
   // eslint-disable-next-line no-param-reassign
   delete options.timeout;
 
-  // eslint-disable-next-line no-useless-catch
+  const signal = timeoutSignal(timeout);
+
   try {
     const res = await fetch(options.uri, {
       ...options,
@@ -29,7 +33,7 @@ async function makeGoogleHTTPRequest(options, auth) {
         'Content-Type': 'application/json',
         ...options.headers,
         ...await auth.getRequestHeaders(options.uri),
-        signal: timeoutSignal(timeout),
+        signal,
       },
     });
 
@@ -40,10 +44,13 @@ async function makeGoogleHTTPRequest(options, auth) {
     }
 
     return res.json();
+    // eslint-disable-next-line no-useless-catch
   } catch (e) {
     // could be HTTP error, syntax error, abort error
     // the only one that gets a retry is the 429 error
     throw e;
+  } finally {
+    signal.clear();
   }
 }
 
@@ -62,7 +69,7 @@ async function getServiceAccount(project, name, auth) {
 
     return await makeGoogleHTTPRequest(options, auth);
   } catch (e) {
-    throw new Error(`Service account ${name} does not exist in project ${project}: ${e}`);
+    throw wrapError(`Service account ${name} does not exist in project ${project}`, e);
   }
 }
 
@@ -92,7 +99,7 @@ async function createServiceAccount(project, name, auth) {
       // account ID already exists
       return getServiceAccount(project, name, auth);
     }
-    throw new Error(`Service account ${name} cannot be created: ${e}`);
+    throw wrapError(`Service account ${name} cannot be created`, e);
   }
 }
 
@@ -109,7 +116,7 @@ async function listServiceAccountKeys(project, name, auth) {
     const { keys } = await makeGoogleHTTPRequest(options, auth);
     return keys;
   } catch (e) {
-    throw new Error(`Unable to list keys for service account ${name} in project ${project}: ${e}`);
+    throw wrapError(`Unable to list keys for service account ${name} in project ${project}`, e);
   }
 }
 
@@ -130,7 +137,7 @@ async function deleteServiceAccountKey(name, auth) {
 
     return !!(await makeGoogleHTTPRequest(options, auth));
   } catch (e) {
-    throw new Error(`Unable to delete key ${name}: ${e}`);
+    throw wrapError(`Unable to delete key ${name}`, e);
   }
 }
 
@@ -171,7 +178,7 @@ async function createServiceAccountKey(project, name, auth) {
 
     return data;
   } catch (e) {
-    throw new Error(`Unable to create key for service account ${name} in project ${project}: ${e}`);
+    throw wrapError(`Unable to create key for service account ${name} in project ${project}`, e);
   }
 }
 
@@ -191,7 +198,7 @@ async function getIamPolicy(project, dataset, auth) {
 
     return await makeGoogleHTTPRequest(options, auth);
   } catch (e) {
-    throw new Error(`Cannot get IAM policy for dataset ${dataset} in project ${project}: ${e}`);
+    throw wrapError(`Cannot get IAM policy for dataset ${dataset} in project ${project}`, e);
   }
 }
 
@@ -226,7 +233,7 @@ async function addIamPolicy(project, dataset, role, email, auth) {
 
     return await makeGoogleHTTPRequest(options, auth);
   } catch (e) {
-    throw new Error(`Cannot update IAM policy for dataset ${dataset} in project ${project}: ${e}`);
+    throw wrapError(`Cannot update IAM policy for dataset ${dataset} in project ${project}`, e);
   }
 }
 
