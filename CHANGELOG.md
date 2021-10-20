@@ -1,3 +1,10 @@
+## [1.14.47](https://github.com/adobe/helix-logging/compare/v1.14.46...v1.14.47) (2021-10-20)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-log to v6 ([#637](https://github.com/adobe/helix-logging/issues/637)) ([2ae3623](https://github.com/adobe/helix-logging/commit/2ae362351d206f28307a739ed971e760f691da8f))
+
 ## [1.14.46](https://github.com/adobe/helix-logging/compare/v1.14.45...v1.14.46) (2021-10-20)
 
 
