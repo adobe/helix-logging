@@ -14,8 +14,6 @@ const assert = require('assert');
 const { condit } = require('@adobe/helix-testutils');
 const addlogger = require('../src/addlogger');
 
-require('dotenv').config();
-
 const CI_ENVVAR_NAMES = [
   'GOOGLE_CLIENT_EMAIL',
   'GOOGLE_PRIVATE_KEY',
