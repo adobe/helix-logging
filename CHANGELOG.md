@@ -1,3 +1,10 @@
+## [1.14.45](https://github.com/adobe/helix-logging/compare/v1.14.44...v1.14.45) (2021-10-20)
+
+
+### Bug Fixes
+
+* use error status and fallback to 500 if unavailable ([#635](https://github.com/adobe/helix-logging/issues/635)) ([f926e90](https://github.com/adobe/helix-logging/commit/f926e9082a99a2f7563fe3907c787615ca0ff453))
+
 ## [1.14.44](https://github.com/adobe/helix-logging/compare/v1.14.43...v1.14.44) (2021-10-19)
 
 
