@@ -1,3 +1,10 @@
+## [1.14.46](https://github.com/adobe/helix-logging/compare/v1.14.45...v1.14.46) (2021-10-20)
+
+
+### Bug Fixes
+
+* **index:** validate other malformed request types ([#636](https://github.com/adobe/helix-logging/issues/636)) ([1d409e6](https://github.com/adobe/helix-logging/commit/1d409e6d26b50471baf5e1bd07dd167f8c37e413))
+
 ## [1.14.45](https://github.com/adobe/helix-logging/compare/v1.14.44...v1.14.45) (2021-10-20)
 
 
