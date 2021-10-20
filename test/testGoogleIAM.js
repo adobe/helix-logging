@@ -50,6 +50,17 @@ describe('Test google.iam', () => {
     assert.equal(account.name, `projects/${process.env.GOOGLE_PROJECT_ID}/serviceAccounts/new-bar@${process.env.GOOGLE_PROJECT_ID}.iam.gserviceaccount.com`);
   }).timeout(5000);
 
+  condit('Test unsuccessful service account creation', condit.hasenvs(GOOGLE_CI_ENV_NAMES), async () => {
+    const authclient = await googleauth(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'));
+
+    try {
+      const account = await createServiceAccount(process.env.GOOGLE_PROJECT_ID, 'hlx-fake_name', authclient);
+      // assert.fail(`${account} should be undefined`);
+    } catch (e) {
+      // assert.strictEqual(e.status, 400);
+    }
+  }).timeout(5000);
+
   condit('Test successful service account key creation', condit.hasenvs(GOOGLE_CI_ENV_NAMES), async () => {
     const authclient = await googleauth(process.env.GOOGLE_CLIENT_EMAIL, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'));
     const key = await createServiceAccountKey(process.env.GOOGLE_PROJECT_ID, 'new-bar', authclient);

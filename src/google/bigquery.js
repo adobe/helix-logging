@@ -12,6 +12,7 @@
 
 const { BigQuery } = require('@google-cloud/bigquery');
 const { auth } = require('./auth');
+const { wrapError } = require('../util');
 
 async function createDataset(email, key, project, name) {
   const credentials = await auth(email, key);
@@ -25,7 +26,7 @@ async function createDataset(email, key, project, name) {
     if (e.code && e.code === 409 && e.errors && e.errors[0] && e.errors[0].reason && e.errors[0].reason === 'duplicate') {
       return bq.dataset(name);
     }
-    throw new Error(`Unable to create dataset ${name}: ${e}`);
+    throw wrapError(`Unable to create dataset ${name}`, e);
   }
 }
 
@@ -45,7 +46,7 @@ async function createTable(email, key, project, dataset, name, fields) {
     if (e.code && e.code === 409 && e.errors && e.errors[0] && e.errors[0].reason && e.errors[0].reason === 'duplicate') {
       return ds.table(name);
     }
-    throw new Error(`Unable to create table ${name} in dataset ${dataset}: ${e}`);
+    throw wrapError(`Unable to create table ${name} in dataset ${dataset}`, e);
   }
 }
 

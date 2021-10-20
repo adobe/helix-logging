@@ -16,8 +16,17 @@ const { logger } = require('@adobe/helix-universal-logger');
 const { Response } = require('@adobe/helix-universal');
 
 const addlogger = require('./addlogger');
+const { StatusCodeError } = require('./util.js');
 
 async function setupLogger(request, context) {
+  if (!request.body) {
+    return new Response('Bad request', {
+      status: 400,
+      headers: {
+        'x-error': 'Missing request body',
+      },
+    });
+  }
   context.log.info(`Setting up logging: ${request.headers.get('content-type')}`);
 
   try {
@@ -58,10 +67,25 @@ async function setupLogger(request, context) {
 
     return new Response(res);
   } catch (err) {
+    if (err instanceof SyntaxError) {
+      return new Response('Bad request', {
+        status: 400,
+        headers: {
+          'x-error': err.message,
+        },
+      });
+    }
+    if (err instanceof StatusCodeError) {
+      return new Response(err.message, {
+        status: err.status,
+        headers: {
+          'x-error': err.message,
+        },
+      });
+    }
     context.log.error('Something went wrong', err);
-    const status = err.status || 500;
     return new Response(err.message, {
-      status,
+      status: 500,
       headers: {
         'x-error': err.message,
       },
@@ -80,5 +104,4 @@ module.exports.main = wrap(setupLogger)
     // googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
     // googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
   })
-  .with(logger.trace)
   .with(logger);
