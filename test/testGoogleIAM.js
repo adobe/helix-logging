@@ -113,14 +113,14 @@ describe('Test google.iam', () => {
     await createServiceAccount(process.env.GOOGLE_PROJECT_ID, 'test-account', authclient);
     await createServiceAccountKey(process.env.GOOGLE_PROJECT_ID, 'test-account', authclient);
     const keys = await listServiceAccountKeys(process.env.GOOGLE_PROJECT_ID, 'test-account', authclient);
-    keys.forEach(async ({ name }) => {
+    await Promise.all(keys.map(async (name) => {
       try {
         const result = await deleteServiceAccountKey(name, authclient);
         assert.ok(result === true || result === false);
       } catch (e) {
         // ignore
       }
-    });
+    }));
     const newkeys = await listServiceAccountKeys(process.env.GOOGLE_PROJECT_ID, 'test-account', authclient);
     assert.ok(newkeys);
     assert.ok(Array.isArray(newkeys));

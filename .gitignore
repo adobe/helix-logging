@@ -3,6 +3,7 @@ node_modules
 .nyc_output
 coverage
 logs/
+junit/
 *.zip
 
 # Byte-compiled / optimized / DLL files
