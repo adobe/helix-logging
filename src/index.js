@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-const { wrap: status } = require('@adobe/helix-status');
+const { wrap: statusWrap } = require('@adobe/helix-status');
 const wrap = require('@adobe/helix-shared-wrap');
 const { logger } = require('@adobe/helix-universal-logger');
 const { Response } = require('@adobe/helix-universal');
@@ -59,8 +59,9 @@ async function setupLogger(request, context) {
     return new Response(res);
   } catch (err) {
     context.log.error('Something went wrong', err);
+    const status = err.status || 500;
     return new Response(err.message, {
-      status: 500,
+      status,
       headers: {
         'x-error': err.message,
       },
@@ -74,7 +75,7 @@ async function setupLogger(request, context) {
  * @returns {Promise<*>} The response
  */
 module.exports.main = wrap(setupLogger)
-  .with(status, {
+  .with(statusWrap, {
     fastly: 'https://api.fastly.com/public-ip-list',
     // googleiam: 'https://iam.googleapis.com/$discovery/rest?version=v1',
     // googlebigquery: 'https://www.googleapis.com/discovery/v1/apis/bigquery/v2/rest',
