@@ -55,9 +55,9 @@ describe('Test google.iam', () => {
 
     try {
       const account = await createServiceAccount(process.env.GOOGLE_PROJECT_ID, 'hlx-fake_name', authclient);
-      // assert.fail(`${account} should be undefined`);
+      assert.fail(`${account} should be undefined`);
     } catch (e) {
-      // assert.strictEqual(e.status, 400);
+      assert.strictEqual(e.status, 400);
     }
   }).timeout(5000);
 
