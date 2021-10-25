@@ -1,3 +1,10 @@
+## [1.14.49](https://github.com/adobe/helix-logging/compare/v1.14.48...v1.14.49) (2021-10-25)
+
+
+### Bug Fixes
+
+* use status property before code ([#640](https://github.com/adobe/helix-logging/issues/640)) ([ae2f594](https://github.com/adobe/helix-logging/commit/ae2f5941d4a002e4b5dd0cb213319849d4cd7c64))
+
 ## [1.14.48](https://github.com/adobe/helix-logging/compare/v1.14.47...v1.14.48) (2021-10-25)
 
 
