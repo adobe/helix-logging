@@ -15,7 +15,7 @@ class StatusCodeError extends Error {
     super(msg ? `${msg}: ${e.message}` : e.message);
 
     this._detail = e;
-    this._status = e.code || e.statusCode || e.status || 500;
+    this._status = e.status || e.statusCode || e.code || 500;
   }
 
   get detail() {

@@ -15,6 +15,7 @@ const bigquery = require('./bigquery');
 const iam = require('./iam');
 const logs = require('../fastly/logs');
 const bigquerySchema = require('./schema');
+const { wrapError } = require('../util.js');
 
 const tablename = 'requests';
 const logconfigname = 'helix-logging';
@@ -27,7 +28,7 @@ async function add(params, fastlyClient, log) {
   const {
     email, key, service, project, version,
   } = params;
-  const { info, debug, error } = log;
+  const { info, debug } = log;
 
   try {
     const authclient = await auth.googleauth(email, key);
@@ -90,8 +91,7 @@ async function add(params, fastlyClient, log) {
       googleKeys.key,
     );
   } catch (e) {
-    error('Unable to set up Google BigQuery logging', e);
-    throw e;
+    throw wrapError('Unable to set up Google BigQuery logging', e);
   }
 }
 
