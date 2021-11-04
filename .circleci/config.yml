@@ -133,7 +133,3 @@ workflows:
           filters:
             branches:
               only: main
-      - skyline:
-          context: Project Helix
-          requires:
-            - semantic-release
