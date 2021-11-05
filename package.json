@@ -39,7 +39,7 @@
     "reporter-options": "configFile=.mocha-multi.json"
   },
   "dependencies": {
-    "@adobe/fastly-native-promises": "1.24.0",
+    "@adobe/fastly-native-promises": "2.0.0",
     "@adobe/helix-fetch": "3.0.0",
     "@adobe/helix-shared-wrap": "1.0.0",
     "@adobe/helix-status": "9.2.4",
