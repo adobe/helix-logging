@@ -77,7 +77,6 @@ const schema = {
       },
       city_name: str(vcl`client.geo.city.ascii`),
       country_name: str(vcl`client.geo.country_name.ascii`),
-      connection_speed: str(vcl`client.geo.conn_speed`),
       ip: str(vcl`client.ip`),
     },
     request: {
