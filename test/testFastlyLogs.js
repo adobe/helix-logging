@@ -17,31 +17,35 @@ const { makeFormat, makeConfig, updateFastlyConfig } = require('../src/fastly/lo
 
 describe('Test fastly.logs', () => {
   it('Test makeFormat', () => {
-    assert.deepEqual(makeFormat({ foo: str('bar %Y'), baz: str('bop %T') }),
-      '{ "foo": "bar %Y",  "baz": "bop %T" }');
+    assert.deepEqual(
+      makeFormat({ foo: str('bar %Y'), baz: str('bop %T') }),
+      '{ "foo": "bar %Y",  "baz": "bop %T" }',
+    );
   });
 
   it('Test makeConfig', () => {
-    assert.deepEqual(makeConfig(
-      'helix-logs',
-      { foo: str('bar %Y'), baz: str('bop %T') },
-      'new-bar@fakeproject.iam.gserviceaccount.com',
-      'fakeproject',
-      'helix-logging',
-      'requests',
-      '%Y%M',
-      'BEGIN_KEY\nfakekey\nEND_KEY',
-    ),
-    {
-      dataset: 'helix-logging',
-      format: '{ "foo": "bar %Y",  "baz": "bop %T" }',
-      name: 'helix-logs',
-      project_id: 'fakeproject',
-      table: 'requests',
-      template_suffix: '%Y%M',
-      secret_key: 'BEGIN_KEY\nfakekey\nEND_KEY',
-      user: 'new-bar@fakeproject.iam.gserviceaccount.com',
-    });
+    assert.deepEqual(
+      makeConfig(
+        'helix-logs',
+        { foo: str('bar %Y'), baz: str('bop %T') },
+        'new-bar@fakeproject.iam.gserviceaccount.com',
+        'fakeproject',
+        'helix-logging',
+        'requests',
+        '%Y%M',
+        'BEGIN_KEY\nfakekey\nEND_KEY',
+      ),
+      {
+        dataset: 'helix-logging',
+        format: '{ "foo": "bar %Y",  "baz": "bop %T" }',
+        name: 'helix-logs',
+        project_id: 'fakeproject',
+        table: 'requests',
+        template_suffix: '%Y%M',
+        secret_key: 'BEGIN_KEY\nfakekey\nEND_KEY',
+        user: 'new-bar@fakeproject.iam.gserviceaccount.com',
+      },
+    );
   });
 
   condit('Test updateFastlyConfig', condit.hasenvs([
