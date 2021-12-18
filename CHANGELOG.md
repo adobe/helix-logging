@@ -1,3 +1,10 @@
+## [1.14.57](https://github.com/adobe/helix-logging/compare/v1.14.56...v1.14.57) (2021-12-18)
+
+
+### Bug Fixes
+
+* **deps:** update external fixes ([#667](https://github.com/adobe/helix-logging/issues/667)) ([ef92365](https://github.com/adobe/helix-logging/commit/ef923654e34eb8e5d462f3a1bab5013b476072ec))
+
 ## [1.14.56](https://github.com/adobe/helix-logging/compare/v1.14.55...v1.14.56) (2021-12-06)
 
 
