@@ -13,7 +13,7 @@
 
 const assert = require('assert');
 const proxyquire = require('proxyquire');
-const { Request, Response } = require('@adobe/helix-universal');
+const { Request, Response } = require('@adobe/helix-fetch');
 const { wrapError } = require('../src/util');
 
 const { main } = require('../src/index');
