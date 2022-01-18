@@ -91,8 +91,7 @@ jobs:
           command: npm run deploy-sequences
       - helix-post-deploy/monitoring:
           statuspage_name: Helix Logging
-          statuspage_group: Development
-          newrelic_group_policy: Development Repeated Failure
+          statuspage_group: Development (Legacy)
 
   branch-deploy:
     executor: node14
