@@ -1,3 +1,10 @@
+## [1.14.63](https://github.com/adobe/helix-logging/compare/v1.14.62...v1.14.63) (2022-02-06)
+
+
+### Bug Fixes
+
+* **deps:** update adobe fixes ([#697](https://github.com/adobe/helix-logging/issues/697)) ([ba3cb63](https://github.com/adobe/helix-logging/commit/ba3cb633f23479744ff7ca46f685e0048b02e26f))
+
 ## [1.14.62](https://github.com/adobe/helix-logging/compare/v1.14.61...v1.14.62) (2022-02-04)
 
 
