@@ -1,3 +1,10 @@
+## [1.14.64](https://github.com/adobe/helix-logging/compare/v1.14.63...v1.14.64) (2022-02-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-shared-wrap to v1.0.2 ([#705](https://github.com/adobe/helix-logging/issues/705)) ([6b68572](https://github.com/adobe/helix-logging/commit/6b6857240315ede6a04215358ad7e4adfc9776d8))
+
 ## [1.14.63](https://github.com/adobe/helix-logging/compare/v1.14.62...v1.14.63) (2022-02-06)
 
 
