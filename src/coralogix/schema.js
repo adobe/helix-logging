@@ -103,6 +103,7 @@ const schema = {
         cache_control: req`Cache-Control`,
         x_forwarded_host: req`X-Forwarded-Host`,
         x_forwarded_for: req`X-Forwarded-For`,
+        x_byo_cdn_type: req`X-BYO-CDN-Type`,
       },
     },
     response: {
