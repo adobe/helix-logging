@@ -1,3 +1,11 @@
+## [1.14.73](https://github.com/adobe/helix-logging/compare/v1.14.72...v1.14.73) (2022-03-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/helix-fetch to v3.0.7 ([#724](https://github.com/adobe/helix-logging/issues/724)) ([d43a226](https://github.com/adobe/helix-logging/commit/d43a226f11586ed026976ad2f8c9ece46ea1e0e5))
+* **deps:** update dependency @google-cloud/bigquery to v5.12.0 ([#723](https://github.com/adobe/helix-logging/issues/723)) ([c082df2](https://github.com/adobe/helix-logging/commit/c082df2efc210c3046d1743ec30c5fc4b983c366))
+
 ## [1.14.72](https://github.com/adobe/helix-logging/compare/v1.14.71...v1.14.72) (2022-03-18)
 
 
