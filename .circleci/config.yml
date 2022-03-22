@@ -5,7 +5,7 @@ executors:
       - image: cimg/base:stable
   node14:
     docker:
-      - image: circleci/node:14
+      - image: cimg/node:14.19
         environment:
           NPM_CONFIG_PREFIX: "~/.npm-global"
     working_directory: ~/repo
