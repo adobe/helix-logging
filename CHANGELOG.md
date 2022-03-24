@@ -1,3 +1,10 @@
+## [1.14.75](https://github.com/adobe/helix-logging/compare/v1.14.74...v1.14.75) (2022-03-24)
+
+
+### Bug Fixes
+
+* force release ([ddce765](https://github.com/adobe/helix-logging/commit/ddce76546b1b672a78d1f20706eb6f5166667d06))
+
 ## [1.14.74](https://github.com/adobe/helix-logging/compare/v1.14.73...v1.14.74) (2022-03-21)
 
 
